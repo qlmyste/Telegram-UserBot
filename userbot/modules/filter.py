@@ -7,40 +7,43 @@
 
 from asyncio import sleep
 from re import fullmatch, IGNORECASE, escape
-from userbot import BOTLOG, BOTLOG_CHATID, CMD_HELP, is_mongo_alive, is_redis_alive
-from userbot.events import register
-from userbot.modules.dbhelper import add_filter, delete_filter, get_filters
+from userbot import BOTLOG, BOTLOG_CHATID, CMD_HELP
+from userbot.events import register, errors_handler
 
 
-@register(incoming=True, disable_edited=True, disable_errors=True)
+@register(incoming=True, disable_edited=True)
+@errors_handler
 async def filter_incoming_handler(handler):
     """ Checks if the incoming message contains handler of a filter """
     try:
         if not (await handler.get_sender()).bot:
-            if not is_mongo_alive() or not is_redis_alive():
-                await handler.edit("`Database connections failing!`")
+            try:
+                from userbot.modules.sql_helper.filter_sql import get_filters
+            except AttributeError:
+                await handler.edit("`Running on Non-SQL mode!`")
                 return
-            listes = handler.text.split(" ")
-            filters = await get_filters(handler.chat_id)
+            name = handler.raw_text
+            filters = get_filters(handler.chat_id)
             if not filters:
                 return
             for trigger in filters:
-                for item in listes:
-                    pro = re.fullmatch(trigger["keyword"],
-                                       item,
-                                       flags=re.IGNORECASE)
-                    if pro:
-                        await handler.reply(trigger["msg"])
-                        return
+                pro = fullmatch(trigger.keyword, name, flags=IGNORECASE)
+                if pro:
+                    msg_o = await handler.client.get_messages(
+                        entity=BOTLOG_CHATID, ids=int(trigger.f_mesg_id))
+                    await handler.reply(msg_o.message, file=msg_o.media)
     except AttributeError:
         pass
 
 
 @register(outgoing=True, pattern="^.filter (.*)")
+@errors_handler
 async def add_new_filter(new_handler):
     """ For .filter command, allows adding new filters in a chat """
-    if not is_mongo_alive() or not is_redis_alive():
-        await event.edit("`Database connections failing!`")
+    try:
+        from userbot.modules.sql_helper.filter_sql import add_filter
+    except AttributeError:
+        await new_handler.edit("`Running on Non-SQL mode!`")
         return
     keyword = new_handler.pattern_match.group(1)
     msg = await new_handler.get_reply_message()
@@ -50,7 +53,7 @@ async def add_new_filter(new_handler):
     elif BOTLOG_CHATID:
         await new_handler.client.send_message(
             BOTLOG_CHATID, f"#FILTER\
-        \nCHAT: {new_handler.chat_id}\
+        \nCHAT: {new_handler.chat.title}\
         \nTRIGGER: {keyword}\
         \nThe following message is saved as the filter's reply data for the chat, please do NOT delete it !!"
         )
@@ -71,10 +74,13 @@ async def add_new_filter(new_handler):
 
 
 @register(outgoing=True, pattern="^.stop (.*)")
+@errors_handler
 async def remove_a_filter(r_handler):
     """ For .stop command, allows you to remove a filter from a chat. """
-    if not is_mongo_alive() or not is_redis_alive():
-        await event.edit("`Database connections failing!`")
+    try:
+        from userbot.modules.sql_helper.filter_sql import remove_filter
+    except AttributeError:
+        await r_handler.edit("`Running on Non-SQL mode!`")
         return
     filt = r_handler.pattern_match.group(1)
     if not remove_filter(r_handler.chat_id, filt):
@@ -85,6 +91,7 @@ async def remove_a_filter(r_handler):
 
 
 @register(outgoing=True, pattern="^.rmbotfilters (.*)")
+@errors_handler
 async def kick_marie_filter(event):
     """ For .rmfilters command, allows you to kick all \
         Marie(or her clones) filters from a chat. """
@@ -112,10 +119,13 @@ async def kick_marie_filter(event):
 
 
 @register(outgoing=True, pattern="^.filters$")
+@errors_handler
 async def filters_active(event):
     """ For .filters command, lists all of the active filters in a chat. """
-    if not is_mongo_alive() or not is_redis_alive():
-        await event.edit("`Database connections failing!`")
+    try:
+        from userbot.modules.sql_helper.filter_sql import get_filters
+    except AttributeError:
+        await event.edit("`Running on Non-SQL mode!`")
         return
     transact = "`There are no filters in this chat.`"
     filters = get_filters(event.chat_id)
