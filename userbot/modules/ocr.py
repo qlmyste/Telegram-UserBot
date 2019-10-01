@@ -38,7 +38,6 @@ async def ocr_space_file(filename,
 
 
 @register(pattern=r".ocr (.*)", outgoing=True)
-@errors_handler
 async def ocr(event):
     await event.edit("`Reading...`")
     if not os.path.isdir(TEMP_DOWNLOAD_DIRECTORY):
