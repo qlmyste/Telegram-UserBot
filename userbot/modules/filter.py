@@ -12,7 +12,7 @@ from userbot.events import register
 from userbot.modules.dbhelper import add_filter, delete_filter, get_filters
 
 
-@register(incoming=True, disable_edited=True)
+@register(incoming=True, disable_edited=True, disable_errors=True)
 async def filter_incoming_handler(handler):
     """ Checks if the incoming message contains handler of a filter """
     try:
@@ -20,16 +20,18 @@ async def filter_incoming_handler(handler):
             if not is_mongo_alive() or not is_redis_alive():
                 await handler.edit("`Database connections failing!`")
                 return
-            name = handler.raw_text
-            filters = get_filters(handler.chat_id)
+            listes = handler.text.split(" ")
+            filters = await get_filters(handler.chat_id)
             if not filters:
                 return
             for trigger in filters:
-                pro = fullmatch(trigger.keyword, name, flags=IGNORECASE)
-                if pro:
-                    msg_o = await handler.client.get_messages(
-                        entity=BOTLOG_CHATID, ids=int(trigger.f_mesg_id))
-                    await handler.reply(msg_o.message, file=msg_o.media)
+                for item in listes:
+                    pro = re.fullmatch(trigger["keyword"],
+                                       item,
+                                       flags=re.IGNORECASE)
+                    if pro:
+                        await handler.reply(trigger["msg"])
+                        return
     except AttributeError:
         pass
 
