@@ -113,11 +113,9 @@ async def kick_marie_filter(event):
 @register(outgoing=True, pattern="^.filters$")
 async def filters_active(event):
     """ For .filters command, lists all of the active filters in a chat. """
-    try:
-        if not (await handler.get_sender()).bot:
-            if not is_mongo_alive() or not is_redis_alive():
-                await handler.edit("`Database connections failing!`")
-                return
+    if not is_mongo_alive() or not is_redis_alive():
+        await event.edit("`Database connections failing!`")
+        return
     transact = "`There are no filters in this chat.`"
     filters = get_filters(event.chat_id)
     for filt in filters:
