@@ -908,7 +908,7 @@ async def react_meme(react):
     await react.edit(random.choice(FACEREACTS))
 
 
-@register(outgoing=True, pattern="^.shg$")
+@register(outgoing=True, pattern="^.hz$")
 async def shrugger(shg):
     r""" ¯\_(ツ)_/¯ """
     await shg.edit(random.choice(SHGS))
@@ -939,6 +939,12 @@ async def Oof(e):
         t = t[:-1] + "of"
         await e.edit(t)
 
+@register(outgoing=True, pattern="^.gr$")
+async def Gr(e):
+    t = "Грр"
+    for j in range(15):
+        t = t[:-1] + "рр"
+        await e.edit(t)
 
 @register(outgoing=True, pattern="^.10iq$")
 async def iqless(e):
