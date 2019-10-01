@@ -74,6 +74,8 @@ async def add_new_filter(new_handler):
 @register(outgoing=True, pattern="^.stop (.*)")
 async def remove_a_filter(r_handler):
     """ For .stop command, allows you to remove a filter from a chat. """
+    try:
+        if not (await handler.get_sender()).bot:
             if not is_mongo_alive() or not is_redis_alive():
                 await handler.edit("`Database connections failing!`")
                 return
@@ -115,6 +117,8 @@ async def kick_marie_filter(event):
 @register(outgoing=True, pattern="^.filters$")
 async def filters_active(event):
     """ For .filters command, lists all of the active filters in a chat. """
+    try:
+        if not (await handler.get_sender()).bot:
             if not is_mongo_alive() or not is_redis_alive():
                 await handler.edit("`Database connections failing!`")
                 return
