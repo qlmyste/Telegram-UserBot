@@ -941,17 +941,11 @@ async def Oof(e):
 
 @register(outgoing=True, pattern="^.gr$")
 async def Gr(e):
-    t = "Грр"
-    for j in range(15):
-        t = t[:-1] + "рр"
+    t = "*Грр"
+    for j in range(10):
+        t = t[:-1] + "р*"
         await e.edit(t)
                       
-@register(outgoing=True, pattern="^-_-$")
-async def lol_face(e):
-    t = "-_-"
-    for j in range(15):
-        t = t[:-1] + "_-"
-        await e.edit(t)
 
 @register(outgoing=True, pattern="^.10iq$")
 async def iqless(e):
