@@ -18,7 +18,7 @@ async def filter_incoming_handler(handler):
     """ Checks if the incoming message contains handler of a filter """
     try:
         if not (await handler.get_sender()).bot:
-                        if not is_mongo_alive() or not is_redis_alive():
+            if not is_mongo_alive() or not is_redis_alive():
                 await handler.edit("`Database connections failing!`")
                 return
             name = handler.raw_text
