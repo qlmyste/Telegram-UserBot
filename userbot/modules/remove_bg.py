@@ -6,12 +6,17 @@ import os
 import requests
 from userbot.events import register
 from telethon.tl.types import MessageMediaPhoto
-from userbot import CMD_HELP, TEMP_DOWNLOAD_DIRECTORY
+from userbot import CMD_HELP, REM_BG_API_KEY, TEMP_DOWNLOAD_DIRECTORY
 
 
 @register(outgoing=True, pattern="^.rbg(?: |$)(.*)")
 async def kbg(remob):
     """ For .rbg command, Remove Image Background. """
+     if REM_BG_API_KEY is None:
+        await remob.edit(
+            "`Error: Remove.BG API key missing! Add it to environment vars or config.env.`"
+        )
+        return
     input_str = remob.pattern_match.group(1)
     message_id = remob.message.id
     if remob.reply_to_msg_id:
@@ -60,7 +65,7 @@ async def kbg(remob):
 # with the name provided.
 async def ReTrieveFile(input_file_name):
     headers = {
-        "X-API-Key": "15HKrt733wHieL544c8kXJyG",
+        "X-API-Key": REM_BG_API_KEY,
     }
     files = {
         "image_file": (input_file_name, open(input_file_name, "rb")),
@@ -75,7 +80,7 @@ async def ReTrieveFile(input_file_name):
 
 async def ReTrieveURL(input_url):
     headers = {
-        "X-API-Key": "15HKrt733wHieL544c8kXJyG",
+        "X-API-Key": REM_BG_API_KEY,
     }
     data = {"image_url": input_url}
     r = requests.post("https://api.remove.bg/v1.0/removebg",
