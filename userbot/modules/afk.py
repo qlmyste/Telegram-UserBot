@@ -130,7 +130,7 @@ async def set_afk(afk_e):
 
 
 @register(outgoing=True)
-async def type_afk_is_not_true(no_afk):
+async def type_afk_is_not_true(notafk):
     """ This sets your status as not afk automatically when you write something while being afk """
     global is_afk
     global COUNT_MSG
@@ -138,18 +138,18 @@ async def type_afk_is_not_true(no_afk):
     global afk_reason
     if is_afk:
         is_afk = False
-        await no_afk.respond("I'm no longer AFK.")
+        await notafk.respond("I'm no longer AFK.")
         await sleep(2)
         if BOTLOG:
-            await no_afk.client.send_message(
+            await notafk.client.send_message(
                 BOTLOG_CHATID,
                 "You've recieved " + str(COUNT_MSG) + " messages from " +
                 str(len(USERS)) + " chats while you were away",
             )
             for i in USERS:
-                name = await no_afk.client.get_entity(i)
+                name = await notafk.client.get_entity(i)
                 name0 = str(name.first_name)
-                await no_afk.client.send_message(
+                await notafk.client.send_message(
                     BOTLOG_CHATID,
                     "[" + name0 + "](tg://user?id=" + str(i) + ")" +
                     " sent you " + "`" + str(USERS[i]) + " messages`",
