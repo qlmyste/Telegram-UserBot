@@ -8,7 +8,7 @@ from userbot.events import register, errors_handler
 
 async def ocr_space_file(filename,
                          overlay=False,
-                         api_key=59c120112a88957,
+                         api_key="59c120112a88957",
                          language='eng'):
     """ OCR.space API request with local file.
         Python3.5 - not tested on 2.7
