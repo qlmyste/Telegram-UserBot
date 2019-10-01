@@ -89,6 +89,8 @@ else:
 CURRENCY_API = os.environ.get("CURRENCY_API", None)
 
 GDRIVE_FOLDER = os.environ.get("GDRIVE_FOLDER", None)
+TEMP_DOWNLOAD_DIRECTORY = os.environ.get("TMP_DOWNLOAD_DIRECTORY",
+                                         "./downloads")
 
 # pylint: disable=invalid-name
 bot = TelegramClient("userbot", API_KEY, API_HASH)
