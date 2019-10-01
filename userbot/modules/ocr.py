@@ -3,7 +3,7 @@ import os
 import requests
 import logging
 from userbot import bot, CMD_HELP, TEMP_DOWNLOAD_DIRECTORY
-from userbot.events import register, errors_handler
+from userbot.events import register
 
 
 async def ocr_space_file(filename,
