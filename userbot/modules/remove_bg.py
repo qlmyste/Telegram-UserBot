@@ -60,7 +60,7 @@ async def kbg(remob):
 # with the name provided.
 async def ReTrieveFile(input_file_name):
     headers = {
-        "X-API-Key": 15HKrt733wHieL544c8kXJyG,
+        "X-API-Key": "15HKrt733wHieL544c8kXJyG",
     }
     files = {
         "image_file": (input_file_name, open(input_file_name, "rb")),
@@ -75,7 +75,7 @@ async def ReTrieveFile(input_file_name):
 
 async def ReTrieveURL(input_url):
     headers = {
-        "X-API-Key": 15HKrt733wHieL544c8kXJyG,
+        "X-API-Key": "15HKrt733wHieL544c8kXJyG",
     }
     data = {"image_url": input_url}
     r = requests.post("https://api.remove.bg/v1.0/removebg",
