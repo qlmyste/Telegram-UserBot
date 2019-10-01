@@ -2,13 +2,13 @@ from telethon import events
 import os
 import requests
 import logging
-from userbot import bot, CMD_HELP, TEMP_DOWNLOAD_DIRECTORY
+from userbot import bot, OCR_SPACE_API_KEY, CMD_HELP, TEMP_DOWNLOAD_DIRECTORY
 from userbot.events import register
 
 
 async def ocr_space_file(filename,
                          overlay=False,
-                         api_key="59c120112a88957",
+                         api_key=OCR_SPACE_API_KEY,
                          language='eng'):
     """ OCR.space API request with local file.
         Python3.5 - not tested on 2.7
