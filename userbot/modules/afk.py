@@ -44,7 +44,6 @@ AFKSTR = [
 
 
 @register(incoming=True, disable_edited=True)
-@errors_handler
 async def mention_afk(mention):
     """ This function takes care of notifying the people who mention you that you are AFK."""
     global COUNT_MSG
@@ -75,7 +74,6 @@ async def mention_afk(mention):
 
 
 @register(incoming=True)
-@errors_handler
 async def afk_on_pm(sender):
     """ Function which informs people that you are AFK in PM """
     global is_afk
@@ -132,7 +130,6 @@ async def set_afk(afk_e):
 
 
 @register(outgoing=True)
-@errors_handler
 async def type_afk_is_not_true(notafk):
     """ This sets your status as not afk automatically when you write something while being afk """
     global is_afk
