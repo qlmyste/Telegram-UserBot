@@ -38,6 +38,8 @@ async def filter_incoming_handler(handler):
 @register(outgoing=True, pattern="^.filter (.*)")
 async def add_new_filter(new_handler):
     """ For .filter command, allows adding new filters in a chat """
+    try:
+        if not (await handler.get_sender()).bot:
             if not is_mongo_alive() or not is_redis_alive():
                 await handler.edit("`Database connections failing!`")
                 return
