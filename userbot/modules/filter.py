@@ -13,7 +13,6 @@ from userbot.modules.dbhelper import add_filter, delete_filter, get_filters
 
 
 @register(incoming=True, disable_edited=True)
-@errors_handler
 async def filter_incoming_handler(handler):
     """ Checks if the incoming message contains handler of a filter """
     try:
