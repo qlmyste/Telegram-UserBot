@@ -46,6 +46,12 @@ if CONFIG_CHECK:
     LOGS.error("Please remove the line mentioned in the first \
          hashtag from the config.env file")
     quit(1)
+    
+# OCR API key
+OCR_SPACE_API_KEY = os.environ.get("OCR_SPACE_API_KEY", None)
+
+# remove.bg API key
+REM_BG_API_KEY = os.environ.get("REM_BG_API_KEY", None)
 
 API_KEY = os.environ.get("API_KEY", None)
 
@@ -89,6 +95,7 @@ else:
 CURRENCY_API = os.environ.get("CURRENCY_API", None)
 
 GDRIVE_FOLDER = os.environ.get("GDRIVE_FOLDER", None)
+
 TEMP_DOWNLOAD_DIRECTORY = os.environ.get("TMP_DOWNLOAD_DIRECTORY",
                                          "./downloads")
 
