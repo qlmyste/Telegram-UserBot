@@ -11,7 +11,7 @@ from random import choice, randint
 from asyncio import sleep
 from telethon.events import StopPropagation
 from userbot import (COUNT_MSG, CMD_HELP, BOTLOG,
-                     BOTLOG_CHATID, USERS, PM_AUTOBAN)
+                     BOTLOG_CHATID, USERS, PM_AUTO_BAN)
 from userbot.events import register
 
 # ========================= CONSTANTS ============================
