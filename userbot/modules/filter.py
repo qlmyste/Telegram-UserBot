@@ -50,7 +50,7 @@ async def add_new_filter(new_handler):
     elif BOTLOG_CHATID:
         await new_handler.client.send_message(
             BOTLOG_CHATID, f"#FILTER\
-        \nCHAT: {new_handler.chat.title}\
+        \nCHAT: {new_handler.chat_id}\
         \nTRIGGER: {keyword}\
         \nThe following message is saved as the filter's reply data for the chat, please do NOT delete it !!"
         )
