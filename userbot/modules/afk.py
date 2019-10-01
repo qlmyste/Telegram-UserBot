@@ -6,40 +6,67 @@
 """ Userbot module which contains afk-related commands """
 
 import time
-
-from telethon.events import StopPropagation
-
-from userbot import (BOTLOG, BOTLOG_CHATID, CMD_HELP, COUNT_MSG, USERS,
-                     is_redis_alive)
-from userbot.events import register
 from userbot.modules.dbhelper import afk, afk_reason, is_afk, no_afk
+from random import choice, randint
+from asyncio import sleep
+from telethon.events import StopPropagation
+from userbot import (COUNT_MSG, CMD_HELP, BOTLOG,
+                     BOTLOG_CHATID, USERS, PM_AUTOBAN)
+from userbot.events import register
+
+# ========================= CONSTANTS ============================
+AFKSTR = [
+    "I'm busy right now. Please talk in a bag and when I come back you can just give me the bag!",
+    "I'm away right now. If you need anything, leave a message after the beep:\n`beeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeep`!",
+    "You missed me, next time aim better.",
+    "I'll be back in a few minutes and if I'm not...,\nwait longer.",
+    "I'm not here right now, so I'm probably somewhere else.",
+    "Roses are red,\nViolets are blue,\nLeave me a message,\nAnd I'll get back to you.",
+    "Sometimes the best things in life are worth waiting for…\nI'll be right back.",
+    "I'll be right back,\nbut if I'm not right back,\nI'll be back later.",
+    "If you haven't figured it out already,\nI'm not here.",
+    "Hello, welcome to my away message, how may I ignore you today?",
+    "I'm away over 7 seas and 7 countries,\n7 waters and 7 continents,\n7 mountains and 7 hills,\n7 plains and 7 mounds,\n7 pools and 7 lakes,\n7 springs and 7 meadows,\n7 cities and 7 neighborhoods,\n7 blocks and 7 houses...\n\nWhere not even your messages can reach me!",
+    "I'm away from the keyboard at the moment, but if you'll scream loud enough at your screen, I might just hear you.",
+    "I went that way\n---->",
+    "I went this way\n<----",
+    "Please leave a message and make me feel even more important than I already am.",
+    "I am not here so stop writing to me,\nor else you will find yourself with a screen full of your own messages.",
+    "If I were here,\nI'd tell you where I am.\n\nBut I'm not,\nso ask me when I return...",
+    "I am away!\nI don't know when I'll be back!\nHopefully a few minutes from now!",
+    "I'm not available right now so please leave your name, number, and address and I will stalk you later.",
+    "Sorry, I'm not here right now.\nFeel free to talk to my userbot as long as you like.\nI'll get back to you later.",
+    "I bet you were expecting an away message!",
+    "Life is so short, there are so many things to do...\nI'm away doing one of them..",
+    "I am not here right now...\nbut if I was...\n\nwouldn't that be awesome?",
+]
+# =================================================================
 
 
 @register(incoming=True, disable_edited=True)
+@errors_handler
 async def mention_afk(mention):
-    """ This function takes care of notifying the
-     people who mention you that you are AFK."""
-
+    """ This function takes care of notifying the people who mention you that you are AFK."""
     global COUNT_MSG
     global USERS
-    if not is_redis_alive():
-        return
-    IsAway = await is_afk()
+    global is_afk
     if mention.message.mentioned and not (await mention.get_sender()).bot:
-        if IsAway is True:
+        if is_afk:
             if mention.sender_id not in USERS:
-                await mention.reply(
-                    "Sorry! My boss is AFK due to " + await afk_reason() +
-                    ". Would ping him to look into the message soon😉")
+                if AFKREASON:
+                    await mention.reply(f"I'm AFK right now.\
+                        \nReason: `{AFKREASON}`")
+                else:
+                    await mention.reply(str(choice(AFKSTR)))
                 USERS.update({mention.sender_id: 1})
                 COUNT_MSG = COUNT_MSG + 1
             elif mention.sender_id in USERS:
-                if USERS[mention.sender_id] % 5 == 0:
-                    await mention.reply(
-                        "Sorry! But my boss is still not here. "
-                        "Try to ping him a little later. I am sorry😖."
-                        "He told me he was busy with ```" +
-                        await afk_reason() + "```")
+                if USERS[mention.sender_id] % randint(2, 4) == 0:
+                    if AFKREASON:
+                        await mention.reply(f"I'm still AFK.\
+                            \nReason: `{AFKREASON}`")
+                    else:
+                        await mention.reply(str(choice(AFKSTR)))
                     USERS[mention.sender_id] = USERS[mention.sender_id] + 1
                     COUNT_MSG = COUNT_MSG + 1
                 else:
@@ -47,72 +74,75 @@ async def mention_afk(mention):
                     COUNT_MSG = COUNT_MSG + 1
 
 
-@register(incoming=True, disable_errors=True)
-async def afk_on_pm(afk_pm):
+@register(incoming=True)
+@errors_handler
+async def afk_on_pm(sender):
+    """ Function which informs people that you are AFK in PM """
+    global is_afk
     global USERS
     global COUNT_MSG
-    if not is_redis_alive():
-        return
-    IsAway = await is_afk()
-    if afk_pm.is_private and not (await afk_pm.get_sender()).bot:
-        if IsAway is True:
-            if afk_pm.sender_id not in USERS:
-                await afk_pm.reply(
-                    "Sorry! My boss is AFK due to ```" + await afk_reason() +
-                    "``` I'll ping him to look into the message soon😉")
-                USERS.update({afk_pm.sender_id: 1})
+    if sender.is_private and sender.sender_id != 777000 and not (
+            await sender.get_sender()).bot:
+        if PM_AUTO_BAN:
+            try:
+                from userbot.modules.sql_helper.pm_permit_sql import is_approved
+                apprv = is_approved(sender.sender_id)
+            except AttributeError:
+                apprv = True
+        else:
+            apprv = True
+        if apprv and is_afk:
+            if sender.sender_id not in USERS:
+                if AFKREASON:
+                    await sender.reply(f"I'm AFK: `{AFKREASON}`")
+                else:
+                    await sender.reply(str(choice(AFKSTR)))
+                USERS.update({sender.sender_id: 1})
                 COUNT_MSG = COUNT_MSG + 1
-            elif afk_pm.sender_id in USERS:
-                if USERS[afk_pm.sender_id] % 5 == 0:
-                    await afk_pm.reply(
-                        "Sorry! But my boss is still not here. "
-                        "Try to ping him a little later. I am sorry😖."
-                        "He told me he was busy with ```" +
-                        await afk_reason() + "```")
-                    USERS[afk_pm.sender_id] = USERS[afk_pm.sender_id] + 1
+            elif apprv and sender.sender_id in USERS:
+                if USERS[sender.sender_id] % randint(2, 4) == 0:
+                    if AFKREASON:
+                        await sender.reply(f"I'm still AFK: `{AFKREASON}`")
+                    else:
+                        await sender.reply(str(choice(AFKSTR)))
+                    USERS[sender.sender_id] = USERS[sender.sender_id] + 1
                     COUNT_MSG = COUNT_MSG + 1
                 else:
-                    USERS[afk_pm.sender_id] = USERS[afk_pm.sender_id] + 1
+                    USERS[sender.sender_id] = USERS[sender.sender_id] + 1
                     COUNT_MSG = COUNT_MSG + 1
 
 
-@register(outgoing=True, disable_errors=True, pattern="^.afk")
-async def set_afk(setafk):
-    if not is_redis_alive():
-        await setafk.edit("`Database connections failing!`")
-        return
-    message = setafk.text
-    try:
-        AFKREASON = str(message[5:])
-    except BaseException:
-        AFKREASON = ''
-    if not AFKREASON:
-        AFKREASON = 'No reason'
-    await setafk.edit("AFK AF!")
+@register(outgoing=True, pattern="^.afk(?: |$)(.*)")
+async def set_afk(afk_e):
+    """ For .afk command, allows you to inform people that you are afk when they message you """
+    message = afk_e.text
+    string = afk_e.pattern_match.group(1)
+    global is_afk
+    global AFKREASON
+    if string:
+        AFKREASON = string
+        await afk_e.edit(f"Going AFK!\
+        \nReason: `{string}`")
+    else:
+        await afk_e.edit("Going AFK!")
     if BOTLOG:
-        await setafk.client.send_message(BOTLOG_CHATID, "You went AFK!")
-    await afk(AFKREASON)
+        await afk_e.client.send_message(BOTLOG_CHATID, "#AFK\nYou went AFK!")
+    ISAFK = True
     raise StopPropagation
 
 
 @register(outgoing=True)
+@errors_handler
 async def type_afk_is_not_true(notafk):
+    """ This sets your status as not afk automatically when you write something while being afk """
+    global is_afk
     global COUNT_MSG
     global USERS
-    if not is_redis_alive():
-        return
-    IsAway = await is_afk()
-    if IsAway is True:
-        x = await notafk.respond("I'm no longer AFK.")
-        y = await notafk.respond(
-            "`You recieved " + str(COUNT_MSG) +
-            " messages while you were away. Check log for more details.`" +
-            " `This auto-generated message " +
-            "shall be self destructed in 2 seconds.`")
-        await no_afk()
-        time.sleep(2)
-        await x.delete()
-        await y.delete()
+    global AFKREASON
+    if is_afk:
+        is_afk = False
+        await notafk.respond("I'm no longer AFK.")
+        await sleep(2)
         if BOTLOG:
             await notafk.client.send_message(
                 BOTLOG_CHATID,
@@ -129,11 +159,14 @@ async def type_afk_is_not_true(notafk):
                 )
         COUNT_MSG = 0
         USERS = {}
+        AFKREASON = None
 
 
 CMD_HELP.update({
     "afk":
-    ".afk <reason> (optional)\n"
-    "Usage: Sets your status as AFK. Responds to anyone who tags/PM's "
-    "you telling you are AFK. Switches off AFK when you type back anything."
+    ".afk [Optional Reason]\
+\nUsage: Sets you as afk.\nReplies to anyone who tags/PM's \
+you telling them that you are AFK(reason).\n\nSwitches off AFK when you type back anything, anywhere.\
+"
 })
+
