@@ -72,11 +72,9 @@ async def add_new_filter(new_handler):
 @register(outgoing=True, pattern="^.stop (.*)")
 async def remove_a_filter(r_handler):
     """ For .stop command, allows you to remove a filter from a chat. """
-    try:
-        if not (await handler.get_sender()).bot:
-            if not is_mongo_alive() or not is_redis_alive():
-                await handler.edit("`Database connections failing!`")
-                return
+    if not is_mongo_alive() or not is_redis_alive():
+        await event.edit("`Database connections failing!`")
+        return
     filt = r_handler.pattern_match.group(1)
     if not remove_filter(r_handler.chat_id, filt):
         await r_handler.edit("`Filter` **{}** `doesn't exist.`".format(filt))
