@@ -52,18 +52,18 @@ async def mention_afk(mention):
     if mention.message.mentioned and not (await mention.get_sender()).bot:
         if is_afk:
             if mention.sender_id not in USERS:
-                if AFKREASON:
+                if afk_reason:
                     await mention.reply(f"I'm AFK right now.\
-                        \nReason: `{AFKREASON}`")
+                        \nReason: `{afk_reason}`")
                 else:
                     await mention.reply(str(choice(AFKSTR)))
                 USERS.update({mention.sender_id: 1})
                 COUNT_MSG = COUNT_MSG + 1
             elif mention.sender_id in USERS:
                 if USERS[mention.sender_id] % randint(2, 4) == 0:
-                    if AFKREASON:
+                    if afk_reason:
                         await mention.reply(f"I'm still AFK.\
-                            \nReason: `{AFKREASON}`")
+                            \nReason: `{afk_reason}`")
                     else:
                         await mention.reply(str(choice(AFKSTR)))
                     USERS[mention.sender_id] = USERS[mention.sender_id] + 1
@@ -91,16 +91,16 @@ async def afk_on_pm(sender):
             apprv = True
         if apprv and is_afk:
             if sender.sender_id not in USERS:
-                if AFKREASON:
-                    await sender.reply(f"I'm AFK: `{AFKREASON}`")
+                if afk_reason:
+                    await sender.reply(f"I'm AFK: `{afk_reason}`")
                 else:
                     await sender.reply(str(choice(AFKSTR)))
                 USERS.update({sender.sender_id: 1})
                 COUNT_MSG = COUNT_MSG + 1
             elif apprv and sender.sender_id in USERS:
                 if USERS[sender.sender_id] % randint(2, 4) == 0:
-                    if AFKREASON:
-                        await sender.reply(f"I'm still AFK: `{AFKREASON}`")
+                    if afk_reason:
+                        await sender.reply(f"I'm still AFK: `{afk_reason}`")
                     else:
                         await sender.reply(str(choice(AFKSTR)))
                     USERS[sender.sender_id] = USERS[sender.sender_id] + 1
@@ -116,47 +116,47 @@ async def set_afk(afk_e):
     message = afk_e.text
     string = afk_e.pattern_match.group(1)
     global is_afk
-    global AFKREASON
+    global afk_reason
     if string:
-        AFKREASON = string
+        afk_reason = string
         await afk_e.edit(f"Going AFK!\
         \nReason: `{string}`")
     else:
         await afk_e.edit("Going AFK!")
     if BOTLOG:
         await afk_e.client.send_message(BOTLOG_CHATID, "#AFK\nYou went AFK!")
-    ISAFK = True
+    is_afk = True
     raise StopPropagation
 
 
 @register(outgoing=True)
-async def type_afk_is_not_true(notafk):
+async def type_afk_is_not_true(no_afk):
     """ This sets your status as not afk automatically when you write something while being afk """
     global is_afk
     global COUNT_MSG
     global USERS
-    global AFKREASON
+    global afk_reason
     if is_afk:
         is_afk = False
-        await notafk.respond("I'm no longer AFK.")
+        await no_afk.respond("I'm no longer AFK.")
         await sleep(2)
         if BOTLOG:
-            await notafk.client.send_message(
+            await no_afk.client.send_message(
                 BOTLOG_CHATID,
                 "You've recieved " + str(COUNT_MSG) + " messages from " +
                 str(len(USERS)) + " chats while you were away",
             )
             for i in USERS:
-                name = await notafk.client.get_entity(i)
+                name = await no_afk.client.get_entity(i)
                 name0 = str(name.first_name)
-                await notafk.client.send_message(
+                await no_afk.client.send_message(
                     BOTLOG_CHATID,
                     "[" + name0 + "](tg://user?id=" + str(i) + ")" +
                     " sent you " + "`" + str(USERS[i]) + " messages`",
                 )
         COUNT_MSG = 0
         USERS = {}
-        AFKREASON = None
+        afk_reason = None
 
 
 CMD_HELP.update({
