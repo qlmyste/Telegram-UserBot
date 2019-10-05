@@ -5,107 +5,119 @@
 #
 """ Userbot module containing commands for keeping notes. """
 
+from userbot.events import register
 from asyncio import sleep
-
 from userbot import (BOTLOG, BOTLOG_CHATID, CMD_HELP, is_mongo_alive,
                      is_redis_alive)
 from userbot.events import register
 from userbot.modules.dbhelper import add_note, delete_note, get_note, get_notes
 
-
-@register(outgoing=True, pattern="^.saved$")
-async def notes_active(event):
-    """ For .saved command, list all of the notes saved in a chat. """
+@register(outgoing=True, pattern="^.notes$")
+async def notes_active(svd):
+    """ For .notes command, list all of the notes saved in a chat. """
     if not is_mongo_alive() or not is_redis_alive():
         await event.edit("`Database connections failing!`")
         return
-
     message = "`There are no saved notes in this chat`"
-    notes = await get_notes(event.chat_id)
+    notes = get_notes(svd.chat_id)
     for note in notes:
         if message == "`There are no saved notes in this chat`":
             message = "Notes saved in this chat:\n"
-            message += "🔹 **{}**\n".format(note["name"])
+            message += "`#{}`\n".format(note.keyword)
         else:
-            message += "🔹 **{}**\n".format(note["name"])
-
-    await event.edit(message)
+            message += "`#{}`\n".format(note.keyword)
+    await svd.edit(message)
 
 
 @register(outgoing=True, pattern=r"^.clear (\w*)")
-async def remove_notes(event):
+async def remove_notes(clr):
     """ For .clear command, clear note with the given name."""
     if not is_mongo_alive() or not is_redis_alive():
         await event.edit("`Database connections failing!`")
         return
-    notename = event.pattern_match.group(1)
-    if await delete_note(event.chat_id, notename) is False:
-        return await event.edit("`Couldn't find note:` **{}**".format(notename)
-                                )
+    notename = clr.pattern_match.group(1)
+    if rm_note(clr.chat_id, notename) is False:
+        return await clr.edit("`Couldn't find note:` **{}**".format(notename))
     else:
-        return await event.edit(
+        return await clr.edit(
             "`Successfully deleted note:` **{}**".format(notename))
 
 
 @register(outgoing=True, pattern=r"^.save (\w*)")
-async def add_filter(event):
+async def add_note(fltr):
     """ For .save command, saves notes in a chat. """
     if not is_mongo_alive() or not is_redis_alive():
         await event.edit("`Database connections failing!`")
         return
-
-    notename = event.pattern_match.group(1)
-    string = event.text.partition(notename)[2]
-    if event.reply_to_msg_id:
-        string = " " + (await event.get_reply_message()).text
-
-    msg = "`Note {} successfully. Use` #{} `to get it`"
-
-    if await add_note(event.chat_id, notename, string[1:]) is False:
-        return await event.edit(msg.format('updated', notename))
+    keyword = fltr.pattern_match.group(1)
+    string = fltr.text.partition(keyword)[2]
+    msg = await fltr.get_reply_message()
+    msg_id = None
+    if msg and msg.media and not string:
+        if BOTLOG_CHATID:
+            await fltr.client.send_message(
+                BOTLOG_CHATID, f"#NOTE\
+            \nCHAT ID: {fltr.chat_id}\
+            \nKEYWORD: {keyword}\
+            \n\nThe following message is saved as the note's reply data for the chat, please do NOT delete it !!"
+            )
+            msg_o = await fltr.client.forward_messages(entity=BOTLOG_CHATID,
+                                                       messages=msg,
+                                                       from_peer=fltr.chat_id,
+                                                       silent=True)
+            msg_id = msg_o.id
+        else:
+            await fltr.edit(
+                "`Saving media as data for the note requires the BOTLOG_CHATID to be set.`"
+            )
+            return
+    elif fltr.reply_to_msg_id and not string:
+        rep_msg = await fltr.get_reply_message()
+        string = rep_msg.text
+    success = "`Note {} successfully. Use` #{} `to get it`"
+    if add_note(str(fltr.chat_id), keyword, string, msg_id) is False:
+        return await fltr.edit(success.format('updated', keyword))
     else:
-        return await event.edit(msg.format('added', notename))
-
-
-@register(outgoing=True, pattern=r"^.note (\w*)")
-async def save_note(event):
-    """ For .save command, saves notes in a chat. """
-    if not is_mongo_alive() or not is_redis_alive():
-        await event.edit("`Database connections failing!`")
-        return
-    note = event.text[6:]
-    note_db = await get_note(event.chat_id, note)
-    if not await get_note(event.chat_id, note):
-        return await event.edit("`Note` **{}** `doesn't exist!`".format(note))
-    else:
-        return await event.edit(" 🔹 **{}** - `{}`".format(
-            note, note_db["text"]))
+        return await fltr.edit(success.format('added', keyword))
 
 
 @register(pattern=r"#\w*",
           disable_edited=True,
-          ignore_unsafe=True,
-          disable_errors=True)
-async def note(event):
+          disable_errors=True,
+          ignore_unsafe=True)
+async def incom_note(getnt):
     """ Notes logic. """
     try:
         if not (await event.get_sender()).bot:
             if not is_mongo_alive() or not is_redis_alive():
                 return
 
-            notename = event.text[1:]
-            note = await get_note(event.chat_id, notename)
-            if note:
-                await event.reply(note["text"])
-    except BaseException:
+            notename = getnt.text[1:]
+            note = get_note(getnt.chat_id, notename)
+            message_id_to_reply = getnt.message.reply_to_msg_id
+            if not message_id_to_reply:
+                message_id_to_reply = None
+            if note and note.f_mesg_id:
+                msg_o = await getnt.client.get_messages(entity=BOTLOG_CHATID,
+                                                        ids=int(
+                                                            note.f_mesg_id))
+                await getnt.client.send_message(getnt.chat_id,
+                                                msg_o.mesage,
+                                                reply_to=message_id_to_reply,
+                                                file=msg_o.media)
+            elif note and note.reply:
+                await getnt.client.send_message(getnt.chat_id,
+                                                note.reply,
+                                                reply_to=message_id_to_reply)
+    except AttributeError:
         pass
 
 
-@register(outgoing=True, pattern="^.rmnotes (.*)")
+@register(outgoing=True, pattern="^.rmbotnotes (.*)")
 async def kick_marie_notes(kick):
-    """ For .rmfilters command, allows you to kick all \
-        Marie(or her clones) filters from a chat. """
-    bot_type = kick.pattern_match.group(1)
+    """ For .rmbotnotes command, allows you to kick all \
+        Marie(or her clones) notes from a chat. """
+    bot_type = kick.pattern_match.group(1).lower()
     if bot_type not in ["marie", "rose"]:
         await kick.edit("`That bot is not yet supported!`")
         return
@@ -129,10 +141,15 @@ async def kick_marie_notes(kick):
 
 CMD_HELP.update({
     "notes":
-    "#<notename>"
-    "\nUsage: Get the note with name notename"
-    "\n\n.save <notename> <notedata>"
-    "\nUsage: Save notedata as a note with the name notename"
-    "\n\n.clear <notename>"
-    "\nUsage: Delete the note with name notename."
+    "\
+#<notename>\
+\nUsage: Gets the specified note.\
+\n\n.save <notename> <notedata> or reply to a message with .save <notename>\
+\nUsage: Saves the replied message as a note with the notename. (Works with pics, docs, and stickers too!)\
+\n\n.notes\
+\nUsage: Gets all saved notes in a chat.\
+\n\n.clear <notename>\
+\nUsage: Deletes the specified note.\
+\n\n.rmbotnotes <marie/rose>\
+\nUsage: Removes all notes of admin bots (Currently supported: Marie, Rose and their clones.) in the chat."
 })
