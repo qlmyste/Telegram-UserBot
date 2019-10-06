@@ -38,14 +38,17 @@ async def filter_incoming_handler(handler):
 
 
 @register(outgoing=True, pattern="^.filter\\s.*")
-async def add_new_filter(event):
-    """ Command for adding a new filter """
-    if not is_mongo_alive() or not is_redis_alive():
-        await event.edit("`Database connections failing!`")
+async def add_new_filter(new_handler):
+    """ For .filter command, allows adding new filters in a chat """
+    try:
+        from userbot.modules.sql_helper.filter_sql import add_filter
+    except AttributeError:
+        await new_handler.edit("`Running on Non-SQL mode!`")
         return
-    msg = event.text
-    keyword = msg.split()
-    string = ""
+    keyword = new_handler.pattern_match.group(1)
+    string = new_handler.text.partition(keyword)[2]
+    msg = await new_handler.get_reply_message()
+    msg_id = None
     if msg and msg.media and not string:
         if BOTLOG_CHATID:
             await new_handler.client.send_message(
@@ -68,20 +71,11 @@ async def add_new_filter(event):
     elif new_handler.reply_to_msg_id and not string:
         rep_msg = await new_handler.get_reply_message()
         string = rep_msg.text
-        
-    for i in range(2, len(keyword)):
-        string = string + " " + str(keyword[i])
-
-    if event.reply_to_msg_id:
-        string = " " + (await event.get_reply_message()).text
-
-    msg = "`Filter` **{}** `{} successfully`"
-
-    if await add_filter(event.chat_id, keyword[1], string[1:]) is True:
-        await event.edit(msg.format(keyword[1], 'added'))
+    success = "`Filter` **{}** `{} successfully`"
+    if add_filter(str(new_handler.chat_id), keyword, string, msg_id) is True:
+        await new_handler.edit(success.format(keyword, 'added'))
     else:
-        await event.edit(msg.format(keyword[1], 'updated'))
-
+        await new_handler.edit(success.format(keyword, 'updated'))
 
 @register(outgoing=True, pattern="^.stop\\s.*")
 async def remove_filter(event):
