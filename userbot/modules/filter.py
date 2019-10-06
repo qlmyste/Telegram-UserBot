@@ -46,7 +46,7 @@ async def add_new_filter(event):
     message = event.text
     keyword = message.split()
     string = ""
-        if msg and msg.media and not string:
+    if msg and msg.media and not string:
         if BOTLOG_CHATID:
             await new_handler.client.send_message(
                 BOTLOG_CHATID, f"#FILTER\
