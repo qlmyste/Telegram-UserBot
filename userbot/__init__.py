@@ -173,6 +173,7 @@ os.chmod('bin/cmrudl', 0o755)
 COUNT_MSG = 0
 USERS = {}
 COUNT_PM = {}
+ISAFK = False
 LASTMSG = {}
 ENABLE_KILLME = True
 CMD_HELP = {}
