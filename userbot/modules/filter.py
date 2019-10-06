@@ -45,7 +45,9 @@ async def add_new_filter(event):
         return
     message = event.text
     keyword = message.split()
-    string = event.partition(keyword)[2]
+    string = ""
+    for i in range(2, len(keyword)):
+        string = string + " " + str(keyword[i])
     msg = await event.get_reply_message()
     msg_id = None
     if msg and msg.media and not string:
