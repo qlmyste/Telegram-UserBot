@@ -2,159 +2,126 @@
 #
 # Licensed under the Raphielscape Public License, Version 1.c (the "License");
 # you may not use this file except in compliance with the License.
-#
-""" Userbot module containing commands for keeping notes. """
+""" Userbot module containing commands for keeping global notes. """
 
-from userbot import BOTLOG, BOTLOG_CHATID, CMD_HELP
 from userbot.events import register
-from asyncio import sleep
+from userbot import CMD_HELP, BOTLOG_CHATID
 
 
-@register(outgoing=True, pattern="^.notes$")
-async def notes_active(svd):
-    """ For .notes command, list all of the notes saved in a chat. """
+@register(outgoing=True,
+          pattern=r"\$\w*",
+          ignore_unsafe=True,
+          disable_errors=True)
+async def on_snip(event):
+    """ Snips logic. """
     try:
-        from userbot.modules.sql_helper.notes_sql import get_notes
+        from userbot.modules.sql_helper.snips_sql import get_snip
     except AttributeError:
-        await svd.edit("`Running on Non-SQL mode!`")
         return
-    message = "`There are no saved notes in this chat`"
-    notes = get_notes(svd.chat_id)
-    for note in notes:
-        if message == "`There are no saved notes in this chat`":
-            message = "Notes saved in this chat:\n"
-            message += "`#{}`\n".format(note.keyword)
-        else:
-            message += "`#{}`\n".format(note.keyword)
-    await svd.edit(message)
+    name = event.text[1:]
+    snip = get_snip(name)
+    message_id_to_reply = event.message.reply_to_msg_id
+    if not message_id_to_reply:
+        message_id_to_reply = None
+    if snip and snip.f_mesg_id:
+        msg_o = await event.client.get_messages(entity=BOTLOG_CHATID,
+                                                ids=int(snip.f_mesg_id))
+        await event.client.send_message(event.chat_id,
+                                        msg_o.message,
+                                        reply_to=message_id_to_reply,
+                                        file=msg_o.media)
+    elif snip and snip.reply:
+        await event.client.send_message(event.chat_id,
+                                        snip.reply,
+                                        reply_to=message_id_to_reply)
 
 
-@register(outgoing=True, pattern=r"^.clear (\w*)")
-async def remove_notes(clr):
-    """ For .clear command, clear note with the given name."""
+@register(outgoing=True, pattern="^.snip (\w*)")
+async def on_snip_save(event):
+    """ For .snip command, saves snips for future use. """
     try:
-        from userbot.modules.sql_helper.notes_sql import rm_note
-    except AttributeError:
-        await clr.edit("`Running on Non-SQL mode!`")
+        from userbot.modules.sql_helper.snips_sql import add_snip
+    except AtrributeError:
+        await event.edit("`Running on Non-SQL mode!`")
         return
-    notename = clr.pattern_match.group(1)
-    if rm_note(clr.chat_id, notename) is False:
-        return await clr.edit("`Couldn't find note:` **{}**".format(notename))
-    else:
-        return await clr.edit(
-            "`Successfully deleted note:` **{}**".format(notename))
-
-
-@register(outgoing=True, pattern=r"^.save (\w*)")
-async def add_note(fltr):
-    """ For .save command, saves notes in a chat. """
-    try:
-        from userbot.modules.sql_helper.notes_sql import add_note
-    except AttributeError:
-        await fltr.edit("`Running on Non-SQL mode!`")
-        return
-    keyword = fltr.pattern_match.group(1)
-    string = fltr.text.partition(keyword)[2]
-    msg = await fltr.get_reply_message()
+    keyword = event.pattern_match.group(1)
+    string = event.text.partition(keyword)[2]
+    msg = await event.get_reply_message()
     msg_id = None
     if msg and msg.media and not string:
         if BOTLOG_CHATID:
-            await fltr.client.send_message(
-                BOTLOG_CHATID, f"#NOTE\
-            \nCHAT ID: {fltr.chat_id}\
+            await event.client.send_message(
+                BOTLOG_CHATID, f"#SNIP\
             \nKEYWORD: {keyword}\
-            \n\nThe following message is saved as the note's reply data for the chat, please do NOT delete it !!"
+            \n\nThe following message is saved as the data for the snip, please do NOT delete it !!"
             )
-            msg_o = await fltr.client.forward_messages(entity=BOTLOG_CHATID,
-                                                       messages=msg,
-                                                       from_peer=fltr.chat_id,
-                                                       silent=True)
+            msg_o = await event.client.forward_messages(
+                entity=BOTLOG_CHATID,
+                messages=msg,
+                from_peer=event.chat_id,
+                silent=True)
             msg_id = msg_o.id
         else:
-            await fltr.edit(
-                "`Saving media as data for the note requires the BOTLOG_CHATID to be set.`"
+            await event.edit(
+                "`Saving snips with media requires the BOTLOG_CHATID to be set.`"
             )
             return
-    elif fltr.reply_to_msg_id and not string:
-        rep_msg = await fltr.get_reply_message()
+    elif event.reply_to_msg_id and not string:
+        rep_msg = await event.get_reply_message()
         string = rep_msg.text
-    success = "`Note {} successfully. Use` #{} `to get it`"
-    if add_note(str(fltr.chat_id), keyword, string, msg_id) is False:
-        return await fltr.edit(success.format('updated', keyword))
+    success = "`Snip {} successfully. Use` **${}** `anywhere to get it`"
+    if add_snip(keyword, string, msg_id) is False:
+        await event.edit(success.format('updated', keyword))
     else:
-        return await fltr.edit(success.format('added', keyword))
+        await event.edit(success.format('saved', keyword))
 
 
-@register(pattern=r"#\w*",
-          disable_edited=True,
-          disable_errors=True,
-          ignore_unsafe=True)
-async def incom_note(getnt):
-    """ Notes logic. """
+@register(outgoing=True, pattern="^.snips$")
+async def on_snip_list(event):
+    """ For .snips command, lists snips saved by you. """
     try:
-        if not (await getnt.get_sender()).bot:
-            try:
-                from userbot.modules.sql_helper.notes_sql import get_note
-            except AttributeError:
-                return
-            notename = getnt.text[1:]
-            note = get_note(getnt.chat_id, notename)
-            message_id_to_reply = getnt.message.reply_to_msg_id
-            if not message_id_to_reply:
-                message_id_to_reply = None
-            if note and note.f_mesg_id:
-                msg_o = await getnt.client.get_messages(entity=BOTLOG_CHATID,
-                                                        ids=int(
-                                                            note.f_mesg_id))
-                await getnt.client.send_message(getnt.chat_id,
-                                                msg_o.mesage,
-                                                reply_to=message_id_to_reply,
-                                                file=msg_o.media)
-            elif note and note.reply:
-                await getnt.client.send_message(getnt.chat_id,
-                                                note.reply,
-                                                reply_to=message_id_to_reply)
+        from userbot.modules.sql_helper.snips_sql import get_snips
     except AttributeError:
-        pass
-
-
-@register(outgoing=True, pattern="^.rmbotnotes (.*)")
-async def kick_marie_notes(kick):
-    """ For .rmbotnotes command, allows you to kick all \
-        Marie(or her clones) notes from a chat. """
-    bot_type = kick.pattern_match.group(1).lower()
-    if bot_type not in ["marie", "rose"]:
-        await kick.edit("`That bot is not yet supported!`")
+        await event.edit("`Running on Non-SQL mode!`")
         return
-    await kick.edit("```Will be kicking away all Notes!```")
-    await sleep(3)
-    resp = await kick.get_reply_message()
-    filters = resp.text.split("-")[1:]
-    for i in filters:
-        if bot_type == "marie":
-            await kick.reply("/clear %s" % (i.strip()))
-        if bot_type == "rose":
-            i = i.replace('`', '')
-            await kick.reply("/clear %s" % (i.strip()))
-        await sleep(0.3)
-    await kick.respond(
-        "```Successfully purged bots notes yaay!```\n Gimme cookies!")
-    if BOTLOG:
-        await kick.client.send_message(
-            BOTLOG_CHATID, "I cleaned all Notes at " + str(kick.chat_id))
+
+    message = "`No snips available right now.`"
+    all_snips = get_snips()
+    for a_snip in all_snips:
+        if message == "`No snips available right now.`":
+            message = "Available snips:\n"
+            message += f"`${a_snip.snip}`\n"
+        else:
+            message += f"`${a_snip.snip}`\n"
+
+    await event.edit(message)
+
+
+@register(outgoing=True, pattern="^.remsnip (\w*)")
+async def on_snip_delete(event):
+    """ For .remsnip command, deletes a snip. """
+    try:
+        from userbot.modules.sql_helper.snips_sql import remove_snip
+    except AttributeError:
+        await event.edit("`Running on Non-SQL mode!`")
+        return
+    name = event.pattern_match.group(1)
+    if remove_snip(name) is True:
+        await event.edit(f"`Successfully deleted snip:` **{name}**")
+    else:
+        await event.edit(f"`Couldn't find snip:` **{name}**")
 
 
 CMD_HELP.update({
-    "notes":
+    "snips":
     "\
-#<notename>\
-\nUsage: Gets the specified note.\
-\n\n.save <notename> <notedata> or reply to a message with .save <notename>\
-\nUsage: Saves the replied message as a note with the notename. (Works with pics, docs, and stickers too!)\
-\n\n.notes\
-\nUsage: Gets all saved notes in a chat.\
-\n\n.clear <notename>\
-\nUsage: Deletes the specified note.\
-\n\n.rmbotnotes <marie/rose>\
-\nUsage: Removes all notes of admin bots (Currently supported: Marie, Rose and their clones.) in the chat."
+$<snip_name>\
+\nUsage: Gets the specified snip, anywhere.\
+\n\n.snip <name> <data> or reply to a message with .snip <name>\
+\nUsage: Saves the message as a snip (global note) with the name. (Works with pics, docs, and stickers too!)\
+\n\n.snips\
+\nUsage: Gets all saved snips.\
+\n\n.remsnip <snip_name>\
+\nUsage: Deletes the specified snip.\
+"
 })
