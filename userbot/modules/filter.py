@@ -40,10 +40,8 @@ async def filter_incoming_handler(handler):
 @register(outgoing=True, pattern="^.filter\\s.*")
 async def add_new_filter(new_handler):
     """ For .filter command, allows adding new filters in a chat """
-    try:
-        from userbot.modules.sql_helper.filter_sql import add_filter
-    except AttributeError:
-        await new_handler.edit("`Running on Non-SQL mode!`")
+    if not is_mongo_alive() or not is_redis_alive():
+        await event.edit("`Database connections failing!`")
         return
     keyword = new_handler.pattern_match.group(1)
     string = new_handler.text.partition(keyword)[2]
