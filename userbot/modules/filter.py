@@ -43,7 +43,7 @@ async def add_new_filter(event):
     if not is_mongo_alive() or not is_redis_alive():
         await event.edit("`Database connections failing!`")
         return
-    message = event.text
+    msg = event.text
     keyword = message.split()
     string = ""
     if msg and msg.media and not string:
