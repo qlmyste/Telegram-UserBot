@@ -10,7 +10,7 @@ from re import fullmatch, IGNORECASE, escape
 from userbot import (BOTLOG, BOTLOG_CHATID, CMD_HELP, is_mongo_alive,
                      is_redis_alive)
 from userbot.events import register
-from userbot.modules.dbhelper import add_filter, delete_filter, get_filter
+from userbot.modules.dbhelper import add_filter, delete_filter, get_filters
 
 
 @register(incoming=True, disable_edited=True)
@@ -22,7 +22,7 @@ async def filter_incoming_handler(handler):
                 await handler.edit("`Database connections failing!`")
                 return
             name = handler.raw_text
-            filters = await get_filters(handler.chat_id)
+            filters = get_filters(handler.chat_id)
             if not filters:
                 return
             for trigger in filters:
@@ -117,7 +117,7 @@ async def filters_active(event):
         await event.edit("`Database connections failing!`")
         return
     transact = "`There are no filters in this chat.`"
-    filters = await get_filters(event.chat_id)
+    filters = get_filters(event.chat_id)
     for filt in filters:
         if transact == "`There are no filters in this chat.`":
             transact = "Active filters in this chat:\n"
