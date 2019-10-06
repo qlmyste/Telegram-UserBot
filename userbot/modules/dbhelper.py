@@ -89,7 +89,8 @@ async def add_filter(chatid, keyword, msg, f_mesg_id):
         MONGO.filters.insert_one({
             'chat_id': chatid,
             'keyword': keyword,
-            'msg': msg
+            'msg': msg,
+            'f_mesg_id': f_mesg_id
         })
         return True
     else:
