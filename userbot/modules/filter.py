@@ -77,7 +77,7 @@ async def add_new_filter(event):
         rep_msg = await event.get_reply_message()
         string = rep_msg.text
     success = "`Filter` **{}** `{} successfully`"
-    if add_filter(str(event.chat_id), keyword, string, msg_id) is True:
+    if add_filter(event.chat_id, keyword, string, msg_id) is True:
         await event.edit(success.format(keyword[1], 'added'))
     else:
         await event.edit(success.format(keyword[1], 'updated'))
