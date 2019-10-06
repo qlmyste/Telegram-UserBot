@@ -44,7 +44,7 @@ async def add_new_filter(event):
         await event.edit("`Database connections failing!`")
         return
     message = event.text
-    keyword = message.split()
+    keyword = event.pattern_match.group(1)
     string = ""
     for i in range(2, len(keyword)):
         string = string + " " + str(keyword[i])
