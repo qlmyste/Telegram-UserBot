@@ -177,7 +177,7 @@ ISAFK = False
 LASTMSG = {}
 ENABLE_KILLME = True
 CMD_HELP = {}
-AFKREASON = "no reason"
+AFKREASON = None
 ZALG_LIST = [[
     "̖",
     " ̗",
