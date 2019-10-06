@@ -72,6 +72,9 @@ OPEN_WEATHER_MAP_APPID = os.environ.get("OPEN_WEATHER_MAP_APPID", None)
 
 WELCOME_MUTE = sb(os.environ.get("WELCOME_MUTE", "False"))
 
+# Default .alive name
+ALIVE_NAME = os.environ.get("ALIVE_NAME", None)
+
 YOUTUBE_API_KEY = os.environ.get("YOUTUBE_API_KEY", None)
 
 SPOTIFY_USERNAME = os.environ.get("SPOTIFY_USERNAME", None)
