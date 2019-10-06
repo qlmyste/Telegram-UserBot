@@ -22,7 +22,7 @@ async def filter_incoming_handler(handler):
                 await handler.edit("`Database connections failing!`")
                 return
             name = handler.raw_text
-            filters = get_filters(handler.chat_id)
+            filters = await get_filters(handler.chat_id)
             if not filters:
                 return
             for trigger in filters:
