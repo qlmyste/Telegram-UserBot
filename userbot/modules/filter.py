@@ -117,7 +117,7 @@ async def filters_active(event):
         await event.edit("`Database connections failing!`")
         return
     transact = "`There are no filters in this chat.`"
-    filters = get_filters(event.chat_id)
+    filters = await get_filters(event.chat_id)
     for filt in filters:
         if transact == "`There are no filters in this chat.`":
             transact = "Active filters in this chat:\n"
