@@ -4,16 +4,16 @@
 # you may not use this file except in compliance with the License.
 #
 """ Userbot module for filter commands """
-
+import re
 from asyncio import sleep
-from re import fullmatch, IGNORECASE, escape
+
 from userbot import (BOTLOG, BOTLOG_CHATID, CMD_HELP, is_mongo_alive,
                      is_redis_alive)
 from userbot.events import register
 from userbot.modules.dbhelper import add_filter, delete_filter, get_filters
 
 
-@register(incoming=True, disable_edited=True)
+@register(incoming=True, disable_edited=True, disable_errors=True)
 async def filter_incoming_handler(handler):
     """ Checks if the incoming message contains handler of a filter """
     try:
@@ -21,74 +21,82 @@ async def filter_incoming_handler(handler):
             if not is_mongo_alive() or not is_redis_alive():
                 await handler.edit("`Database connections failing!`")
                 return
-            name = handler.raw_text
-            filters = get_filters(handler.chat_id)
+            listes = handler.text.split(" ")
+            filters = await get_filters(handler.chat_id)
             if not filters:
                 return
             for trigger in filters:
-                pro = fullmatch(trigger.keyword, name, flags=IGNORECASE)
-                if pro:
-                    msg_o = await handler.client.get_messages(
-                        entity=BOTLOG_CHATID, ids=int(trigger.f_mesg_id))
-                    await handler.reply(msg_o.message, file=msg_o.media)
+                for item in listes:
+                    pro = re.fullmatch(trigger["keyword"],
+                                       item,
+                                       flags=re.IGNORECASE)
+                    if pro:
+                        await handler.reply(trigger["msg"])
+                        return
     except AttributeError:
         pass
 
 
-@register(outgoing=True, pattern="^.filter (.*)")
+@register(outgoing=True, pattern="^.filter (\w*)")
 async def add_new_filter(new_handler):
     """ For .filter command, allows adding new filters in a chat """
     if not is_mongo_alive() or not is_redis_alive():
         await event.edit("`Database connections failing!`")
         return
     keyword = new_handler.pattern_match.group(1)
+    string = new_handler.text.partition(keyword)[2]
     msg = await new_handler.get_reply_message()
-    if not msg:
-        await new_handler.edit(
-            "`I need something to save as reply to the filter.`")
-    elif BOTLOG_CHATID:
-        await new_handler.client.send_message(
-            BOTLOG_CHATID, f"#FILTER\
-        \nCHAT: {new_handler.chat.title}\
-        \nTRIGGER: {keyword}\
-        \nThe following message is saved as the filter's reply data for the chat, please do NOT delete it !!"
-        )
-        msg_o = await new_handler.client.forward_messages(
-            entity=BOTLOG_CHATID,
-            messages=msg,
-            from_peer=new_handler.chat_id,
-            silent=True)
-    else:
-        await new_handler.edit(
-            "`This feature requires the BOTLOG_CHATID to be set.`")
-        return
+    msg_id = None
+    if msg and msg.media and not string:
+        if BOTLOG_CHATID:
+            await new_handler.client.send_message(
+                BOTLOG_CHATID, f"#FILTER\
+            \nCHAT ID: {new_handler.chat_id}\
+            \nTRIGGER: {keyword}\
+            \n\nThe following message is saved as the filter's reply data for the chat, please do NOT delete it !!"
+            )
+            msg_o = await new_handler.client.forward_messages(
+                entity=BOTLOG_CHATID,
+                messages=msg,
+                from_peer=new_handler.chat_id,
+                silent=True)
+            msg_id = msg_o.id
+        else:
+            await new_handler.edit(
+                "`Saving media as reply to the filter requires the BOTLOG_CHATID to be set.`"
+            )
+            return
+    elif new_handler.reply_to_msg_id and not string:
+        rep_msg = await new_handler.get_reply_message()
+        string = rep_msg.text
     success = "`Filter` **{}** `{} successfully`"
-    if add_filter(str(new_handler.chat_id), keyword, msg_o.id) is True:
+    if add_filter(str(new_handler.chat_id), keyword, string, msg_id) is True:
         await new_handler.edit(success.format(keyword, 'added'))
     else:
         await new_handler.edit(success.format(keyword, 'updated'))
 
 
-@register(outgoing=True, pattern="^.stop (.*)")
-async def remove_a_filter(r_handler):
-    """ For .stop command, allows you to remove a filter from a chat. """
+
+@register(outgoing=True, pattern="^.stop\\s.*")
+async def remove_filter(event):
+    """ Command for removing a filter """
     if not is_mongo_alive() or not is_redis_alive():
         await event.edit("`Database connections failing!`")
         return
-    filt = r_handler.pattern_match.group(1)
-    if not remove_filter(r_handler.chat_id, filt):
-        await r_handler.edit("`Filter` **{}** `doesn't exist.`".format(filt))
+    filt = event.text[6:]
+
+    if not await delete_filter(event.chat_id, filt):
+        await event.edit("`Filter` **{}** `doesn't exist.`".format(filt))
     else:
-        await r_handler.edit(
+        await event.edit(
             "`Filter` **{}** `was deleted successfully`".format(filt))
 
 
-@register(outgoing=True, pattern="^.rmbotfilters (.*)")
+@register(outgoing=True, pattern="^.rmfilters (.*)")
 async def kick_marie_filter(event):
     """ For .rmfilters command, allows you to kick all \
         Marie(or her clones) filters from a chat. """
-    cmd = event.text[0]
-    bot_type = event.pattern_match.group(1).lower()
+    bot_type = event.pattern_match.group(1)
     if bot_type not in ["marie", "rose"]:
         await event.edit("`That bot is not yet supported!`")
         return
@@ -97,9 +105,9 @@ async def kick_marie_filter(event):
     resp = await event.get_reply_message()
     filters = resp.text.split("-")[1:]
     for i in filters:
-        if bot_type.lower() == "marie":
+        if bot_type == "marie":
             await event.reply("/stop %s" % (i.strip()))
-        if bot_type.lower() == "rose":
+        if bot_type == "rose":
             i = i.replace('`', '')
             await event.reply("/stop %s" % (i.strip()))
         await sleep(0.3)
@@ -117,7 +125,7 @@ async def filters_active(event):
         await event.edit("`Database connections failing!`")
         return
     transact = "`There are no filters in this chat.`"
-    filters = get_filters(event.chat_id)
+    filters = await get_filters(event.chat_id)
     for filt in filters:
         if transact == "`There are no filters in this chat.`":
             transact = "Active filters in this chat:\n"
@@ -126,19 +134,20 @@ async def filters_active(event):
         else:
             transact += "🔹 **{}** - `{}`\n".format(filt["keyword"],
                                                    filt["msg"])
+
     await event.edit(transact)
 
 
+# TODO : Clean this
 CMD_HELP.update({
-    "filter":
-    ".filters\
-    \nUsage: Lists all active userbot filters in a chat.\
-    \n\n.filter <keyword>\
-    \nUsage: Saves the replied message as a reply to the 'keyword'.\
-    \nThe bot will reply to the message whenever 'keyword' is mentioned.\
-    \nWorks with everything from files to stickers.\
-    \n\n.stop <filter>\
-    \nUsage: Stops the specified filter.\
-    \n\n.rmbotfilters <marie/rose>\
-    \nUsage: Removes all filters of admin bots (Currently supported: Marie, Rose and their clones.) in the chat."
+    "filters":
+    ".filters"
+    "\nUsage: List all active filters in this chat."
+    "\n\n.filter <keyword> <reply message>"
+    "\nUsage: Add a filter to this chat. "
+    "The bot will now reply that message whenever 'keyword' is mentioned. "
+    "If you reply to sticker with keyword, bot will reply with that sticker."
+    "\nNOTE: all filter keywords are in lowercase."
+    "\n\n.stop <filter>"
+    "\nUsage: Stops that filter."
 })
