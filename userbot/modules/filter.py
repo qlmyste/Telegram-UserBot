@@ -43,7 +43,7 @@ async def add_new_filter(new_handler):
     if not is_mongo_alive() or not is_redis_alive():
         await event.edit("`Database connections failing!`")
         return
-    keyword = new_handler.pattern_match.group(1)
+    keyword = message.split()
     string = new_handler.text.partition(keyword)[2]
     msg = await new_handler.get_reply_message()
     msg_id = None
