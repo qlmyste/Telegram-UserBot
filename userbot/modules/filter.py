@@ -44,7 +44,7 @@ async def add_new_filter(event):
         await event.edit("`Database connections failing!`")
         return
     msg = event.text
-    keyword = message.split()
+    keyword = msg.split()
     string = ""
     if msg and msg.media and not string:
         if BOTLOG_CHATID:
