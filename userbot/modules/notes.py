@@ -5,18 +5,18 @@
 #
 """ Userbot module containing commands for keeping notes. """
 
+from userbot import BOTLOG, BOTLOG_CHATID, CMD_HELP
 from userbot.events import register
 from asyncio import sleep
-from userbot import (BOTLOG, BOTLOG_CHATID, CMD_HELP, is_mongo_alive,
-                     is_redis_alive)
-from userbot.events import register
-from userbot.modules.dbhelper import add_note, delete_note, get_note, get_notes
+
 
 @register(outgoing=True, pattern="^.notes$")
 async def notes_active(svd):
     """ For .notes command, list all of the notes saved in a chat. """
-    if not is_mongo_alive() or not is_redis_alive():
-        await event.edit("`Database connections failing!`")
+    try:
+        from userbot.modules.sql_helper.notes_sql import get_notes
+    except AttributeError:
+        await svd.edit("`Running on Non-SQL mode!`")
         return
     message = "`There are no saved notes in this chat`"
     notes = get_notes(svd.chat_id)
@@ -32,8 +32,10 @@ async def notes_active(svd):
 @register(outgoing=True, pattern=r"^.clear (\w*)")
 async def remove_notes(clr):
     """ For .clear command, clear note with the given name."""
-    if not is_mongo_alive() or not is_redis_alive():
-        await event.edit("`Database connections failing!`")
+    try:
+        from userbot.modules.sql_helper.notes_sql import rm_note
+    except AttributeError:
+        await clr.edit("`Running on Non-SQL mode!`")
         return
     notename = clr.pattern_match.group(1)
     if rm_note(clr.chat_id, notename) is False:
@@ -46,8 +48,10 @@ async def remove_notes(clr):
 @register(outgoing=True, pattern=r"^.save (\w*)")
 async def add_note(fltr):
     """ For .save command, saves notes in a chat. """
-    if not is_mongo_alive() or not is_redis_alive():
-        await event.edit("`Database connections failing!`")
+    try:
+        from userbot.modules.sql_helper.notes_sql import add_note
+    except AttributeError:
+        await fltr.edit("`Running on Non-SQL mode!`")
         return
     keyword = fltr.pattern_match.group(1)
     string = fltr.text.partition(keyword)[2]
@@ -75,10 +79,10 @@ async def add_note(fltr):
         rep_msg = await fltr.get_reply_message()
         string = rep_msg.text
     success = "`Note {} successfully. Use` #{} `to get it`"
-    if await add_note(event.chat_id, notename, string[1:]) is False:
-        return await event.edit(msg.format('updated', notename))
+    if add_note(str(fltr.chat_id), keyword, string, msg_id) is False:
+        return await fltr.edit(success.format('updated', keyword))
     else:
-        return await event.edit(msg.format('added', notename))
+        return await fltr.edit(success.format('added', keyword))
 
 
 @register(pattern=r"#\w*",
@@ -88,10 +92,11 @@ async def add_note(fltr):
 async def incom_note(getnt):
     """ Notes logic. """
     try:
-        if not (await event.get_sender()).bot:
-            if not is_mongo_alive() or not is_redis_alive():
+        if not (await getnt.get_sender()).bot:
+            try:
+                from userbot.modules.sql_helper.notes_sql import get_note
+            except AttributeError:
                 return
-
             notename = getnt.text[1:]
             note = get_note(getnt.chat_id, notename)
             message_id_to_reply = getnt.message.reply_to_msg_id
