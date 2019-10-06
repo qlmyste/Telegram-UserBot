@@ -1,21 +1,3 @@
-Skip to content
-Search or jump to…
-
-Pull requests
-Issues
-Marketplace
-Explore
- 
-@PolisanTheEasyNick 
-6
-11137AvinashReddy3108/PaperplaneExtended
- Code Issues 7 Pull requests 0 Actions Projects 0 Wiki Security Insights
-PaperplaneExtended/userbot/modules/sql_helper/filter_sql.py
-@AvinashReddy3108 AvinashReddy3108 Goodbye PPEx [4th October 2019]
-3d2b751 2 days ago
-@baalajimaestro@AvinashReddy3108@SpEcHiDe@raphielscape@zakaryan2004@Prakasaka@Muttahir786@jaskaranSM@yshalsager@nitanmarcel@kandnub@shxnpie
-71 lines (56 sloc)  1.88 KB
-  
 try:
     from userbot.modules.sql_helper import SESSION, BASE
 except ImportError:
@@ -86,15 +68,3 @@ def remove_filter(chat_id, keyword):
         SESSION.delete(rem)
         SESSION.commit()
         return True
-© 2019 GitHub, Inc.
-Terms
-Privacy
-Security
-Status
-Help
-Contact GitHub
-Pricing
-API
-Training
-Blog
-About
