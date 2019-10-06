@@ -73,7 +73,7 @@ async def add_new_filter(event):
                 "`Saving media as reply to the filter requires the BOTLOG_CHATID to be set.`"
             )
             return
-    elif new_handler.reply_to_msg_id and not string:
+    elif event.reply_to_msg_id and not string:
         rep_msg = await event.get_reply_message()
         string = rep_msg.text
     success = "`Filter` **{}** `{} successfully`"
