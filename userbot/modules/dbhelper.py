@@ -82,8 +82,8 @@ async def get_filter(chatid, keyword):
     return MONGO.filters.find_one({'chat_id': chatid, 'keyword': keyword})
 
 
-async def add_filter(chatid, keyword, msg):
-    to_check = await get_filter(chatid, keyword)
+async def add_filter(chatid, keyword, msg, f_mesg_id):
+    to_check = await get_filter(chatid, keyword, f_mesg_id)
 
     if not to_check:
         MONGO.filters.insert_one({
