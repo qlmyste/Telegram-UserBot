@@ -1,21 +1,3 @@
-Skip to content
-Search or jump to…
-
-Pull requests
-Issues
-Marketplace
-Explore
- 
-@PolisanTheEasyNick 
-6
-11139AvinashReddy3108/PaperplaneExtended
- Code Issues 7 Pull requests 0 Actions Projects 0 Wiki Security Insights
-PaperplaneExtended/userbot/modules/snips.py
-@AvinashReddy3108 AvinashReddy3108 Fixed broken snips.
-4587e80 2 days ago
-@AvinashReddy3108@zakaryan2004@SpEcHiDe@raphielscape@Muttahir786@jaskaranSM@yshalsager@kandnub@baalajimaestro@shxnpie
-128 lines (114 sloc)  4.41 KB
-  
 # Copyright (C) 2019 The Raphielscape Company LLC.
 #
 # Licensed under the Raphielscape Public License, Version 1.c (the "License");
@@ -143,15 +125,3 @@ $<snip_name>\
 \nUsage: Deletes the specified snip.\
 "
 })
-© 2019 GitHub, Inc.
-Terms
-Privacy
-Security
-Status
-Help
-Contact GitHub
-Pricing
-API
-Training
-Blog
-About
