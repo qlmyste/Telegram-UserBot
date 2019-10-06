@@ -46,6 +46,29 @@ async def add_new_filter(event):
     message = event.text
     keyword = message.split()
     string = ""
+        if msg and msg.media and not string:
+        if BOTLOG_CHATID:
+            await new_handler.client.send_message(
+                BOTLOG_CHATID, f"#FILTER\
+            \nCHAT ID: {new_handler.chat_id}\
+            \nTRIGGER: {keyword}\
+            \n\nThe following message is saved as the filter's reply data for the chat, please do NOT delete it !!"
+            )
+            msg_o = await new_handler.client.forward_messages(
+                entity=BOTLOG_CHATID,
+                messages=msg,
+                from_peer=new_handler.chat_id,
+                silent=True)
+            msg_id = msg_o.id
+        else:
+            await new_handler.edit(
+                "`Saving media as reply to the filter requires the BOTLOG_CHATID to be set.`"
+            )
+            return
+    elif new_handler.reply_to_msg_id and not string:
+        rep_msg = await new_handler.get_reply_message()
+        string = rep_msg.text
+        
     for i in range(2, len(keyword)):
         string = string + " " + str(keyword[i])
 
