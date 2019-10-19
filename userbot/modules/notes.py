@@ -8,7 +8,6 @@
 from userbot import BOTLOG, BOTLOG_CHATID, CMD_HELP
 from userbot.events import register
 from asyncio import sleep
-import _ldap
 
 
 @register(outgoing=True, pattern="^.notes$")
