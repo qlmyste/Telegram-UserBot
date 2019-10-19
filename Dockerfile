@@ -9,7 +9,8 @@ RUN git clone https://github.com/MyPaperPlane/Telegram-UserBot.git -b master /ap
 # Copies session and config(if it exists)
 #
 COPY ./userbot.session ./config.env* ./client_secrets.json* ./secret.json* /app/
-RUN apk add install SQLAlchemy psycong2
+RUN apk add postgresql-dev
+RUN pip3 install SQLAlchemy psycopg2
 #
 # Finalization
 #
