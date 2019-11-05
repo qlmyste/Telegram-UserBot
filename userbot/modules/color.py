@@ -90,10 +90,8 @@ CMD_HELP.update({
     "color":
     "Show the supplied color and return it \
     \nin different colorspaces.\
-    \n
-    \n`.color [options] (color)`\
-    \n
-    \nOptions:\
+    \n\n.color [options] (color)\
+    \n\nOptions:\
     \n`.format`: Format of the supplied color. Defaults to `html` which can be any valid HTML color (hex or name). Other valid values are `rgb`, `lab`, `lch`, `hsl`, `hsv`, `xyz`, `cmy`, and `cmyk`.\
     \n`.extended`: Return some non-typical colorspaces in addition to the usual."
 })
