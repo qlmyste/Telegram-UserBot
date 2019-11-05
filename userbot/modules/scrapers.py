@@ -383,7 +383,7 @@ CMD_HELP.update(
 CMD_HELP.update({
     'tts':
     ".tts <text> or reply to someones text with .trt\n"
-    " Usage: Translates text to speech for the default language which is set.
+    " Usage: Translates text to speech for the default language which is set.\n"
     " Options:\n"
     "`.slow`: Say the message slowly.	    `.slow`: Play at half speed.\n"
     "`.lang`: Message to speak in.	    `.fast`: Play at double speed.\n\n"
