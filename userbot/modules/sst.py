@@ -51,5 +51,5 @@ CMD_HELP.update({
     \nIn reply to a message containing audio\
     \n`.stt [options]`\
     \n\n**Options:**\
-    \n`lang`: Language code of the message.\
+    \n`lang`: Language code of the message.
 })
