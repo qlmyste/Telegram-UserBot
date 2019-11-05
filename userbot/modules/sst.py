@@ -46,14 +46,10 @@ async def speech_to_text(e):
 
 
 CMD_HELP.update({
-    ".stt",
-    "Misc",
-    "Uses google speech to text to transcribe an audio message.",
-    """
-    In reply to a message containing audio
-    `.stt [options]`
-    
-    **Options:**
-    `lang`: Language code of the message.
-    """
+    ".stt":
+    "Uses google speech to text to transcribe an audio message.\
+    \nIn reply to a message containing audio\
+    \n`.stt [options]`\
+    \n\n**Options:**\
+    \n`lang`: Language code of the message.\
 })
