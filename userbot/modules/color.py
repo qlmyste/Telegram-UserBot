@@ -87,15 +87,14 @@ def make_swatch(color, size=(300, 128)):
 
 
 CMD_HELP.update({
-    ".color",
-    "Misc",
-    "Show the supplied color and return it "
-    "in different colorspaces.",
-    """
-    `.color [options] (color)`
-    
-    Options:
-    `.format`: Format of the supplied color. Defaults to `html` which can be any valid HTML color (hex or name). Other valid values are `rgb`, `lab`, `lch`, `hsl`, `hsv`, `xyz`, `cmy`, and `cmyk`.
-    `.extended`: Return some non-typical colorspaces in addition to the usual.
-    """
+    "color":
+    "Misc,\
+    \nShow the supplied color and return it \
+    \nin different colorspaces.\
+    \n
+    \n`.color [options] (color)`\
+    \n
+    \nOptions:\
+    \n`.format`: Format of the supplied color. Defaults to `html` which can be any valid HTML color (hex or name). Other valid values are `rgb`, `lab`, `lch`, `hsl`, `hsv`, `xyz`, `cmy`, and `cmyk`.\
+    \n`.extended`: Return some non-typical colorspaces in addition to the usual.\
 })
