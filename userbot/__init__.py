@@ -57,6 +57,8 @@ API_KEY = os.environ.get("API_KEY", None)
 
 API_HASH = os.environ.get("API_HASH", None)
 
+KUTT_IT_API_KEY = os.environ.get("KUTT_IT_API_KEY", None)
+
 BOTLOG = sb(os.environ.get("BOTLOG", "False"))
 
 BOTLOG_CHATID = int(os.environ.get("BOTLOG_CHATID")) if BOTLOG else 0
