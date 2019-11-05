@@ -46,17 +46,12 @@ async def kutt_it(e):
     await e.edit(message, link_preview=False)
 
 CMD_HELP.update({
-    ".kutt",
-    "Utilities",
-    "Uses kutt.it to shorten links.",
-    """
-    With any number of URLs. All will be converted.
-    `.kutt [options] (url1) (url2) ... (urlN)`
-    
-    Or, in response to a message containing URLs.
-    `.kutt [options]`
-    
-    Options:
-    `.reuse`: Allows previously converted URLs to be reused (default: `False`)
-    """
+    ".kutt":
+    "Uses kutt.it to shorten links.\
+    \nWith any number of URLs. All will be converted.\
+    \n`.kutt [options] (url1) (url2) ... (urlN)`\
+    \nOr, in response to a message containing URLs.\
+    \n`.kutt [options]`\
+    \n\nOptions:\
+    \n`.reuse`: Allows previously converted URLs to be reused (default: `False`)"
 })
