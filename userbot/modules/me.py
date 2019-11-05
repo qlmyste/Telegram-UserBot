@@ -87,10 +87,6 @@ async def stats(event: NewMessage.Event) -> None:  # pylint: disable = R0912, R0
 
 
 CMD_HELP.update({
-    ".stats",
-    "Me",
-    "Get some basic Telegram stats about yourself.",
-    """
-    `.stats`
-    """
+    ".stats,\
+    \nGet some basic Telegram stats about yourself."
 })
