@@ -79,9 +79,7 @@ CMD_HELP.update({
     ".flip",
     "\nFun\
     \nDo some unicode voodoo to flip a message upside down.\
-    \n"""\
     \n`.flip (message)`\
     \n\nOr, in reply to a message\
-    \n`.flip`\
-    \n""""
+    \n`.flip`"
 })
