@@ -1,16 +1,11 @@
-FROM baalajimaestro/userbot_python:latest
-
+FROM olegpolisan/tg_userbot
 ENV PATH="/app/bin:$PATH"
 WORKDIR /app
-
 RUN git clone https://github.com/MyPaperPlane/Telegram-UserBot.git -b master /app
-
 #
 # Copies session and config(if it exists)
 #
-COPY ./userbot.session ./config.env* ./client_secrets.json* ./secret.json* /app/
-RUN apk add postgresql-dev
-RUN pip3 install SQLAlchemy psycopg2
+COPY ./userbot.session ./google.json ./config.env* ./client_secrets.json* ./secret.json* /app/
 #
 # Finalization
 #
