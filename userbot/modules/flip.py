@@ -76,7 +76,7 @@ async def flip_message(e):
 
 
 CMD_HELP.update({
-    ".flip",
+    ".flip":
     "\nFun\
     \nDo some unicode voodoo to flip a message upside down.\
     \n`.flip (message)`\
