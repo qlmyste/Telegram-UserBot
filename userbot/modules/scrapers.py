@@ -62,40 +62,6 @@ async def img_sampler(event):
     rmtree(os.path.dirname(os.path.abspath(lst[0])))
     await event.delete()
 
-
-@register(outgoing=True, pattern=r"^.google (.*)")
-async def gsearch(q_event):
-    """ For .google command, do a Google search. """
-    match = q_event.pattern_match.group(1)
-    page = findall(r"page=\d+", match)
-    try:
-        page = page[0]
-        page = page.replace("page=", "")
-        match = match.replace("page=" + page[0], "")
-    except IndexError:
-        page = 1
-    search_args = (str(match), int(page))
-    gsearch = GoogleSearch()
-    gresults = gsearch.search(*search_args)
-    msg = ""
-    for i in range(10):
-        try:
-            title = gresults["titles"][i]
-            link = gresults["links"][i]
-            desc = gresults["descriptions"][i]
-            msg += f"{i}. [{title}]({link})\n`{desc}`\n\n"
-        except IndexError:
-            break
-    await q_event.edit("**Search Query:**\n`" + match + "`\n\n**Results:**\n" +
-                       msg,
-                       link_preview=False)
-    if BOTLOG:
-        await q_event.client.send_message(
-            BOTLOG_CHATID,
-            "Google Search query `" + match + "` was executed successfully",
-        )
-
-
 @register(outgoing=True, pattern=r"^.wiki (.*)")
 async def wiki(wiki_q):
     """ For .google command, fetch content from Wikipedia. """
@@ -282,10 +248,6 @@ CMD_HELP.update({
     ".img <search_query>\n"
     "Usage: Does an image search on Google and shows two images."
 })
-
-CMD_HELP.update(
-    {'google': ".google <search_query>\n"
-     "Usage: Does a search on Google."})
 
 CMD_HELP.update(
     {'wiki': ".wiki <search_query>\n"
