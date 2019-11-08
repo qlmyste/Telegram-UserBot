@@ -80,9 +80,9 @@ def youtube_search(query,
 
 CMD_HELP({
     ".yt":
-    "Search YouTube and return the results.\n"
-    ".yt [options] (query)\n"
-    "Options:\n\n"
-    "`limit`: Limit the results.\n"
-    "`order`: Order the search results. Must be one of date, rating, relevance, title, videoCount, viewCount."
+    "Search YouTube and return the results.\
+    \n.yt [options] (query)\
+    \nOptions:\
+    \n`limit`: Limit the results.\
+    \n`order`: Order the search results. Must be one of date, rating, relevance, title, videoCount, viewCount."
 })
