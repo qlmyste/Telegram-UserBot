@@ -78,7 +78,7 @@ def youtube_search(query,
         return nexttok, videos
 
 
-CMD_HELP({
+CMD_HELP.update({
     ".yt":
     "Search YouTube and return the results.\
     \n.yt [options] (query)\
