@@ -4,7 +4,7 @@ from pytube import YouTube
 from pytube.helpers import safe_filename
 from requests import get
 
-from ..help import add_help_item
+from userbot import CMD_HELP
 from userbot import bot
 from userbot.events import register
 from userbot.utils import parse_arguments
@@ -76,14 +76,10 @@ async def download_video(v_url):
     await v_url.delete()
 
 
-add_help_item(
-    ".ytdl",
-    "Misc",
-    "Download a video from YouTube.",
-    """
-    `.ytdl [options] (url)`
-    
-    Options:
-    `.res`: Resolution
-    """
-)
+CMD_HELP({
+    ".ytdl":
+    "Download a video from YouTube.\n"
+    ".ytdl [options] (url)\n\n"
+    "Options:\n"
+    ".res: Resolution"
+})
