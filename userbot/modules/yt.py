@@ -3,7 +3,7 @@ from html import unescape
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 
-from ..help import add_help_item
+from userbot import CMD_HELP
 from userbot import YOUTUBE_API_KEY
 from userbot.events import register
 from userbot.utils import parse_arguments
@@ -78,15 +78,11 @@ def youtube_search(query,
         return nexttok, videos
 
 
-add_help_item(
-    ".yt",
-    "Misc",
-    "Search YouTube and return the results.",
-    """
-    `.yt [options] (query)`
-    
-    Options:
-    `limit`: Limit the results.
-    `order`: Order the search results. Must be one of date, rating, relevance, title, videoCount, viewCount.
-    """
+CMD_HELP({
+    ".yt":
+    "Search YouTube and return the results.\n"
+    ".yt [options] (query)\n"
+    "Options:\n\n"
+    "`limit`: Limit the results.\n'
+    "`order`: Order the search results. Must be one of date, rating, relevance, title, videoCount, viewCount."
 )
