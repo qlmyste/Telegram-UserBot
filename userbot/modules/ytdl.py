@@ -76,7 +76,7 @@ async def download_video(v_url):
     await v_url.delete()
 
 
-CMD_HELP({
+CMD_HELP.update({
     ".ytdl":
     "Download a video from YouTube.\n"
     ".ytdl [options] (url)\n\n"
