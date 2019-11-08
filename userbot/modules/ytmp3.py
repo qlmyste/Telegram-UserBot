@@ -4,7 +4,7 @@ from moviepy import editor as mp
 from pytube import YouTube
 from pytube.helpers import safe_filename
 
-from ..help import add_help_item
+from userbot import CMD_HELP
 from userbot.events import register
 
 
@@ -38,11 +38,8 @@ async def youtube_mp3(yt):
     os.remove(f'{safe_filename(video.title)}.mp3')
 
 
-add_help_item(
-    ".ytmp3",
-    "Misc",
-    "Convert a YouTube video to a mp3 and send it.",
-    """
-    `.ytmp3 (url)`
-    """
-)
+CMD_HELP({
+    ".ytmp3":
+    "Convert a YouTube video to a mp3 and send it.\n"
+    ".ytmp3 (url)"
+})
