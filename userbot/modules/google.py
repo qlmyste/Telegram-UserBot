@@ -43,4 +43,4 @@ CMD_HELP.update(
      "Usage: Does a search on Google.\n"
      "Options:\n"
      "`.page`: Page of results to return.\n"
-     "`.limit`: Limit the number of returned results (defaults to 5).\n"})
+     "`.limit`: Limit the number of returned results (defaults to 5)."})
