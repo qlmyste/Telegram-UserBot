@@ -83,6 +83,6 @@ CMD_HELP({
     "Search YouTube and return the results.\n"
     ".yt [options] (query)\n"
     "Options:\n\n"
-    "`limit`: Limit the results.\n'
+    "`limit`: Limit the results.\n"
     "`order`: Order the search results. Must be one of date, rating, relevance, title, videoCount, viewCount."
 )
