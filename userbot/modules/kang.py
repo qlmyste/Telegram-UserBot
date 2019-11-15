@@ -9,7 +9,7 @@ import io
 import math
 import urllib.request
 from os import remove
-import Image
+from PIL import Image
 import random
 from telethon.tl.types import DocumentAttributeFilename, MessageMediaPhoto
 from userbot import bot, CMD_HELP
