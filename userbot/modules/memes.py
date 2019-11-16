@@ -945,7 +945,13 @@ async def Gr(e):
     for j in range(10):
         t = t[:-1] + "р*"
         await e.edit(t)
-                      
+
+@register(outgoing=True, pattern="^.grr$")
+async def Gr(e):
+    t = "*Грр"
+    for j in range(20):
+        t = t[:-1] + "р*"
+        await e.edit(t)
 
 @register(outgoing=True, pattern="^.10iq$")
 async def iqless(e):
