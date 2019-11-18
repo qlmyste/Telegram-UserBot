@@ -89,10 +89,10 @@ async def add_note(fltr):
           disable_edited=True,
           disable_errors=True,
           ignore_unsafe=True)
-async def incom_note(getnt):
+async def incom_note(event):
     """ Notes logic. """
     try:
-        if not (await getnt.get_sender()).bot:
+        if not (await event.get_sender()).bot:
             try:
                 from userbot.modules.sql_helper.notes_sql import get_note
             except AttributeError:
