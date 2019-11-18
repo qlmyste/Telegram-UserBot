@@ -96,7 +96,7 @@ async def incom_note(event):
     except AttributeError:
         return
     notename = event.text[1:]
-    note = get_note(notename)
+    note = get_note(event.chat_id, notename)
     message_id_to_reply = event.message.reply_to_msg_id
     if not message_id_to_reply:
         message_id_to_reply = None
