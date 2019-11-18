@@ -92,29 +92,25 @@ async def add_note(fltr):
 async def incom_note(event):
     """ Notes logic. """
     try:
-        if not (await event.get_sender()).bot:
-            try:
-                from userbot.modules.sql_helper.notes_sql import get_note
-            except AttributeError:
-                return
-            notename = event.text[1:]
-            note = get_note(event.chat_id, notename)
-            message_id_to_reply = event.message.reply_to_msg_id
-            if not message_id_to_reply:
-                message_id_to_reply = None
-            if note and note.f_mesg_id:
-                msg_o = await event.client.get_messages(entity=BOTLOG_CHATID,
-                                                        ids=int(note.f_mesg_id))
-                await event.client.send_message(event.chat_id,
-                                                msg_o.mesage,
-                                                reply_to=message_id_to_reply,
-                                                file=msg_o.media)
-            elif note and note.reply:
-                await event.client.send_message(event.chat_id,
-                                                note.reply,
-                                                reply_to=message_id_to_reply)
+        from userbot.modules.sql_helper.snips_sql import get_note
     except AttributeError:
-        pass
+        return
+    notename = event.text[1:]
+    note = get_note(name)
+    message_id_to_reply = event.message.reply_to_msg_id
+    if not message_id_to_reply:
+        message_id_to_reply = None
+    if note and note.f_mesg_id:
+        msg_o = await event.client.get_messages(entity=BOTLOG_CHATID,
+                                                ids=int(note.f_mesg_id))
+        await event.client.send_message(event.chat_id,
+                                        msg_o.message,
+                                        reply_to=message_id_to_reply,
+                                        file=msg_o.media)
+    elif note and note.reply:
+        await event.client.send_message(event.chat_id,
+                                        note.reply,
+                                        reply_to=message_id_to_reply)
 
 
 @register(outgoing=True, pattern="^.rmbotnotes (.*)")
