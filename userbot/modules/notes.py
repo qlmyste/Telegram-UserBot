@@ -104,14 +104,13 @@ async def incom_note(getnt):
                 message_id_to_reply = None
             if note and note.f_mesg_id:
                 msg_o = await getnt.client.get_messages(entity=BOTLOG_CHATID,
-                                                        ids=int(
-                                                            note.f_mesg_id))
-                await getnt.client.send_message(getnt.chat_id,
+                                                        ids=int(note.f_mesg_id))
+                await getnt.client.send_message(event.chat_id,
                                                 msg_o.mesage,
                                                 reply_to=message_id_to_reply,
                                                 file=msg_o.media)
             elif note and note.reply:
-                await getnt.client.send_message(getnt.chat_id,
+                await event.client.send_message(event.chat_id,
                                                 note.reply,
                                                 reply_to=message_id_to_reply)
     except AttributeError:
