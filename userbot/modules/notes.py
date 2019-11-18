@@ -97,15 +97,15 @@ async def incom_note(getnt):
                 from userbot.modules.sql_helper.notes_sql import get_note
             except AttributeError:
                 return
-            notename = getnt.text[1:]
-            note = get_note(getnt.chat_id, notename)
-            message_id_to_reply = getnt.message.reply_to_msg_id
+            notename = event.text[1:]
+            note = get_note(event.chat_id, notename)
+            message_id_to_reply = event.message.reply_to_msg_id
             if not message_id_to_reply:
                 message_id_to_reply = None
             if note and note.f_mesg_id:
-                msg_o = await getnt.client.get_messages(entity=BOTLOG_CHATID,
+                msg_o = await event.client.get_messages(entity=BOTLOG_CHATID,
                                                         ids=int(note.f_mesg_id))
-                await getnt.client.send_message(event.chat_id,
+                await event.client.send_message(event.chat_id,
                                                 msg_o.mesage,
                                                 reply_to=message_id_to_reply,
                                                 file=msg_o.media)
