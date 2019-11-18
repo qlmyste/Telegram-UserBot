@@ -103,10 +103,13 @@ async def incom_note(getnt):
             if not message_id_to_reply:
                 message_id_to_reply = None
             if note and note.f_mesg_id:
-                msg_o = await handler.client.get_messages(entity=BOTLOG_CHATID,
+                msg_o = await getnt.client.get_messages(entity=BOTLOG_CHATID,
                                                         ids=int(
                                                             note.f_mesg_id))
-                await handler.reply(msg_o.message, file=msg_o.media)
+                await getnt.client.send_message(getnt.chat_id,
+                                                msg_o.mesage,
+                                                reply_to=message_id_to_reply,
+                                                file=msg_o.media)
             elif note and note.reply:
                 await getnt.client.send_message(getnt.chat_id,
                                                 note.reply,
