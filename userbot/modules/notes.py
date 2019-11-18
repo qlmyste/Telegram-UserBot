@@ -92,7 +92,7 @@ async def add_note(fltr):
 async def incom_note(event):
     """ Notes logic. """
     try:
-        from userbot.modules.sql_helper.snips_sql import get_note
+        from userbot.modules.sql_helper.notes_sql import get_note
     except AttributeError:
         return
     notename = event.text[1:]
