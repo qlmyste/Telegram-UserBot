@@ -5,16 +5,18 @@
 #
 """ Userbot module containing commands for keeping notes. """
 
-from userbot import BOTLOG, BOTLOG_CHATID, CMD_HELP, is_mongo_alive, is_redis_alive
+from userbot import BOTLOG, BOTLOG_CHATID, CMD_HELP
 from userbot.events import register
 from asyncio import sleep
-from userbot.modules.dbhelper import add_note, delete_note, get_note, get_notes
+
 
 @register(outgoing=True, pattern="^.notes$")
 async def notes_active(svd):
     """ For .notes command, list all of the notes saved in a chat. """
-    if not is_mongo_alive() or not is_redis_alive():
-        await svd.edit("`Database connections failing!`")
+    try:
+        from userbot.modules.sql_helper.notes_sql import get_notes
+    except AttributeError:
+        await svd.edit("`Running on Non-SQL mode!`")
         return
     message = "`There are no saved notes in this chat`"
     notes = get_notes(svd.chat_id)
@@ -30,11 +32,13 @@ async def notes_active(svd):
 @register(outgoing=True, pattern=r"^.clear (\w*)")
 async def remove_notes(clr):
     """ For .clear command, clear note with the given name."""
-    if not is_mongo_alive() or not is_redis_alive():
-        await clr.edit("`Database connections failing!`")
+    try:
+        from userbot.modules.sql_helper.notes_sql import rm_note
+    except AttributeError:
+        await clr.edit("`Running on Non-SQL mode!`")
         return
     notename = clr.pattern_match.group(1)
-    if delete_note(clr.chat_id, notename) is False:
+    if rm_note(clr.chat_id, notename) is False:
         return await clr.edit("`Couldn't find note:` **{}**".format(notename))
     else:
         return await clr.edit(
@@ -44,8 +48,10 @@ async def remove_notes(clr):
 @register(outgoing=True, pattern=r"^.save (\w*)")
 async def add_note(fltr):
     """ For .save command, saves notes in a chat. """
-    if not is_mongo_alive() or not is_redis_alive():
-        await svd.edit("`Database connections failing!`")
+    try:
+        from userbot.modules.sql_helper.notes_sql import add_note
+    except AttributeError:
+        await fltr.edit("`Running on Non-SQL mode!`")
         return
     keyword = fltr.pattern_match.group(1)
     string = fltr.text.partition(keyword)[2]
@@ -83,28 +89,33 @@ async def add_note(fltr):
           disable_edited=True,
           disable_errors=True,
           ignore_unsafe=True)
-async def incom_note(event):
+async def incom_note(getnt):
     """ Notes logic. """
     try:
-        from userbot.modules.sql_helper.notes_sql import get_note
+        if not (await getnt.get_sender()).bot:
+            try:
+                from userbot.modules.sql_helper.notes_sql import get_note
+            except AttributeError:
+                return
+            notename = getnt.text[1:]
+            note = get_note(getnt.chat_id, notename)
+            message_id_to_reply = getnt.message.reply_to_msg_id
+            if not message_id_to_reply:
+                message_id_to_reply = None
+            if note and note.f_mesg_id:
+                msg_o = await getnt.client.get_messages(entity=BOTLOG_CHATID,
+                                                        ids=int(
+                                                            note.f_mesg_id))
+                await getnt.client.send_message(getnt.chat_id,
+                                                msg_o.mesage,
+                                                reply_to=message_id_to_reply,
+                                                file=msg_o.media)
+            elif note and note.reply:
+                await getnt.client.send_message(getnt.chat_id,
+                                                note.reply,
+                                                reply_to=message_id_to_reply)
     except AttributeError:
-        return
-    notename = event.text[1:]
-    note = get_note(event.chat_id, notename)
-    message_id_to_reply = event.message.reply_to_msg_id
-    if not message_id_to_reply:
-        message_id_to_reply = None
-    if note and note.f_mesg_id:
-        msg_o = await event.client.get_messages(entity=BOTLOG_CHATID,
-                                                ids=int(note.f_mesg_id))
-        await event.client.send_message(event.chat_id,
-                                        msg_o.message,
-                                        reply_to=message_id_to_reply,
-                                        file=msg_o.media)
-    elif note and note.reply:
-        await event.client.send_message(event.chat_id,
-                                        note.reply,
-                                        reply_to=message_id_to_reply)
+        pass
 
 
 @register(outgoing=True, pattern="^.rmbotnotes (.*)")
