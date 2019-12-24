@@ -5,18 +5,16 @@
 #
 """ Userbot module containing commands for keeping notes. """
 
-from userbot import BOTLOG, BOTLOG_CHATID, CMD_HELP
+from userbot import BOTLOG, BOTLOG_CHATID, CMD_HELP, is_mongo_alive, is_redis_alive
 from userbot.events import register
 from asyncio import sleep
-
+from userbot.modules.dbhelper import add_note, delete_note, get_note, get_notes
 
 @register(outgoing=True, pattern="^.notes$")
 async def notes_active(svd):
     """ For .notes command, list all of the notes saved in a chat. """
-    try:
-        from userbot.modules.sql_helper.notes_sql import get_notes
-    except AttributeError:
-        await svd.edit("`Running on Non-SQL mode!`")
+    if not is_mongo_alive() or not is_redis_alive():
+        await svd.edit("`Database connections failing!`")
         return
     message = "`There are no saved notes in this chat`"
     notes = get_notes(svd.chat_id)
@@ -32,13 +30,11 @@ async def notes_active(svd):
 @register(outgoing=True, pattern=r"^.clear (\w*)")
 async def remove_notes(clr):
     """ For .clear command, clear note with the given name."""
-    try:
-        from userbot.modules.sql_helper.notes_sql import rm_note
-    except AttributeError:
-        await clr.edit("`Running on Non-SQL mode!`")
+    if not is_mongo_alive() or not is_redis_alive():
+        await clr.edit("`Database connections failing!`")
         return
     notename = clr.pattern_match.group(1)
-    if rm_note(clr.chat_id, notename) is False:
+    if delete_note(clr.chat_id, notename) is False:
         return await clr.edit("`Couldn't find note:` **{}**".format(notename))
     else:
         return await clr.edit(
@@ -48,10 +44,8 @@ async def remove_notes(clr):
 @register(outgoing=True, pattern=r"^.save (\w*)")
 async def add_note(fltr):
     """ For .save command, saves notes in a chat. """
-    try:
-        from userbot.modules.sql_helper.notes_sql import add_note
-    except AttributeError:
-        await fltr.edit("`Running on Non-SQL mode!`")
+    if not is_mongo_alive() or not is_redis_alive():
+        await svd.edit("`Database connections failing!`")
         return
     keyword = fltr.pattern_match.group(1)
     string = fltr.text.partition(keyword)[2]
