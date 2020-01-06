@@ -17,7 +17,6 @@ from userbot.events import register
 from telethon.tl.functions.messages import GetStickerSetRequest
 from telethon.tl.types import InputStickerSetID
 from telethon.tl.types import DocumentAttributeSticker
-import tgs
 
 KANGING_STR = [
     "Using Witchery to kang this sticker...",
@@ -310,45 +309,6 @@ async def get_pack_info(event):
         f"**Emojis In Pack:**\n{' '.join(pack_emojis)}"
 
     await event.edit(OUTPUT)
-
-    @register(outgoing=True, pattern="^.gif")
-    async def gififycmd(gif):
-        """Convert the replied animated sticker to a GIF"""
-        args = gif.get_args(message)
-        fps = 5
-        quality = 256
-        try:
-            if len(args) == 1:
-                fps = int(args[0])
-            elif len(args) == 2:
-                quality = int(args[0])
-                fps = int(args[1])
-        except ValueError:
-            logger.exception("Failed to parse quality/fps")
-        target = await gif.get_reply_message()
-        if target is None or target.file is None or target.file.mime_type != "application/x-tgsticker":
-            await gif.answer(gif, _("<code>Please provide an animated sticker to convert to a GIF</code>"))
-            return
-        try:
-            file = BytesIO()
-            await target.download_media(file)
-            file.seek(0)
-            anim = await gif.run_sync(tgs.parsers.tgs.parse_tgs, file)
-            file.close()
-            result = BytesIO()
-            result.name = "animation.gif"
-            await gif.run_sync(tgs.exporters.gif.export_gif, anim, result, quality, fps)
-            result.seek(0)
-            await gif.answer(gif, result)
-        finally:
-            try:
-                file.close()
-            except UnboundLocalError:
-                pass
-            try:
-                result.close()
-            except UnboundLocalError:
-                pass
 
 CMD_HELP.update({
     "stickers":
