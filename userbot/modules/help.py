@@ -26,6 +26,6 @@ async def help(event):
             )
             string = "`oO0OoO0Oo Available commands oO0OoO0Oo`\n"
             for i in CMD_HELP:
-                string += "ℹ️ `" + str(i)
+                string += "• `" + str(i)
                 string += "`\n"
             await event.reply(string)
