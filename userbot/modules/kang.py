@@ -17,6 +17,7 @@ from userbot.events import register
 from telethon.tl.functions.messages import GetStickerSetRequest
 from telethon.tl.types import InputStickerSetID
 from telethon.tl.types import DocumentAttributeSticker
+import tgs
 
 KANGING_STR = [
     "Using Witchery to kang this sticker...",
