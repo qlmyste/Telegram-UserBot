@@ -12,17 +12,20 @@ from userbot.events import register
 @register(outgoing=True, pattern="^.help(?: |$)(.*)")
 async def help(event):
     """ For .help command,"""
-    args = event.pattern_match.group(1)
-    if args:
-        if args in CMD_HELP:
-            await event.edit(str(CMD_HELP[args]))
+    if not event.text[0].isalpha() and event.text[0] not in ("/", "#", "@",
+                                                             "!"):
+        args = event.pattern_match.group(1)
+        if args:
+            if args in CMD_HELP:
+                await event.edit(str(CMD_HELP[args]))
+            else:
+                await event.edit("Please specify a valid module name.")
         else:
-            await event.edit("Please specify a valid module name.")
-    else:
-        await event.edit("Please specify which module do you want help for!")
-        string = ""
-        for i in CMD_HELP:
-            string += "`" + str(i)
-            string += "`, "
-        string = string[:-2]
-        await event.reply(string)
+            await event.edit(
+                "Please specify which module do you want help for !!\nSyntax: .help <module name>\noO0OoO0OoO0Oo Available commands oO0OoO0OoO0Oo\n"
+            )
+            string = ""
+            for i in CMD_HELP:
+                string += "ℹ️ `" + str(i)
+                string += "`\n"
+            await event.reply(string)
