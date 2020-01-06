@@ -310,6 +310,44 @@ async def get_pack_info(event):
 
     await event.edit(OUTPUT)
 
+    @register(outgoing=True, pattern="^.gif")
+    async def gififycmd(self, message):
+        """Convert the replied animated sticker to a GIF"""
+        args = utils.get_args(message)
+        fps = 5
+        quality = 256
+        try:
+            if len(args) == 1:
+                fps = int(args[0])
+            elif len(args) == 2:
+                quality = int(args[0])
+                fps = int(args[1])
+        except ValueError:
+            logger.exception("Failed to parse quality/fps")
+        target = await message.get_reply_message()
+        if target is None or target.file is None or target.file.mime_type != "application/x-tgsticker":
+            await utils.answer(message, _("<code>Please provide an animated sticker to convert to a GIF</code>"))
+            return
+        try:
+            file = BytesIO()
+            await target.download_media(file)
+            file.seek(0)
+            anim = await utils.run_sync(tgs.parsers.tgs.parse_tgs, file)
+            file.close()
+            result = BytesIO()
+            result.name = "animation.gif"
+            await utils.run_sync(tgs.exporters.gif.export_gif, anim, result, quality, fps)
+            result.seek(0)
+            await utils.answer(message, result)
+        finally:
+            try:
+                file.close()
+            except UnboundLocalError:
+                pass
+            try:
+                result.close()
+            except UnboundLocalError:
+                pass
 
 CMD_HELP.update({
     "stickers":
