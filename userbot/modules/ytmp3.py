@@ -3,19 +3,15 @@ import os
 from moviepy import editor as mp
 from pytube import YouTube
 from pytube.helpers import safe_filename
-from userbot.utils import parse_arguments, extract_urls
-from userbot import CMD_HELP
+
+from ..help import add_help_item
 from userbot.events import register
 
 
-@register(outgoing=True, pattern=r"^\.ytmp3\s?([\S\s]+)")
+@register(outgoing=True, pattern=r"^\.ytmp3 (\S*)")
 async def youtube_mp3(yt):
+    reply_message = await yt.get_reply_message()
     url = yt.pattern_match.group(1)
-
-    print(url)
-    if not url:
-        await yt.edit("Need a URL to convert", delete_in=3)
-        return
 
     await yt.edit("**Processing...**")
 
