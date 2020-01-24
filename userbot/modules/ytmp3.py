@@ -10,11 +10,8 @@ from userbot.events import register
 
 @register(outgoing=True, pattern=r"^\.ytmp3\s?([\S\s]+)")
 async def youtube_mp3(yt):
-    reply_message = await yt.get_reply_message()
     params = yt.pattern_match.group(1) or ""
-    args, params = parse_arguments(params, ['reuse'])
     url = extract_urls(params)
-    url.extend(extract_urls(reply_message.text or ""))
 
     print(url)
 
