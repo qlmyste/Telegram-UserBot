@@ -8,7 +8,7 @@ from userbot import CMD_HELP
 from userbot.events import register
 
 
-@register(outgoing=True, pattern=r"^\.ytmp3 (\S*)")
+@register(outgoing=True, pattern=r"^\.ytmp3\s?([\S\s]+)")
 async def youtube_mp3(yt):
     reply_message = await yt.get_reply_message()
     params = yt.pattern_match.group(1) or ""
