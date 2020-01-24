@@ -10,11 +10,9 @@ from userbot.events import register
 
 @register(outgoing=True, pattern=r"^\.ytmp3\s?([\S\s]+)")
 async def youtube_mp3(yt):
-    params = yt.pattern_match.group(1) or ""
-    url = extract_urls(params)
+    url = yt.pattern_match.group(1)
 
     print(url)
-
     if not url:
         await yt.edit("Need a URL to convert", delete_in=3)
         return
