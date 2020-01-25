@@ -4,7 +4,7 @@ from moviepy import editor as mp
 from pytube import YouTube
 from pytube.helpers import safe_filename
 
-from ..help import add_help_item
+from userbot import CMD_HELP
 from userbot.events import register
 
 
