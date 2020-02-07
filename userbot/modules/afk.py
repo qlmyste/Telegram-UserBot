@@ -32,7 +32,7 @@ AFKSTR = [
     "I went this way\n<----",
     "Please leave a message and make me feel even more important than I already am.",
     "I am not here so stop writing to me,\nor else you will find yourself with a screen full of your own messages.",
-    "If I were here,\nI'd tell you where I am.\n\nBut I'm not,\nso ask me when I return...",
+    "If I were here,\nI'd tell you where I am.\n\nBut I'm not,\nso ask me once I return...",
     "I am away!\nI don't know when I'll be back!\nHopefully a few minutes from now!",
     "I'm not available right now so please leave your name, number, and address and I will stalk you later.",
     "Sorry, I'm not here right now.\nFeel free to talk to my userbot as long as you like.\nI'll get back to you later.",
