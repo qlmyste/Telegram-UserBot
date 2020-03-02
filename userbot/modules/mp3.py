@@ -13,7 +13,7 @@ async def mp3(e):
   file = await bot.download_file(file)
   await e.client.send_file(e.chat_id,
                            f'voice.mp3',
-                           reply_to=reply_message)
+                           reply_to=message)
   os.remove(f'voice.mp3')
   CMD_HELP.update({
     ".mp3":
