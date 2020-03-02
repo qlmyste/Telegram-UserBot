@@ -11,7 +11,7 @@ async def mp3(e):
       await e.edit("**Bot doesn't support magic! Use voice message.**")
       return
   await e.edit("**Downloading...**")
-  file = await bot.download_file(file="voice.mp3")
+  file = await bot.download_file(file, "voice.mp3")
   await e.edit("**Sending...**")
   await e.client.send_file(e.chat_id,
                            file,
