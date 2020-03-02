@@ -1,4 +1,4 @@
-from userbot import BOTLOG, BOTLOG_CHATID, CMD_HELP
+from userbot import BOTLOG, bot, BOTLOG_CHATID, CMD_HELP
 from userbot.events import register
 from userbot.utils import parse_arguments
 import os
