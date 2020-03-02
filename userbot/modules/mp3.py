@@ -10,8 +10,10 @@ async def mp3(e):
   if not file:
       await e.edit("**Bot doesn't support magic! Use voice message.**", delete_in=3)
       return
+  e.edit("**Downloading...**")
   file = await bot.download_file(file)
-  file.name = "voice.mp3" 
+  file.name = "voice.mp3"
+  e.edit("**Sending...**")
   await e.client.send_file(e.chat_id,
                            f'voice.mp3',
                            reply_to=message)
