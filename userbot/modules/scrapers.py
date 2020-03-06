@@ -48,7 +48,7 @@ async def img_sampler(event):
     
     
     await event.client.send_file(
-        await event.client.get_input_entity(event.chat_id), lst)
+        await event.client.get_input_entity(event.chat_id), "temp")
     rmtree("temp")
     await event.delete()
 
