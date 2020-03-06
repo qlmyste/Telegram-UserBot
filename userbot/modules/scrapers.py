@@ -44,12 +44,12 @@ async def img_sampler(event):
         query = query.replace("lim=" + lim[0], "")
     except IndexError:
         lim = str(2)
-    os.system("./google -l " + lim + "-n -u https://www.bing.com/images/search?q=" + query)
+    os.system("./google -l " + lim + "-o "temp" -u https://www.bing.com/images/search?q=" + query)
     
     
     await event.client.send_file(
         await event.client.get_input_entity(event.chat_id), lst)
-    rmtree(os.path.dirname(os.path.abspath(lst[0])))
+    rmtree("temp")
     await event.delete()
 
 @register(outgoing=True, pattern=r"^.wiki (.*)")
