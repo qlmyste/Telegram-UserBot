@@ -10,7 +10,7 @@ from html import unescape
 from re import findall
 from shutil import rmtree
 from urllib.error import HTTPError
-
+import subprocess
 from emoji import get_emoji_regexp
 from google_images_download import google_images_download
 from googleapiclient.discovery import build
@@ -44,19 +44,9 @@ async def img_sampler(event):
         query = query.replace("lim=" + lim[0], "")
     except IndexError:
         lim = 2
-    response = google_images_download.googleimagesdownload()
-
-    # creating list of arguments
-    arguments = {
-        "keywords": query,
-        "limit": lim,
-        "format": "jpg",
-        "no_directory": "no_directory"
-    }
-
-    # passing the arguments to the function
-    paths = response.download(arguments)
-    lst = paths[0][query]
+    subprocess.run(["./google.py", "-l", lim, "-u", "https://www.bing.com/images/search?q="+query])
+    
+    
     await event.client.send_file(
         await event.client.get_input_entity(event.chat_id), lst)
     rmtree(os.path.dirname(os.path.abspath(lst[0])))
