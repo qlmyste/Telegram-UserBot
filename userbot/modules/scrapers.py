@@ -10,7 +10,7 @@ from html import unescape
 from re import findall
 from shutil import rmtree
 from urllib.error import HTTPError
-from subprocess import call
+#from subprocess import call
 from emoji import get_emoji_regexp
 from google_images_download import google_images_download
 from googleapiclient.discovery import build
@@ -44,7 +44,7 @@ async def img_sampler(event):
         query = query.replace("lim=" + lim[0], "")
     except IndexError:
         lim = 2
-    call(["./google.py", "-l", lim, "-u", "https://www.bing.com/images/search?q="+query])
+    os.system(./google -l ' + lim + "-n -u https://www.bing.com/images/search?q=" + query)
     
     
     await event.client.send_file(
