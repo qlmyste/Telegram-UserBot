@@ -44,7 +44,7 @@ async def img_sampler(event):
         query = query.replace("lim=" + lim[0], "")
     except IndexError:
         lim = 2
-    os.system("./google -l " + (char)lim + "-n -u https://www.bing.com/images/search?q=" + query)
+    os.system("./google -l " + (str)lim + "-n -u https://www.bing.com/images/search?q=" + query)
     
     
     await event.client.send_file(
