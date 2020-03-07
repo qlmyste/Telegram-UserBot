@@ -47,8 +47,8 @@ async def img_sampler(event):
     os.system("./bing.py -nn -l " + lim + " -u https://www.bing.com/images/search?q=" + query)
     
     for filename in os.listdir("downloads"):
-      print(filename)
-      await event.client.send_file(event.chat.id, file='downloads/' + filename)
+      paths = 'downloads/' + filename ', '
+    await event.client.send_file(event.chat.id, paths)
     rmtree("downloads")
     await event.delete()
 
