@@ -44,7 +44,7 @@ async def img_sampler(event):
         query = query.replace("lim=" + lim[0], "")
     except IndexError:
         lim = str(2)
-    os.system("./bing.py -l " + lim + " -u https://www.bing.com/images/search?q=" + query)
+    os.system("./bing.py -l -nn " + lim + " -u https://www.bing.com/images/search?q=" + query)
     
     for filename in os.listdir("downloads"):
       await event.client.send_file(event.chat.id, filename, force_document=True)
