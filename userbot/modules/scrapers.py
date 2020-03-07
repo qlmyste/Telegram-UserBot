@@ -46,7 +46,7 @@ async def img_sampler(event):
         lim = str(2)
     os.system("./google -l " + lim + "-o '/app/temp' -u https://www.bing.com/images/search?q=" + query)
     
-    for filename in os.listdir("/app/temp"):
+    for filename in os.listdir("/app/temp/"):
       await event.client.send_file(event.chat.id, filename)
     rmtree("temp")
     await event.delete()
