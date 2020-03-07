@@ -44,9 +44,9 @@ async def img_sampler(event):
         query = query.replace("lim=" + lim[0], "")
     except IndexError:
         lim = str(2)
-    os.system("./app/bing.py -l " + lim + "-o '/app/temp' -u https://www.bing.com/images/search?q=" + query)
+    os.system("./app/bing.py -l " + lim + "-o 'temp' -u https://www.bing.com/images/search?q=" + query)
     
-    for filename in os.listdir("/app/temp/"):
+    for filename in os.listdir("temp"):
       await event.client.send_file(event.chat.id, filename)
     rmtree("temp")
     await event.delete()
