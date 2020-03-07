@@ -38,6 +38,7 @@ async def img_sampler(event):
     await event.edit("Processing...")
     query = event.pattern_match.group(1)
     lim = findall(r"lim=\d+", query)
+    path = '/temp'
     try:
         lim = lim[0]
         lim = lim.replace("lim=", "")
@@ -46,9 +47,8 @@ async def img_sampler(event):
         lim = str(2)
     os.system("./google -l " + lim + "-o 'temp' -u https://www.bing.com/images/search?q=" + query)
     
-    
-    await event.client.send_file(
-        await event.client.get_input_entity(event.chat_id), "temp")
+    for filename in os.listdir(path):
+    await event.client.send_file(event.chat.id, filename)
     rmtree("temp")
     await event.delete()
 
