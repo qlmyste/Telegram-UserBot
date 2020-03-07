@@ -635,7 +635,7 @@ class googleimagesdownload:
                     prefix = ''
 
                 if no_numbering:
-                    path = main_directory + "/" + dir_name + "/" + prefix + image_name
+                    path = "/" + dir_name + "/" + prefix + image_name
                 else:
                     path = main_directory + "/" + dir_name + "/" + prefix + str(count) + "." + image_name
 
