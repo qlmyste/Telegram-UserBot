@@ -483,29 +483,29 @@ class googleimagesdownload:
 
     # make directories
     def create_directories(self,main_directory, dir_name,thumbnail,thumbnail_only):
-        dir_name_thumbnail = dir_name + " - thumbnail"
+        #dir_name_thumbnail = dir_name + " - thumbnail"
         # make a search keyword  directory
         try:
-            if not os.path.exists(main_directory):
+            #if not os.path.exists(main_directory):
                 os.makedirs(main_directory)
                 time.sleep(0.2)
                 path = (dir_name)
-                sub_directory = os.path.join(main_directory, path)
-                if not os.path.exists(sub_directory):
-                    os.makedirs(sub_directory)
-                if thumbnail or thumbnail_only:
-                    sub_directory_thumbnail = os.path.join(main_directory, dir_name_thumbnail)
-                    if not os.path.exists(sub_directory_thumbnail):
-                        os.makedirs(sub_directory_thumbnail)
-            else:
-                path = (dir_name)
-                sub_directory = os.path.join(main_directory, path)
-                if not os.path.exists(sub_directory):
-                    os.makedirs(sub_directory)
-                if thumbnail or thumbnail_only:
-                    sub_directory_thumbnail = os.path.join(main_directory, dir_name_thumbnail)
-                    if not os.path.exists(sub_directory_thumbnail):
-                        os.makedirs(sub_directory_thumbnail)
+                #sub_directory = os.path.join(main_directory, path)
+                #if not os.path.exists(sub_directory):
+                #    os.makedirs(sub_directory)
+                #if thumbnail or thumbnail_only:
+                #    sub_directory_thumbnail = os.path.join(main_directory, dir_name_thumbnail)
+                #    if not os.path.exists(sub_directory_thumbnail):
+                #        os.makedirs(sub_directory_thumbnail)
+            #else:
+                #path = (dir_name)
+                #sub_directory = os.path.join(main_directory, path)
+                #if not os.path.exists(sub_directory):
+                #    os.makedirs(sub_directory)
+                #if thumbnail or thumbnail_only:
+                #    sub_directory_thumbnail = os.path.join(main_directory, dir_name_thumbnail)
+                #    if not os.path.exists(sub_directory_thumbnail):
+                #        os.makedirs(sub_directory_thumbnail)
         except OSError as e:
             if e.errno != 17:
                 raise
