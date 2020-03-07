@@ -45,10 +45,10 @@ async def img_sampler(event):
     except IndexError:
         lim = str(2)
     os.system("./bing.py -nn -l " + lim + " -u https://www.bing.com/images/search?q=" + query)
-    
+    #TODO: make a sending as album
     for filename in os.listdir("downloads"):
-      paths = 'downloads/' + filename + ', '
-    await event.client.send_file(event.chat.id, paths)
+      #paths = 'downloads/' + filename + ', '
+      await event.client.send_file(event.chat.id, file='downloads/' + filename)
     rmtree("downloads")
     await event.delete()
 
