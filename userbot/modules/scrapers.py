@@ -48,7 +48,7 @@ async def img_sampler(event):
     
     for filename in os.listdir("downloads"):
       print(filename)
-      await event.client.send_file(event.chat.id, file='/downloads/' + filename)
+      await event.client.send_file(event.chat.id, file='downloads/' + filename)
     rmtree("downloads")
     await event.delete()
 
