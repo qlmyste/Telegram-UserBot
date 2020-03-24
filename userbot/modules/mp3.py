@@ -18,7 +18,7 @@ async def mp3(e):
                             f'voice.mp3',
                             reply_to=message)
     os.remove(f'voice.mp3')
-    else
+    else:
       video = message.video
       if not video:
          await e.edit("**Bot doesn't support magic! Use video message.**")
