@@ -15,7 +15,7 @@ async def mp3(e):
                             f'voice.mp3',
                             reply_to=message)
     os.remove(f'voice.mp3')
-    if message.video:
+   if message.video:
        video = message.video
        await e.edit("**Downloading...**")
        video = await bot.download_file(video, "video.mp4")
