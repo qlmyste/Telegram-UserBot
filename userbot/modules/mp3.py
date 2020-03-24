@@ -22,7 +22,7 @@ async def mp3(e):
       video = message.video
      if not video:
          await e.edit("**Bot doesn't support magic! Use video message.**")
-          return
+         return
        await e.edit("**Downloading...**")
        video = await bot.download_file(video, "video.mp4")
        await e.edit("**Converting video...**")
