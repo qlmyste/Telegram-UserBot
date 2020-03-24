@@ -25,7 +25,7 @@ async def mp3(e):
     await e.edit("**Sending mp3...**")
     await e.client.send_file(e.chat.id,
                              f'video.mp3',
-                             reply_to=reply_message)
+                             reply_to=message)
   else:
          await e.edit("**Bot doesn't support magic! Use video or voice message.**")
          return
