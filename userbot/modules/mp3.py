@@ -12,7 +12,7 @@ async def mp3(e):
       await e.edit("**Bot doesn't support magic! Use voice message.**")
       return
   video = message.video
-  if not video
+  if not video:
       await e.edit("**Bot doesn't support magic! Use video message.**")
       return
   await e.edit("**Downloading...**")
