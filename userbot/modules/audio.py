@@ -8,7 +8,7 @@ api_url = 'https://audiotag.info/api'
 @register(outgoing=True, pattern=r"^\.audio (\S*)")
 async def audiotag(at):
   if API_CODE is none:
-    await at.edit('We don't support magic! No API Code! Take it from audiotag.info')
+    await at.edit("We don't support magic! No API Code! Take it from audiotag.info")
   message = await at.get_reply_message()
   if message.audio or message.voice:
     file = message.audio or message.voice
