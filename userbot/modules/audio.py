@@ -46,6 +46,3 @@ async def audiotag(at):
         await at.edit("Sorry, i can't recognize it.")
   pretty_print = json.dumps(result_object, indent=4, sort_keys=True)
   print(pretty_print);
-    else:
-    await at.print("We don't support magic! Use music or voice attachment.")
-    return
