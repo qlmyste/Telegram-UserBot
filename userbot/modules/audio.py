@@ -48,3 +48,4 @@ async def audiotag(at):
   print(pretty_print);
   else:
     await at.print("We don't support magic! Use music or voice attachment.")
+    return
