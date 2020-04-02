@@ -33,14 +33,15 @@ async def audiotag(at):
         n+=1;
         payload = {'action': 'get_result', 'token':token, 'apikey': API_CODE}
         result = requests.post(api_url,data=payload)
-        await at.edit(result.text)
+        #await at.edit(result.text)
         result_object = json.loads(result.text);
-        await at.edit(result_object);
+        #await at.edit(result_object);
         if result_object.has_key('success') and result_object['success']==True:
           job_status = result_object['result'];
+          pretty_print = json.dumps(result_object, indent=4, sort_keys=True)
+          at.edit(pretty_print)
         else:
           break;
       else:
         await at.edit("Sorry, i can't recognize it.")
-  pretty_print = json.dumps(result_object, indent=4, sort_keys=True)
-  print(pretty_print);
+
