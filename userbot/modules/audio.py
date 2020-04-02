@@ -34,10 +34,8 @@ async def audiotag(at):
         payload = {'action': 'get_result', 'token':token, 'apikey': API_CODE}
         result = requests.post(api_url,data=payload)
         await at.edit(result.text)
-        print(result.text);
         result_object = json.loads(result.text);
         await at.edit(result_object);
-        print(result_object);
         if result_object.has_key('success') and result_object['success']==True:
           job_status = result_object['result'];
         else:
