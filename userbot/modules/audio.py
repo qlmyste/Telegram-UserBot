@@ -39,7 +39,7 @@ async def audiotag(at):
         if result_object['success']==True:
           job_status = result_object['result'];
           pretty_print = json.dumps(result_object, indent=4, sort_keys=True)
-          at.edit(pretty_print)
+          await at.edit(pretty_print)
         else:
           break;
       else:
