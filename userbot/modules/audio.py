@@ -20,6 +20,6 @@ async def audiotag(at):
     await at.edit("Converted")
     payload = {'action': 'identify', 'apikey': API_CODE}
     await at.edit("Payload complete")
-    result = requests.post(api_url,data=payload,files={'file': open(filename, 'rb')})
+    result = requests.post(api_url,data=payload,files={'file': open('converted.wav', 'rb')})
     await at.edit("Result getted")
     await at.edit(result.text)
