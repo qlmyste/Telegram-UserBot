@@ -23,3 +23,28 @@ async def audiotag(at):
     result = requests.post(api_url,data=payload,files={'file': open('converted.wav', 'rb')})
     await at.edit("Result getted")
     await at.edit(result.text)
+    result_object = json.loads(result.text)
+    if result_object['success']==True and result_object['job_status']=='wait':
+      token = result_object['token'];
+      n=1;
+      job_status = 'wait';
+      while n < 100 and job_status=='wait':
+        time.sleep(0.5);
+        n+=1;
+        payload = {'action': 'get_result', 'token':token, 'apikey': API_CODE}
+        result = requests.post(api_url,data=payload)
+        await at.edit(result.text)
+        print(result.text);
+        result_object = json.loads(result.text);
+        await at.edit(result_object);
+        print(result_object);
+        if result_object.has_key('success') and result_object['success']==True:
+          job_status = result_object['result'];
+        else:
+          break;
+      else:
+        await at.edit("Sorry, i can't recognize it.")
+  pretty_print = json.dumps(result_object, indent=4, sort_keys=True)
+  print(pretty_print);
+  else:
+    await at.print("We don't support magic! Use music or voice attachment.")
