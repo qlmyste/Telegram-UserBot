@@ -1,5 +1,5 @@
 import os, json, requests, time
-from userbot import CMD_HELP
+from userbot import BOTLOG, bot, BOTLOG_CHATID, CMD_HELP
 from userbot.events import register
 from userbot import AUDIOTAG_API as API_CODE
 
