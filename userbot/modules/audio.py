@@ -40,15 +40,11 @@ async def audiotag(at):
         #await at.edit(result_object);
         if 'success' in result_object and result_object['success']==True:
           job_status = result_object['result'];
-          os.remove('converted.wav')
-          os.remove('audio.mp3')
         else:
-          os.remove('converted.wav')
-          os.remove('audio.mp3')
           break;
       else:
         await at.edit("**Sorry, i can't recognize it.**")
-        os.remove('converted.wav')
-        os.remove('audio.mp3')
+  os.remove('converted.wav')
+  os.remove('audio.mp3')
   pretty_print = json.dumps(result_object, indent=4, sort_keys=True)
   await at.edit(pretty_print)
