@@ -108,7 +108,7 @@ DB_URI = os.environ.get("DATABASE_URL", None)
 
 TEMP_DOWNLOAD_DIRECTORY = os.environ.get("TMP_DOWNLOAD_DIRECTORY",
                                          "./downloads")
-
+AUDIOTAG_API = os.environ.get("AUDIOTAG_API", None)
 # pylint: disable=invalid-name
 bot = TelegramClient("userbot", API_KEY, API_HASH)
 
