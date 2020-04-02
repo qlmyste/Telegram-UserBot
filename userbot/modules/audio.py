@@ -16,7 +16,7 @@ async def audiotag(at):
     await at.edit("Getted audio file")
     file = await bot.download_file(file, "audio.mp3")
     await at.edit("Downloaded")
-    await os.system("ffmpeg -i audio.mp3 -ar 8000 -ac 1 -vn converted.wav")
+    os.system("ffmpeg -i audio.mp3 -ar 8000 -ac 1 -vn converted.wav")
     await at.edit("Converted")
     payload = {'action': 'identify', 'apikey': API_CODE}
     await at.edit("Payload complete")
