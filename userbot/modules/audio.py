@@ -5,7 +5,7 @@ from userbot import AUDIOTAG_API as API_CODE
 
 api_url = 'https://audiotag.info/api'
 
-@register(outgoing=True, pattern=r"^\.audio (\S*)")
+@register(outgoing=True, pattern=r"^\.mp3$")
 async def audiotag(at):
   if API_CODE is none:
     await at.edit("We don't support magic! No API Code! Take it from audiotag.info")
