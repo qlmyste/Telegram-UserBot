@@ -5,7 +5,7 @@ from wakeonlan import send_magic_packet
 @register(outgoing=True, pattern=r"^\.boot$")
 async def boot(bt):
     if MAC is None:
-      await bt.edit("**We don't support magic! No API Code! Take it from audiotag.info**")
+      await bt.edit("**We don't support magic! No MAC ADDRESS!**")
       return
     send_magic_packet(MAC)
     await bt.edit("**Succesfully booted!**")
