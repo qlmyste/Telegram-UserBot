@@ -8,5 +8,5 @@ async def boot(bt):
       await bt.edit("**We don't support magic! No API Code! Take it from audiotag.info**")
       return
     send_magic_packet(MAC)
-    
+    bt.edit("**Succesfully booted!**")
 CMD_HELP.update({"boot": "Boot your PC on local server with MAC, given in conf file."})
