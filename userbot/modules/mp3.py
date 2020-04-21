@@ -32,6 +32,7 @@ async def mp3(e):
       
 @register(outgoing=True, pattern=r"^\.voice$")
 async def vc(v):
+    message = await v.get_reply_message()
     if message.audio or message.voice:
       file = message.audio or message.voice
       file = await bot.download_file(file, "voice.mp3")
