@@ -33,16 +33,13 @@ async def mp3(e):
 @register(outgoing=True, pattern=r"^\.voice$")
 async def vc(v):
     if message.audio or message.voice:
-    file = message.audio or message.voice
-    file = await bot.download_file(file, "voice.mp3")
-    await v.edit("**Sending...**")
-    await v.client.send_file(v.chat_id,
-                            f'voice.mp3',
-                            reply_to=message, voice_note=True)
-    os.remove(f'voice.mp3')
-  
-  
-  
+      file = message.audio or message.voice
+      file = await bot.download_file(file, "voice.mp3")
+      await v.edit("**Sending...**")
+      await v.client.send_file(v.chat_id,
+                             f'voice.mp3',
+                             reply_to=message, voice_note=True)
+      os.remove(f'voice.mp3')
   
   CMD_HELP.update({
     ".mp3":
