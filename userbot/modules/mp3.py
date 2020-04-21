@@ -29,7 +29,26 @@ async def mp3(e):
   else:
          await e.edit("**Bot doesn't support magic! Use video or voice message.**")
          return
+      
+@register(outgoing=True, pattern=r"^\.voice$")
+async def vc(v):
+    if message.audio or message.voice:
+    file = message.audio or message.voice
+    file = await bot.download_file(file, "voice.mp3")
+    await v.edit("**Sending...**")
+    await v.client.send_file(v.chat_id,
+                            f'voice.mp3',
+                            reply_to=message, voice_note=True)
+    os.remove(f'voice.mp3')
+  
+  
+  
+  
   CMD_HELP.update({
     ".mp3":
     "Convert a voice message to a mp3 and send it."
+})
+  CMD_HELP.update({
+    ".voice":
+    "Convert music message to voice message."
 })
