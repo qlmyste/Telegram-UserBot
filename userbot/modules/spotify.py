@@ -32,12 +32,6 @@ RUNNING = False
 OLDEXCEPT = False
 PARSE = False
 
-
-# ================================================
-async def get_spotify_token():
-    environ["spftoken"] = TOKEN
-
-
 async def update_spotify_info():
     global ARTIST
     global SONG
@@ -50,7 +44,7 @@ async def update_spotify_info():
     while SPOTIFYCHECK:
         try:
             RUNNING = True
-            spftoken = environ.get("spftoken", None)
+            spftoken = TOKEN
             hed = {'Authorization': 'Bearer ' + spftoken}
             url = 'https://api.spotify.com/v1/me/player/currently-playing'
             response = get(url, headers=hed)
@@ -92,7 +86,7 @@ async def update_spotify_info():
 
 
 async def update_token():
-    sptoken = st.start_session(USERNAME, PASSWORD)
+    sptoken = TOKEN
     access_token = sptoken[0]
     environ["spftoken"] = access_token
     environ["errorcheck"] = "1"
@@ -112,7 +106,6 @@ async def set_biostgraph(setstbio):
     if not SPOTIFYCHECK:
         environ["errorcheck"] = "0"
         await setstbio.edit(SPO_BIO_ENABLED)
-        await get_spotify_token()
         await dirtyfix()
     else:
         await setstbio.edit(SPO_BIO_RUNNING)
