@@ -22,7 +22,10 @@ async def evaluate(kvad):
             i += 1
             if s_int != '':
               integ.append(int(s_int))
-        await kvad.edit(integ)
+        a = integ[0]
+        b = integ[1]
+        c = integ[2]
+        await kvad.edit(a + b + c)
       else:
         await kvad.edit("``` Give a numbers to evaluate. ```")
         return
