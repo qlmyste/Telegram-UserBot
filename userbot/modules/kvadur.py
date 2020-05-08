@@ -18,10 +18,10 @@ async def evaluate(kvad):
                 i += 1
                 if i < l:
                     a = s[i]
-               else:
+                else:
                     break
             i += 1
-           if s_int != '':
+            if s_int != '':
               integ.append(int(s_int))
         await kvad.edit(integ)
       else:
