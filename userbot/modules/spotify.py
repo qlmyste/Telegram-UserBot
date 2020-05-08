@@ -97,7 +97,7 @@ async def update_spotify_info():
 
 async def update_token():
     spotify_token_generator = SpotifyBrowserToken(USERNAME, PASSWORD)
-	  sptoken = spotify_token_generator.refresh()
+    sptoken = spotify_token_generator.refresh()
     access_token = sptoken[0]
     environ["spftoken"] = access_token
     environ["errorcheck"] = "1"
