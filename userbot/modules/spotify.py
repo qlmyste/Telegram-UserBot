@@ -37,8 +37,8 @@ PARSE = False
 
 # ================================================
 async def get_spotify_token():
-    sptoken = st.start_session(USERNAME, PASSWORD)
-    access_token = sptoken[0]
+    spotify_token_generator = SpotifyBrowserToken(USERNAME, PASSWORD)
+    sptoken = spotify_token_generator.refresh()
     environ["spftoken"] = access_token
 
 
