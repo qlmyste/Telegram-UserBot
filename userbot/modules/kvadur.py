@@ -6,18 +6,17 @@ import re
 async def evaluate(kvad):
       if kvad.pattern_match.group(1):
         expression = kvad.pattern_match.group(1)
-        s = input()
-        l = len(s)
+        l = len(expression)
         integ = []
         i = 0
         while i < l:
             s_int = ''
-            a = s[i]
+            a = expression[i]
             while '0' <= a <= '9':
                 s_int += a
                 i += 1
                 if i < l:
-                    a = s[i]
+                    a = expression[i]
                 else:
                     break
             i += 1
