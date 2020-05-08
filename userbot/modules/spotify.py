@@ -1,16 +1,17 @@
+
 from asyncio import sleep
 from json import loads
 from json.decoder import JSONDecodeError
 from os import environ
 from sys import setrecursionlimit
 
-import spotify_token as st
+from spotify_browser_token import SpotifyBrowserToken
 from requests import get
 from telethon.errors import AboutTooLongError
 from telethon.tl.functions.account import UpdateProfileRequest
 
 from userbot import (BIO_PREFIX, BOTLOG, BOTLOG_CHATID, CMD_HELP, DEFAULT_BIO,
-                     SPOTIFY_TOKEN, bot)
+                     SPOTIFY_PASS, SPOTIFY_USERNAME, bot)
 from userbot.events import register
 
 # =================== CONSTANT ===================
@@ -20,7 +21,8 @@ SPO_BIO_DISABLED += "Bio reverted to default.`"
 SPO_BIO_RUNNING = "`Spotify current music to bio is already running.`"
 ERROR_MSG = "`Spotify module halted, got an unexpected error.`"
 
-TOKEN = SPOTIFY_TOKEN
+USERNAME = SPOTIFY_USERNAME
+PASSWORD = SPOTIFY_PASS
 
 ARTIST = 0
 SONG = 0
@@ -31,6 +33,14 @@ SPOTIFYCHECK = False
 RUNNING = False
 OLDEXCEPT = False
 PARSE = False
+
+
+# ================================================
+async def get_spotify_token():
+    sptoken = st.start_session(USERNAME, PASSWORD)
+    access_token = sptoken[0]
+    environ["spftoken"] = access_token
+
 
 async def update_spotify_info():
     global ARTIST
@@ -44,7 +54,7 @@ async def update_spotify_info():
     while SPOTIFYCHECK:
         try:
             RUNNING = True
-            spftoken = TOKEN
+            spftoken = environ.get("spftoken", None)
             hed = {'Authorization': 'Bearer ' + spftoken}
             url = 'https://api.spotify.com/v1/me/player/currently-playing'
             response = get(url, headers=hed)
@@ -86,7 +96,8 @@ async def update_spotify_info():
 
 
 async def update_token():
-    sptoken = TOKEN
+    spotify_token_generator = SpotifyBrowserToken(USERNAME, PASSWORD)
+	  sptoken = spotify_token_generator.refresh()
     access_token = sptoken[0]
     environ["spftoken"] = access_token
     environ["errorcheck"] = "1"
@@ -106,6 +117,7 @@ async def set_biostgraph(setstbio):
     if not SPOTIFYCHECK:
         environ["errorcheck"] = "0"
         await setstbio.edit(SPO_BIO_ENABLED)
+        await get_spotify_token()
         await dirtyfix()
     else:
         await setstbio.edit(SPO_BIO_RUNNING)
@@ -119,8 +131,8 @@ async def set_biodgraph(setdbio):
     RUNNING = False
     await bot(UpdateProfileRequest(about=DEFAULT_BIO))
     await setdbio.edit(SPO_BIO_DISABLED)
-
-
-CMD_HELP.update({"enablespotify": "Usage: Enable Spotify bio updating."})
-
-CMD_HELP.update({"disablespotify": "Usage: Disable Spotify bio updating."})
+    
+CMD_HELP.update({"Spotify":
+    " - `.enablespotify`: Enable Spotify bio updating.\n"
+    " - `.disablespotify`: Disable Spotify bio updating.\n"   
+})
