@@ -28,7 +28,7 @@ async def evaluate(kvad):
         D = b*b - 4*a*c
         x1 = (-b - sqrt(D))/2*a
         x2 = (-b + sqrt(D))/2*a
-        await kvad.edit("`\n**Result: **\n`\n`D = `f"{D}"`\n **x1 = ** `f"{x1}"`, "**x2 = ** `f"{x2}"`")
+        await kvad.edit("**Result**\n **D = **" + D + "\n **x1 = **" + x1 + "**, x2 = **" + x2)
       else:
         await kvad.edit("``` Give a numbers to evaluate. ```")
         return
