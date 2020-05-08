@@ -7,6 +7,6 @@ async def evaluate(kvad):
       if query.pattern_match.group(1):
         expression = query.pattern_match.group(1)
         await query.edit(expression)
-    else:
+      else:
         await query.edit("``` Give a numbers to evaluate. ```")
         return
