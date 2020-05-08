@@ -17,7 +17,7 @@ from userbot import CMD_HELP, is_mongo_alive, is_redis_alive, ALIVE_NAME
 from userbot.events import register
 
 # ================= CONSTANT =================
-DEFAULTUSER = (ALIVE_NAME == None) if uname().node else ALIVE_NAME
+DEFAULTUSER = str(ALIVE_NAME) if ALIVE_NAME else uname().node
 # ============================================
 
 
