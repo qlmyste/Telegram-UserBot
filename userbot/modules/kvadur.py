@@ -13,7 +13,7 @@ async def evaluate(kvad):
                    list_num.append(num)
             except ValueError:
                   continue
-        await kvad.edit(list_num)
+        await kvad.edit(list_num[0])
       else:
         await kvad.edit("``` Give a numbers to evaluate. ```")
         return
