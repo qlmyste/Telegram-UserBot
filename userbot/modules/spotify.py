@@ -37,7 +37,7 @@ PARSE = False
 
 # ================================================
 async def get_spotify_token():
-    spotify_token_generator = SpotifyBrowserToken(USERNAME, PASSWORD)
+    spotify_token_generator = SpotifyBrowserToken( username=Personal[ "personal" ][ "spotify" ][ USERNAME ] , password=Personal[ "personal" ][ "spotify" ][ PASSWORD ] )
     sptoken = spotify_token_generator.refresh()
     environ["spftoken"] = access_token
 
@@ -96,7 +96,7 @@ async def update_spotify_info():
 
 
 async def update_token():
-    spotify_token_generator = SpotifyBrowserToken(USERNAME, PASSWORD)
+    spotify_token_generator = SpotifyBrowserToken( username=Personal[ "personal" ][ "spotify" ][ USERNAME ] , password=Personal[ "personal" ][ "spotify" ][ PASSWORD ] )
     sptoken = spotify_token_generator.refresh()
     access_token = sptoken[0]
     environ["spftoken"] = access_token
