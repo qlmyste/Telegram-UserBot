@@ -1,11 +1,10 @@
-
 from asyncio import sleep
 from json import loads
 from json.decoder import JSONDecodeError
 from os import environ
 from sys import setrecursionlimit
 
-from spotify_browser_token import SpotifyBrowserToken
+import spotify_token as st
 from requests import get
 from telethon.errors import AboutTooLongError
 from telethon.tl.functions.account import UpdateProfileRequest
@@ -37,8 +36,8 @@ PARSE = False
 
 # ================================================
 async def get_spotify_token():
-    spotify_token_generator = SpotifyBrowserToken( username=Personal[ "personal" ][ "spotify" ][ USERNAME ] , password=Personal[ "personal" ][ "spotify" ][ PASSWORD ] )
-    sptoken = spotify_token_generator.refresh()
+    sptoken = st.start_session(USERNAME, PASSWORD)
+    access_token = sptoken[0]
     environ["spftoken"] = access_token
 
 
@@ -96,8 +95,7 @@ async def update_spotify_info():
 
 
 async def update_token():
-    spotify_token_generator = SpotifyBrowserToken( username=Personal[ "personal" ][ "spotify" ][ USERNAME ] , password=Personal[ "personal" ][ "spotify" ][ PASSWORD ] )
-    sptoken = spotify_token_generator.refresh()
+    sptoken = st.start_session(USERNAME, PASSWORD)
     access_token = sptoken[0]
     environ["spftoken"] = access_token
     environ["errorcheck"] = "1"
@@ -131,8 +129,9 @@ async def set_biodgraph(setdbio):
     RUNNING = False
     await bot(UpdateProfileRequest(about=DEFAULT_BIO))
     await setdbio.edit(SPO_BIO_DISABLED)
-    
-CMD_HELP.update({"Spotify":
+
+
+CMD_HELP.update({"spotify": ['Spotify',
     " - `.enablespotify`: Enable Spotify bio updating.\n"
-    " - `.disablespotify`: Disable Spotify bio updating.\n"   
+    " - `.disablespotify`: Disable Spotify bio updating.\n"]
 })
