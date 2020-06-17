@@ -1,3 +1,5 @@
+# Module developed by Oleh Polisan
+# You can use this file without any permission.
 from userbot import BOTLOG, bot, BOTLOG_CHATID, CMD_HELP
 from userbot.events import register
 from userbot.utils import parse_arguments
