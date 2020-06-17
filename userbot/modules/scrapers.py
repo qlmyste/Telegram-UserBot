@@ -24,6 +24,7 @@ from search_engine_parser import GoogleSearch
 from urbandict import define
 from wikipedia import summary
 from wikipedia.exceptions import DisambiguationError, PageError
+from random_words import RandomWords
 
 from userbot import (BOTLOG, BOTLOG_CHATID, CMD_HELP, CURRENCY_API,
                      YOUTUBE_API_KEY, bot)
@@ -54,21 +55,15 @@ async def img_sampler(event):
     rmtree("downloads")
     await event.delete()
 
-@register(outgoing=True, pattern="^.ranimg (.*)")
+@register(outgoing=True, pattern="^.ranimg")
 async def img_sam(event):
     """ For .img command, search and return images matching the query. """
     await event.edit("Processing...")
-    query = event.pattern_match.group(1)
-    lim = findall(r"lim=\d+", query)
-    try:
-        lim = lim[0]
-        lim = lim.replace("lim=", "")
-        query = query.replace("lim=" + lim[0], "")
-    except IndexError:
-        lim = str(2)
+    query = RandomWords().random_word()
+    await event.edit("**Random word is:**" + query)
     if os.path.isdir("downloads") is False:
       os.mkdir("downloads")
-    os.system("./bing.py -nn -l " + lim + " -u https://www.bing.com/images/search?q=" + query)
+    os.system("./bing.py -nn -l " + 2 + " -u https://www.bing.com/images/search?q=" + query)
     #TODO: make a sending as album
     for filename in os.listdir("downloads"):
       #paths = 'downloads/' + filename + ', '
