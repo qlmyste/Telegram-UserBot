@@ -41,8 +41,23 @@ async def vc(v):
                              f'voice.mp3',
                              reply_to=message, voice_note=True)
       os.remove(f'voice.mp3')
-  
+      
+@register(outgoing=True, pattern=r"^\.mp4$")
+async def mp4(v):
+  message = await v.get_reply_message()
+  if message.video_note:
+    file = message.video_note
+    file = await bot.download_file(file, "video.mp4")
+    await e.edit("**Sending...**")
+    await e.client.send_file(e.chat_id,
+                            f'voice.mp4',
+                            reply_to=message)
+    os.remove(f'voice.mp4')
+  else:
+         await e.edit("**Bot doesn't support magic! Use video_note.**")
+         return
 CMD_HELP.update({"mp3": ["Music",
     " - `.mp3`: Convert a voice message to a mp3 and send it.\n"
+    " - `.mp4`: Send video note as video..\n"
     " - `.voice`: Convert music message to voice message..\n"
                         ]})
