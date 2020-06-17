@@ -48,3 +48,7 @@ async def audiotag(at):
   os.remove('audio.mp3')
   pretty_print = json.dumps(result_object, indent=4, sort_keys=True)
   await at.edit(pretty_print)
+
+  CMD_HELP.update({"audio": ["Audio",
+    " - `.audio`: Reply to music or voice for identificating it with AudioTag.\n"]
+})
