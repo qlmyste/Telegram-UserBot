@@ -83,3 +83,7 @@ CMD_HELP.update({
     "Options:\n"
     ".res: Resolution"
 })
+CMD_HELP.update({"ytdl": ["YtDl",
+    " - `.ytdl`: Download a video from YouTube.\n"
+    " - `ytdl [options] (url)`: .res: Resolution
+                        ]})
