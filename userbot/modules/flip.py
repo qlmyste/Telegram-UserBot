@@ -75,11 +75,7 @@ async def flip_message(e):
     await e.edit(flipped)
 
 
-CMD_HELP.update({
-    ".flip":
-    "\nFun\
-    \nDo some unicode voodoo to flip a message upside down.\
-    \n`.flip (message)`\
-    \n\nOr, in reply to a message\
-    \n`.flip`"
+CMD_HELP.update({"flip": ['Flip',
+    " - `.flip`: Do some unicode voodoo to flip a message upside down..\n"
+    " - `.flip (message)`: Or, in reply to a message " 
 })
