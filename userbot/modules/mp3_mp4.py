@@ -50,7 +50,7 @@ async def mp4(v):
   message = await v.get_reply_message()
   if message.video_note:
     file = message.video_note
-    await e.edit("**Downloading...**")
+    await v.edit("**Downloading...**")
     file = await bot.download_file(file, "video.mp4")
     await v.edit("**Sending...**")
     await v.client.send_file(v.chat_id,
