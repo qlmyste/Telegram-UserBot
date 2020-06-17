@@ -86,3 +86,6 @@ CMD_HELP.update({
     \n`limit`: Limit the results.\
     \n`order`: Order the search results. Must be one of date, rating, relevance, title, videoCount, viewCount."
 })
+CMD_HELP.update({"yt": ["Yt",
+    " - `.yt`: Search YouTube and return the results.\n"
+                        ]})
