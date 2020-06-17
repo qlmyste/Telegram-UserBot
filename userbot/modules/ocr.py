@@ -56,8 +56,6 @@ async def ocr(event):
                          )
     os.remove(downloaded_file_name)
 
-
-CMD_HELP.update({
-    'ocr':
-    ".ocr <language>\nUsage: Reply to an image or sticker to extract text from it.\n\nGet language codes from [here](https://ocr.space/ocrapi)"
+CMD_HELP.update({"ocr": ["Ocr",
+    " - `.ocr <language>`: Reply to an image or sticker to extract text from it.\n\nGet language codes from [here](https://ocr.space/ocrapi)\n"
 })
