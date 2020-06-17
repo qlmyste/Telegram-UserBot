@@ -60,10 +60,10 @@ async def img_sam(event):
     """ For .img command, search and return images matching the query. """
     await event.edit("Processing...")
     query = RandomWords().random_word()
-    await event.edit("**Random word is:**" + query)
+    await event.edit("**Random word is: **" + query)
     if os.path.isdir("downloads") is False:
       os.mkdir("downloads")
-    os.system("./bing.py -nn -l " + 2 + " -u https://www.bing.com/images/search?q=" + query)
+    os.system("./bing.py -nn -l " + '2' + " -u https://www.bing.com/images/search?q=" + query)
     #TODO: make a sending as album
     for filename in os.listdir("downloads"):
       #paths = 'downloads/' + filename + ', '
