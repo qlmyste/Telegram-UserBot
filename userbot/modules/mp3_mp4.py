@@ -56,7 +56,7 @@ async def mp4(v):
     await v.client.send_file(v.chat_id,
                             f'video.mp4',
                             reply_to=message)
-    os.remove(f'voice.mp4')
+    os.remove(f'video.mp4')
   else:
          await v.edit("**Bot doesn't support magic! Use video_note.**")
          return
