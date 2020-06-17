@@ -125,3 +125,9 @@ $<snip_name>\
 \nUsage: Deletes the specified snip.\
 "
 })
+CMD_HELP.update({"snips": ["Snips",
+    " - `$<snip_name>`: Gets the specified snip, anywhere.\n"
+    " - `.snip <name> <data> or reply to a message with .snip <name>`: Saves the message as a snip (global note) with the name. (Works with pics, docs, and stickers too!)\n"
+    " - `snips`: Gets all saved snips.\n"
+    " - `remsnip <snip_name>`: Deletes the specified snip.\n"
+                        ]})
