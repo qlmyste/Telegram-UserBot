@@ -38,9 +38,8 @@ async def gsearch(q_event):
             BOTLOG_CHATID,
             "Google Search query `" + query + "` was executed successfully",
         )
-CMD_HELP.update(
-    {'google': ".google <search_query>\n"
-     "Usage: Does a search on Google.\n"
-     "Options:\n"
-     "`.page`: Page of results to return.\n"
-     "`.limit`: Limit the number of returned results (defaults to 5)."})
+
+CMD_HELP.update({"google": ['Google',
+    " - `.page`: Page of results to return.\n"
+    " - `.limit`: Limit the number of returned results (defaults to 5).\n"]
+})
