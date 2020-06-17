@@ -253,7 +253,7 @@ def deEmojify(inputString):
 
 CMD_HELP.update({"scrapers": ['Scrapers',
     " - `.img <query> lim=<n>`: Do an Image Search on Bing and send n results. Default is 2.\n"
-    " - `.ranimg`: Do an Random Image Search on Bing and send 2 results
+    " - `.ranimg`: Do an Random Image Search on Bing and send 2 results."
     " - `.google <query>`: Search Google for query (argument or reply).\n"
     " - `.wiki <query>`: Search Wikipedia for query.\n"
     " - `.ud <query>`: Search on Urban Dictionary for query.\n"
