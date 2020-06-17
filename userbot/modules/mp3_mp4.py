@@ -48,13 +48,13 @@ async def mp4(v):
   if message.video_note:
     file = message.video_note
     file = await bot.download_file(file, "video.mp4")
-    await e.edit("**Sending...**")
-    await e.client.send_file(e.chat_id,
+    await v.edit("**Sending...**")
+    await v.client.send_file(v.chat_id,
                             f'voice.mp4',
                             reply_to=message)
     os.remove(f'voice.mp4')
   else:
-         await e.edit("**Bot doesn't support magic! Use video_note.**")
+         await v.edit("**Bot doesn't support magic! Use video_note.**")
          return
 CMD_HELP.update({"mp3": ["Music",
     " - `.mp3`: Convert a voice message to a mp3 and send it.\n"
