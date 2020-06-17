@@ -1120,71 +1120,36 @@ async def typewriter(typew):
         await typew.edit(old_text)
         await asyncio.sleep(sleep_time)
 
+CMD_HELP.update({"memes": ["Memes",
+    " - `.cowsay`: cow which says things.\n"
+    " - `:/`: Check yourself :)\n"
+    " - `-_-`: Ok...\n"
+    " - `;_;`: Like `-_-` but crying.\n"
+    " - `.cp`: Vaporize everything!\n"
+    " - `.vapor`: cow which says things.\n"
+    " - `.str`: Stretch it.\n"
+    " - `.10iq`: You retard !!\n"
+    " - `.zal`: Invoke the feeling of chaos.\n"
+    " - `Oof`: Oooooof\n"
+    " - `.fp`: Facepalm :P\n"
+    " - `.owo`: UwU\n"
+    " - `.react`: Make your userbot react to everything..\n"
+    " - `.moon`: kensar moon animation.\n"
+    " - `.clock`: kensar clock animation.\n"
+    " - `.hi`: Greet everyone!\n"
+    " - `.slap`: reply to slap them with random objects !!\n"
+    " - `.cry`: y u du dis, i cri.\n"
+    " - `.shg`: Shrug at it !!\n"
+    " - `.run`: Let Me Run, run, RUNNN!\n"
+    " - `.chase`: You better start running\n"
+    " - `.metoo`: Haha yes\n"
+    " - `.mock`: Do it and find the real fun.\n"
+    " - `.clap`: Praise people!\n"
+    " - `.f <emoji/character>`: Pay Respects.\n"
+    " - `.bt`: Believe me, you will find this useful.\n"
+    " - `.type`: Just a small command to make your keyboard become a typewriter!\n"
+    " - `.lfy <query>`: Let me Google that for you real quick !!\n"
+    " - `.decide [Optional: (yes, no, maybe)]`: Make a quick decision.\n"
+    " - `.scam <action> <time>`: Create fake chat actions, for fun. (Default action: typing)\nAvailable Actions: (typing, contact, game, location, voice, round, video, photo, document, cancel)"
 
-CMD_HELP.update({
-    "memes":
-    ".cowsay\
-\nUsage: cow which says things.\
-\n\n:/\
-\nUsage: Check yourself ;)\
-\n\n-_-\
-\nUsage: Ok...\
-\n\n;_;\
-\nUsage: Like `-_-` but crying.\
-\n\n.cp\
-\nUsage: Copypasta the famous meme\
-\n\n.vapor\
-\nUsage: Vaporize everything!\
-\n\n.str\
-\nUsage: Stretch it.\
-\n\n.10iq\
-\nUsage: You retard !!\
-\n\n.zal\
-\nUsage: Invoke the feeling of chaos.\
-\n\nOof\
-\nUsage: Ooooof\
-\n\n.fp\
-\nUsage: Facepalm :P\
-\n\n.moon\
-\nUsage: kensar moon animation.\
-\n\n.clock\
-\nUsage: kensar clock animation.\
-\n\n.hi\
-\nUsage: Greet everyone!\
-\n\n.coinflip <heads/tails>\
-\nUsage: Flip a coin !!\
-\n\n.owo\
-\nUsage: UwU\
-\n\n.react\
-\nUsage: Make your userbot react to everything.\
-\n\n.slap\
-\nUsage: reply to slap them with random objects !!\
-\n\n.cry\
-\nUsage: y u du dis, i cri.\
-\n\n.shg\
-\nUsage: Shrug at it !!\
-\n\n.run\
-\nUsage: Let Me Run, run, RUNNN!\
-\n\n.chase\
-\nUsage: You better start running\
-\n\n.metoo\
-\nUsage: Haha yes\
-\n\n.mock\
-\nUsage: Do it and find the real fun.\
-\n\n.clap\
-\nUsage: Praise people!\
-\n\n.f <emoji/character>\
-\nUsage: Pay Respects.\
-\n\n.bt\
-\nUsage: Believe me, you will find this useful.\
-\n\n.type\
-\nUsage: Just a small command to make your keyboard become a typewriter!\
-\n\n.lfy <query>\
-\nUsage: Let me Google that for you real quick !!\
-\n\n.decide [Optional: (yes, no, maybe)]\
-\nUsage: Make a quick decision.\
-\n\n.scam <action> <time>\
-\n[Available Actions: (typing, contact, game, location, voice, round, video, photo, document, cancel)]\
-\nUsage: Create fake chat actions, for fun. (Default action: typing)\
-\n\n\nThanks to 🅱️ottom🅱️ext🅱️ot (@NotAMemeBot) for some of these."
-})
+                        ]})
