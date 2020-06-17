@@ -141,16 +141,10 @@ async def filters_active(event):
     await event.edit(transact)
 
 
-CMD_HELP.update({
-    "filter":
-    ".filters\
-    \nUsage: Lists all active userbot filters in a chat.\
-    \n\n.filter <keyword> <reply text> or reply to a message with .filter <keyword>\
-    \nUsage: Saves the replied message as a reply to the 'keyword'.\
-    \nThe bot will reply to the message whenever 'keyword' is mentioned.\
-    \nWorks with everything from files to stickers.\
-    \n\n.stop <filter>\
-    \nUsage: Stops the specified filter.\
-    \n\n.rmbotfilters <marie/rose>\
-    \nUsage: Removes all filters of admin bots (Currently supported: Marie, Rose and their clones.) in the chat."
+CMD_HELP.update({"filters": ['Filters',
+    " - `.filters`: List all active filters in this chat.\n"
+    " - `.filter <keyword> <reply message/media>`: Add a filter to this chat. " 
+    "Paperplane will reply with <reply message> or <media> whenever <keyword> is mentioned. "
+    "NOTE: filters are case insensitive.\n"
+    " - `.stop <filter>`: Removes the filter from this chat.\n"]
 })
