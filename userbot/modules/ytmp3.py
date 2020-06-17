@@ -37,9 +37,6 @@ async def youtube_mp3(yt):
     os.remove('video.mp4')
     os.remove(f'{safe_filename(video.title)}.mp3')
 
-
-CMD_HELP.update({
-    ".ytmp3":
-    "Convert a YouTube video to a mp3 and send it.\n"
-    ".ytmp3 (url)"
-})
+CMD_HELP.update({"ytmp3": ["YtMP3",
+    " - `.ytmp3 (url)`: Convert a YouTube video to a mp3 and send it.\n"
+                        ]})
