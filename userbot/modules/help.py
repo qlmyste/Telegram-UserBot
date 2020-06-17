@@ -1,9 +1,9 @@
-# Copyright (C) 2019 The Raphielscape Company LLC.
+# Copyright (C) 2020 The Raphielscape Company LLC.
 #
-# Licensed under the Raphielscape Public License, Version 1.c (the "License");
+# Licensed under the Raphielscape Public License, Version 1.d (the "License");
 # you may not use this file except in compliance with the License.
 #
-""" Userbot help command """
+""" Paperplane's help command """
 
 from userbot import CMD_HELP
 from userbot.events import register
@@ -11,21 +11,25 @@ from userbot.events import register
 
 @register(outgoing=True, pattern="^.help(?: |$)(.*)")
 async def help(event):
-    """ For .help command,"""
-    if not event.text[0].isalpha() and event.text[0] not in ("/", "#", "@",
-                                                             "!"):
-        args = event.pattern_match.group(1)
-        if args:
-            if args in CMD_HELP:
-                await event.edit(str(CMD_HELP[args]))
-            else:
-                await event.edit("Please specify a valid module name.")
+    """ For .help command"""
+    args = event.pattern_match.group(1).lower()
+
+    if args:
+        if args in CMD_HELP:
+            await event.edit(
+                f"Here is some help for the **{CMD_HELP[args][0]}** module:\n\n"
+                + str(CMD_HELP[args][1])
+            )
         else:
             await event.edit(
-                "Please specify which module do you want help for !!\nSyntax: .help <module name>\n"
+                f"Help string for {args} not found! Type ```.help``` to see valid module names."
             )
-            string = "`oO0OoO0Oo Available commands oO0OoO0Oo`\n"
-            for i in CMD_HELP:
-                string += "• `" + str(i)
-                string += "`\n"
-            await event.reply(string)
+    else:
+        string = ""
+        for i in CMD_HELP.values():
+            string += f"`{str(i[0])}`, "
+        string = string[:-2]
+        await event.edit(
+            "Please specify which module you want help for!\n\n"
+            f"{string}"
+        )
