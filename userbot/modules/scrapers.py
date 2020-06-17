@@ -44,6 +44,8 @@ async def img_sampler(event):
         query = query.replace("lim=" + lim[0], "")
     except IndexError:
         lim = str(2)
+    if os.path.isdir("downloads") is False:
+      os.mkdir("downloads")
     os.system("./bing.py -nn -l " + lim + " -u https://www.bing.com/images/search?q=" + query)
     #TODO: make a sending as album
     for filename in os.listdir("downloads"):
@@ -52,6 +54,28 @@ async def img_sampler(event):
     rmtree("downloads")
     await event.delete()
 
+@register(outgoing=True, pattern="^.ranimg (.*)")
+async def img_sam(event):
+    """ For .img command, search and return images matching the query. """
+    await event.edit("Processing...")
+    query = event.pattern_match.group(1)
+    lim = findall(r"lim=\d+", query)
+    try:
+        lim = lim[0]
+        lim = lim.replace("lim=", "")
+        query = query.replace("lim=" + lim[0], "")
+    except IndexError:
+        lim = str(2)
+    if os.path.isdir("downloads") is False:
+      os.mkdir("downloads")
+    os.system("./bing.py -nn -l " + lim + " -u https://www.bing.com/images/search?q=" + query)
+    #TODO: make a sending as album
+    for filename in os.listdir("downloads"):
+      #paths = 'downloads/' + filename + ', '
+      await event.client.send_file(event.chat.id, file='downloads/' + filename)
+    rmtree("downloads")
+    await event.delete()
+    
 @register(outgoing=True, pattern=r"^.wiki (.*)")
 async def wiki(wiki_q):
     """ For .google command, fetch content from Wikipedia. """
