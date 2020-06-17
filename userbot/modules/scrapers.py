@@ -63,13 +63,12 @@ async def img_sam(event):
     await event.edit("**Random word is: **" + query)
     if os.path.isdir("downloads") is False:
       os.mkdir("downloads")
-    os.system("./bing.py -nn -l " + '2' + " -u https://www.bing.com/images/search?q=" + query)
+    os.system("./bing.py -nn -l " + "2" + " -u https://www.bing.com/images/search?q=" + query)
     #TODO: make a sending as album
     for filename in os.listdir("downloads"):
       #paths = 'downloads/' + filename + ', '
       await event.client.send_file(event.chat.id, file='downloads/' + filename)
     rmtree("downloads")
-    await event.delete()
     
 @register(outgoing=True, pattern=r"^.wiki (.*)")
 async def wiki(wiki_q):
