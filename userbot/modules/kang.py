@@ -310,16 +310,9 @@ async def get_pack_info(event):
 
     await event.edit(OUTPUT)
 
-CMD_HELP.update({
-    "stickers":
-    ".kang\
-\nUsage: Reply .kang to a sticker or an image to kang it to your userbot pack.\
-\n\n.kang [emoji('s)]\
-\nUsage: Works just like .kang but uses the emoji('s) you picked.\
-\n\n.kang [number]\
-\nUsage: Kang's the sticker/image to the specified pack but uses 🤔 as emoji.\
-\n\n.kang [emoji('s)] [number]\
-\nUsage: Kang's the sticker/image to the specified pack and uses the emoji('s) you picked.\
-\n\n.stkrinfo\
-\nUsage: Gets info about the sticker pack."
+CMD_HELP.update({"kang": ["Kang",
+    " - `.kang <emoji> <number>`: Reply .kang to a sticker or an image to kang "
+    "it to your Paperplane pack.\n"
+    "If emojis are sent, they will be used as the emojis for the sticker.\n"
+    "If a number is sent, the emoji will be saved in the pack corresponding to that number."]
 })
