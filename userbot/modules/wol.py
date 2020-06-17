@@ -9,8 +9,7 @@ async def boot(bt):
       return
     send_magic_packet(MAC)
     await bt.edit("**Sended magic package successfully!**")
-CMD_HELP.update({"boot": "Boot your PC on local server with MAC, given in conf file."})
-
+    
 CMD_HELP.update({"boot": ["Boot",
     " - `.stats`: Boot your PC on local server with MAC, given in conf file. (only for server, located locally to your PC)\n"
                         ]})
