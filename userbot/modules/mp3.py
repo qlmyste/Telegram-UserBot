@@ -45,4 +45,4 @@ async def vc(v):
 CMD_HELP.update({"mp3": ["Music",
     " - `.mp3`: Convert a voice message to a mp3 and send it.\n"
     " - `.voice`: Convert music message to voice message..\n"
-})
+                        ]})
