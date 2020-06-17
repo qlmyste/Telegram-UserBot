@@ -77,5 +77,5 @@ async def download_video(v_url):
 
 CMD_HELP.update({"ytdl": ["YtDl",
     " - `.ytdl`: Download a video from YouTube.\n"
-    " - `ytdl [options] (url)`: .res: Resolution
+    " - `ytdl [options] (url)`: .res: Resolution\n"
                         ]})
