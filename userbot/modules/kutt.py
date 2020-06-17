@@ -55,3 +55,9 @@ CMD_HELP.update({
     \n\nOptions:\
     \n`.reuse`: Allows previously converted URLs to be reused (default: `False`)"
 })
+
+CMD_HELP.update({"kutt": ["Kutt",
+    " - `..kutt [options] (url1) (url2) ... (urlN)`: Uses kutt.it to shorten links. With any number of URLs. All will be converted. Or, in response to a message containing URLs.\n"
+    " - `.kutt [options]`: Uses kutt.it to shorten links with options.\n"
+    " - `reuse`: Option. Allows previously converted URLs to be reused (default: `False`)\n"]
+})
