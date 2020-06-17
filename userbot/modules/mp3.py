@@ -42,11 +42,7 @@ async def vc(v):
                              reply_to=message, voice_note=True)
       os.remove(f'voice.mp3')
   
-CMD_HELP.update({
-    ".mp3":
-    "Convert a voice message to a mp3 and send it."
-})
-CMD_HELP.update({
-    ".voice":
-    "Convert music message to voice message."
+CMD_HELP.update({"mp3": ["Music",
+    " - `.mp3`: Convert a voice message to a mp3 and send it.\n"
+    " - `.voice`: Convert music message to voice message..\n"
 })
