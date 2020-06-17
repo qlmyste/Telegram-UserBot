@@ -91,12 +91,6 @@ async def ReTrieveURL(input_url):
     return r
 
 
-CMD_HELP.update({
-    "rbg":
-    ".rbg <Link to Image> or reply to any image (Warning: does not work on stickers.)\
-\nUsage: Removes the background of images, using remove.bg API"
-})
-
 CMD_HELP.update({"rbg": ["Rbg",
     " - `.rbg <Link to Image> or reply to any image (Warning: does not work on stickers.)`: Usage: Removes the background of images, using remove.bg API\n"
 })
