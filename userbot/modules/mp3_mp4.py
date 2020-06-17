@@ -41,7 +41,9 @@ async def vc(v):
                              f'voice.mp3',
                              reply_to=message, voice_note=True)
       os.remove(f'voice.mp3')
-      
+    else:
+         await v.edit("**Bot doesn't support magic! Use audio or voice message!**")
+         return
 @register(outgoing=True, pattern=r"^\.mp4$")
 async def mp4(v):
   message = await v.get_reply_message()
@@ -50,7 +52,7 @@ async def mp4(v):
     file = await bot.download_file(file, "video.mp4")
     await v.edit("**Sending...**")
     await v.client.send_file(v.chat_id,
-                            f'voice.mp4',
+                            f'video.mp4',
                             reply_to=message)
     os.remove(f'voice.mp4')
   else:
