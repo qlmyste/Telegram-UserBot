@@ -35,6 +35,7 @@ async def vc(v):
     message = await v.get_reply_message()
     if message.audio or message.voice:
       file = message.audio or message.voice
+      await e.edit("**Downloading...**")
       file = await bot.download_file(file, "voice.mp3")
       await v.edit("**Sending...**")
       await v.client.send_file(v.chat_id,
@@ -49,6 +50,7 @@ async def mp4(v):
   message = await v.get_reply_message()
   if message.video_note:
     file = message.video_note
+    await e.edit("**Downloading...**")
     file = await bot.download_file(file, "video.mp4")
     await v.edit("**Sending...**")
     await v.client.send_file(v.chat_id,
