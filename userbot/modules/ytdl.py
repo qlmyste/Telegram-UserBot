@@ -75,14 +75,6 @@ async def download_video(v_url):
     os.remove('thumbnail.jpg')
     await v_url.delete()
 
-
-CMD_HELP.update({
-    ".ytdl":
-    "Download a video from YouTube.\n"
-    ".ytdl [options] (url)\n\n"
-    "Options:\n"
-    ".res: Resolution"
-})
 CMD_HELP.update({"ytdl": ["YtDl",
     " - `.ytdl`: Download a video from YouTube.\n"
     " - `ytdl [options] (url)`: .res: Resolution
