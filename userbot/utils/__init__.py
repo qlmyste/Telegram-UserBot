@@ -148,6 +148,12 @@ async def list_bots(event):
 async def escape_html(text):
     """Pass all untrusted/potentially corrupt input here"""
     return str(text).replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
+  
+def get_args_split_by(message, sep):
+    """Split args with a specific sep"""
+    raw = get_args_raw(message)
+    mess = raw.split(sep)
+    return [section.strip() for section in mess if section]
 
 
 def make_mention(user):
