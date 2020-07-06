@@ -155,6 +155,18 @@ def get_args_split_by(message, sep):
     mess = raw.split(sep)
     return [section.strip() for section in mess if section]
 
+def get_args_raw(message):
+    """Get the parameters to the command as a raw string (not split)"""
+    try:
+        message = message.message
+    except AttributeError:
+        pass
+    if not message:
+        return False
+    args = message.split(maxsplit=1)
+    if len(args) > 1:
+        return args[1]
+    return ""
 
 def make_mention(user):
     if user.username:
