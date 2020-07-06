@@ -15,12 +15,13 @@ async def gen(e):
         return
       try:
           song = await genius.search_song(args[0], args[1])
-          await e.edit(song)
+          
           return
       except TypeError:
           # Song not found causes internal library error
           song = None
       if song is None:
         await e.edit("**Can't find song **" + args[0] + "** by **" + args[1])
+        await e.edit(song)
         return
       await e.edit(escape_html(song.lyrics))
