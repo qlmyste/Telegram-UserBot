@@ -19,6 +19,6 @@ async def gen(e):
           # Song not found causes internal library error
           song = None
       if song is None:
-        await e.edit("**Can't find song**" + args[0] + "**by**" + args[1]")
+        await e.edit("**Can't find song**" + args[0] + "**by**" + args[1])
         return
       await e.edit(escape_html(song.lyrics))
