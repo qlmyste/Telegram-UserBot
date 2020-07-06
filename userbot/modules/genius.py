@@ -5,6 +5,7 @@ import lyricsgenius
 
 @register(outgoing=True, pattern=r"^\.lyrics (.*)")
 async def gen(e):
+      genius = lyricsgenius.Genius(GENIUS_API)
       if GENIUS_API is None:
         await e.edit("**We don't support magic! No Genius API!**")
         return
