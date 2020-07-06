@@ -1,6 +1,6 @@
 from userbot import BOTLOG, bot, BOTLOG_CHATID, CMD_HELP, GENIUS_API
 from userbot.events import register
-from userbot.utils import get_args_split_by, escape_html
+from userbot.utils import get_args_split_by
 import lyricsgenius
 
 @register(outgoing=True, pattern=r"^\.lyrics (.*)")
