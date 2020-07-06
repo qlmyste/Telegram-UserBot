@@ -3,7 +3,7 @@ from userbot.events import register
 from userbot.utils import get_args_split_by, escape_html
 import lyricsgenius
 
-@register(outgoing=True, pattern=r"^\.lyrics$")
+@register(outgoing=True, pattern=r"^\.lyrics (.*)")
 async def gen(e):
       if GENIUS_API is None:
         await e.edit("**We don't support magic! No Genius API!**")
