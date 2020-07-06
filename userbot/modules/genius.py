@@ -16,6 +16,5 @@ async def gen(e):
       song = genius.search_song(args[0], args[1])
       if song is None:
         await e.edit("**Can't find song **" + args[0] + "** by **" + args[1])
-        await e.edit(song)
         return
       await e.edit(song.lyrics)
