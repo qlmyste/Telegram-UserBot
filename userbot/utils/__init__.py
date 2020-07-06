@@ -144,6 +144,10 @@ async def list_admins(event):
 async def list_bots(event):
     bots = await event.client.get_participants(event.chat, filter=ChannelParticipantsBots)
     return bots
+  
+async def escape_html(text):
+    """Pass all untrusted/potentially corrupt input here"""
+    return str(text).replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
 
 
 def make_mention(user):
