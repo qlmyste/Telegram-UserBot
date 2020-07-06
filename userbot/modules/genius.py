@@ -1,3 +1,4 @@
+#Developed by Oleh Polisan. get_args_split_by kanged from Friendly Telegram (https://gitlab.com/friendly-telegram/).
 from userbot import BOTLOG, bot, BOTLOG_CHATID, CMD_HELP, GENIUS_API
 from userbot.events import register
 from userbot.utils import get_args_split_by
