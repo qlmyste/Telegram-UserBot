@@ -9,7 +9,6 @@ async def gen(e):
         await e.edit("**We don't support magic! No Genius API!**")
         return
       args = get_args_split_by(e.pattern_match.group(), ",")
-      await e.edit(args[0] + args[1] + args[2])
       if len(args) != 2:
         await e.edit("**Syntax Error**")
         return
