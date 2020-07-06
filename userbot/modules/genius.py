@@ -13,8 +13,9 @@ async def gen(e):
       if len(args) != 2:
         await e.edit("**Syntax Error**")
         return
+      await e.edit("**Searching for song **" + args[0] + "** by **" + args[1])
       song = genius.search_song(args[0], args[1])
       if song is None:
         await e.edit("**Can't find song **" + args[0] + "** by **" + args[1])
         return
-      await e.edit(song.lyrics)
+      await e.send_message(song.lyrics)
