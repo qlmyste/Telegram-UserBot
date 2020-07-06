@@ -20,3 +20,8 @@ async def gen(e):
         await e.edit("**Can't find song **" + args[0] + "** by **" + args[1])
         return
       await e.edit("**Lyrics for: **" + args[1] + " - " + args[0] + " \n" + song.lyrics)
+      
+CMD_HELP.update({"lyrics": ["Lyrics",
+    " - `.lyrics <song> <author>`: Search lyrics in Genius platform "
+    "You'll need an Genius api, which one you can get from https://genius.com/api-clients. In APP WEBSITE URL type any url (such as http://example.com) and copy CLIENT ACCESS TOKEN to config.env file"]
+})
