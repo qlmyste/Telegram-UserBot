@@ -145,10 +145,6 @@ async def list_bots(event):
     bots = await event.client.get_participants(event.chat, filter=ChannelParticipantsBots)
     return bots
   
-async def escape_html(text):
-    """Pass all untrusted/potentially corrupt input here"""
-    return str(text).replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
-  
 def get_args_split_by(message, sep):
     """Split args with a specific sep"""
     raw = get_args_raw(message)
