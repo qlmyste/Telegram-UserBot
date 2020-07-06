@@ -18,4 +18,4 @@ async def gen(e):
       if song is None:
         await e.edit("**Can't find song **" + args[0] + "** by **" + args[1])
         return
-      await e.client.send_message(song.lyrics)
+      await e.edit(args[1] + " - " + args[0] + " \n" + song.lyrics)
