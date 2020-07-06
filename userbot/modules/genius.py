@@ -10,7 +10,6 @@ async def gen(e):
         return
       args = get_args_split_by(e.pattern_match.group(), ",")
       if len(args) != 2:
-        logger.debug(args)
         await e.edit("**Syntax Error**")
         return
       try:
