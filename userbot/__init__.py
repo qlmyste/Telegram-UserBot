@@ -103,7 +103,7 @@ else:
 CURRENCY_API = os.environ.get("CURRENCY_API", None)
 
 GDRIVE_FOLDER = os.environ.get("GDRIVE_FOLDER", None)
-
+GENIUS_API = os.environ.get("GENIUS_API", None)
 # SQL Database URI
 DB_URI = os.environ.get("DATABASE_URL", None)
 
