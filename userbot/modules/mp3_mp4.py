@@ -17,6 +17,7 @@ async def mp3(e):
                             f'voice.mp3',
                             reply_to=message)
     os.remove(f'voice.mp3')
+    return
   if message.video:
     video = message.video
     await e.edit("**Downloading...**")
@@ -25,9 +26,10 @@ async def mp3(e):
     clip = mp.VideoFileClip('video.mp4')
     clip.audio.write_audiofile(f'video.mp3')
     await e.edit("**Sending mp3...**")
-    await e.client.send_file(e.chat.id,
+    await e.client.send_file(e.chat_id,
                              f'video.mp3',
                              reply_to=message)
+    return
   else:
          await e.edit("**Bot doesn't support magic! Use video or voice message.**")
          return
@@ -59,6 +61,7 @@ async def mp4(v):
                             f'video.mp4',
                             reply_to=message)
     os.remove(f'video.mp4')
+    return
   else:
          await v.edit("**Bot doesn't support magic! Use video_note.**")
          return
