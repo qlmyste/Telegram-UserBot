@@ -12,7 +12,6 @@ from shutil import rmtree
 from urllib.error import HTTPError
 #from subprocess import call
 from emoji import get_emoji_regexp
-from google_images_download import google_images_download
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 from googletrans import LANGUAGES, Translator
@@ -37,7 +36,7 @@ LANG = "en"
 async def img_sampler(event):
     """ For .img command, search and return images matching the query. """
     await event.edit("Processing...")
-    query = event.pattern_match.group(1)
+    query = event.pattern_match.group()
     lim = findall(r"lim=\d+", query)
     try:
         lim = lim[0]
