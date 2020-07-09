@@ -46,6 +46,7 @@ async def img_sampler(event):
         lim = str(2)
     if os.path.isdir("downloads") is False:
       os.mkdir("downloads")
+    os.system("chmod 0755 bing.py")
     os.system("./bing.py -nn -l " + lim + " -u https://www.bing.com/images/search?q=" + query)
     #TODO: make a sending as album
     for filename in os.listdir("downloads"):
