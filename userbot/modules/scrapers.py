@@ -24,7 +24,7 @@ from urbandict import define
 from wikipedia import summary
 from wikipedia.exceptions import DisambiguationError, PageError
 from random_words import RandomWords
-
+from userbot.utils import get_args_split_by
 from userbot import (BOTLOG, BOTLOG_CHATID, CMD_HELP, CURRENCY_API,
                      YOUTUBE_API_KEY, bot)
 from userbot.events import register
@@ -36,10 +36,10 @@ LANG = "en"
 async def img_sampler(event):
     """ For .img command, search and return images matching the query. """
     await event.edit("Processing...")
-    query = event.pattern_match.group(1)
-    lim = findall(r"lim=\d+", query)
+    args = get_args_split_by(event.pattern_match.group(), ",")
+    query = args[0]
     try:
-        lim = lim[0]
+        lim = args[1]
         lim = lim.replace("lim=", "")
         query = query.replace("lim=" + lim[0], "")
     except IndexError:
