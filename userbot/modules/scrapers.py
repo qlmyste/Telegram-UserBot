@@ -37,8 +37,8 @@ async def img_sampler(event):
     """ For .img command, search and return images matching the query. """
     await event.edit("Processing...")
     args = get_args_split_by(event.pattern_match.group(), ",")
-    query = args[0]
-    query.replace(" ","%20") #change every space symbol to %20 for browser search
+    query_temp = args[0]
+    query = query_temp.replace(" ","%20") #change every space symbol to %20 for browser search
     try:
         lim = args[1]
         lim = lim.replace("lim=", "")
