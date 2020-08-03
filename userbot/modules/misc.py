@@ -47,28 +47,25 @@ async def sleepybot(time):
         sleep(counter)
 
 
-@register(outgoing=True, pattern="^.shutdown$")
+@register(outgoing=True, pattern="^\.shutdown$")
 async def killdabot(event):
     """ For .shutdown command, shut the bot down."""
     await event.edit("`Goodbye *Windows XP shutdown sound*....`")
     if BOTLOG:
         await event.client.send_message(BOTLOG_CHATID, "#SHUTDOWN \n"
                                         "Bot shut down")
-    await event.client.disconnect()
+    await bot.disconnect()
 
 
-@register(outgoing=True, pattern="^.restart$")
-async def knocksomesense(event):
-    await event.edit("`Hold tight! I just need a second to be back up....`")
+@register(outgoing=True, pattern="^\.restart$")
+async def killdabot(event):
+    await event.edit("`BRB... *PornHub intro*`")
     if BOTLOG:
         await event.client.send_message(BOTLOG_CHATID, "#RESTART \n"
                                         "Bot Restarted")
-    await event.client.disconnect()
+    await bot.disconnect()
     # Spin a new instance of bot
     execl(sys.executable, sys.executable, *sys.argv)
-    # Shut the existing one down
-    exit()
-
 
 @register(outgoing=True, pattern="^.support$")
 async def bot_support(wannahelp):
