@@ -11,7 +11,7 @@ from os import execl
 from random import randint
 from time import sleep
 
-from userbot import BOTLOG, BOTLOG_CHATID, CMD_HELP
+from userbot import BOTLOG, BOTLOG_CHATID, CMD_HELP, bot
 from userbot.events import register
 
 
