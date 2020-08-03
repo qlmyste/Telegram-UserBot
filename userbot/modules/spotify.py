@@ -92,7 +92,7 @@ async def update_spotify_info():
 
 
 async def update_token():
-    sptoken = st.start_session(USERNAME, PASSWORD)
+    sptoken = st.start_session(SPOTIFY_DC, SPOTIFY_KEY)
     access_token = sptoken[0]
     environ["spftoken"] = access_token
     environ["errorcheck"] = "1"
