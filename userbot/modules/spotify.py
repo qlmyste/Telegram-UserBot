@@ -20,9 +20,6 @@ SPO_BIO_DISABLED += "Bio reverted to default.`"
 SPO_BIO_RUNNING = "`Spotify current music to bio is already running.`"
 ERROR_MSG = "`Spotify module halted, got an unexpected error.`"
 
-USERNAME = SPOTIFY_DC
-PASSWORD = SPOTIFY_KEY
-
 ARTIST = 0
 SONG = 0
 
@@ -36,7 +33,7 @@ PARSE = False
 
 # ================================================
 async def get_spotify_token():
-    sptoken = st.start_session(USERNAME, PASSWORD)
+    sptoken = st.start_session(SPOTIFY_DC, SPOTIFY_KEY)
     access_token = sptoken[0]
     environ["spftoken"] = access_token
 
