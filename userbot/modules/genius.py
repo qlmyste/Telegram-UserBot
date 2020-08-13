@@ -38,6 +38,7 @@ async def gen(e):
             data = loads(response.content)
             artist = data['item']['album']['artists'][0]['name']
             name = data['item']['name']
+            print(artist + " - " + name)
             await e.edit("**Searching for song **" + name + "** by **" + artist)
             song = genius.search_song(name, artist)
       if song is None:
