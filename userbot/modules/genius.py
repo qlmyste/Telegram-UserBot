@@ -13,6 +13,7 @@ async def gen(e):
         return
       await e.edit("**Searching for song **" + name + "** by **" + artist)
       args = get_args_split_by(e.pattern_match.group(), ",")
+      print(len(args))
       if len(args) == 2:
             name = args[0]
             artist = args[1]
