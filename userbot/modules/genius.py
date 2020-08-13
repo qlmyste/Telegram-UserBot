@@ -19,12 +19,13 @@ async def gen(e):
             artist = args[1]
             await e.edit("**Searching for song **" + name + "** by **" + artist)
             song = genius.search_song(name, artist)
-      if len(args) == 0:
+      else:
+            await e.edit("**Trying to get Spotify lyrics...**")
             if SPOTIFY_KEY is None:
-                  e.edit("**Spotify cache KEY is missing**")
+                  await e.edit("**Spotify cache KEY is missing**")
                   return
             if SPOTIFY_DC is None:
-                  e.edit("**Spotify cache DC is missing**")
+                  await e.edit("**Spotify cache DC is missing**")
                   return
             #getting spotify token
             sptoken = st.start_session(SPOTIFY_DC, SPOTIFY_KEY) 
