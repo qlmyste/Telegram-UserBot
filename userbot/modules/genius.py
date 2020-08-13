@@ -6,7 +6,7 @@ import spotify_token as st
 from requests import get
 import lyricsgenius
 
-@register(outgoing=True, pattern=r"^\.lyrics (.*)")
+@register(outgoing=True, pattern=r"^\.lyrics(.*)")
 async def gen(e):
       if GENIUS_API is None:
         await e.edit("**We don't support magic! No Genius API!**")
