@@ -38,10 +38,8 @@ async def gen(e):
             data = loads(response.content)
             artist = data['item']['album']['artists'][0]['name']
             name = data['item']['name']
+            await e.edit("**Searching for song **" + name + "** by **" + artist)
             song = genius.search_song(name, artist)
-      else:
-            await e.edit("**Syntax Error**")
-            return
       if song is None:
         await e.edit("**Can't find song **" + name + "** by **" + artist)
         return
