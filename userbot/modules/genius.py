@@ -6,6 +6,7 @@ import spotify_token as st
 from requests import get
 import lyricsgenius
 from os import environ
+from json import loads
 
 @register(outgoing=True, pattern=r"^\.lyrics(.*)")
 async def gen(e):
