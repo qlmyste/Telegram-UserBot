@@ -18,7 +18,7 @@ async def gen(e):
             artist = args[1]
             await e.edit("**Searching for song **" + name + "** by **" + artist)
             song = genius.search_song(name, artist)
-      if len(args) == 0:
+      if len(args) is None:
             if SPOTIFY_KEY is None:
                   e.edit("**Spotify cache KEY is missing**")
                   return
