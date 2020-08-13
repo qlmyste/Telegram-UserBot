@@ -12,8 +12,6 @@ async def gen(e):
         await e.edit("**We don't support magic! No Genius API!**")
         return
       args = get_args_split_by(e.pattern_match.group(), ",")
-      arg_int = '' + len(args)
-      await e.edit(arg_int)
       if len(args) == 2:
             name = args[0]
             artist = args[1]
