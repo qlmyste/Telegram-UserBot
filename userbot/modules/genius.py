@@ -14,8 +14,10 @@ async def gen(e):
         return
       args = get_args_split_by(e.pattern_match.group(), ",")
       if len(args) == 2:
-            await e.edit("**Searching for song **" + args[0] + "** by **" + args[1])
-            song = genius.search_song(args[0], args[1])
+            name = args[0]
+            artist = args[1]
+            await e.edit("**Searching for song **" + name + "** by **" + artist)
+            song = genius.search_song(name, artist)
       if len(args) == 0:
             if SPOTIFY_KEY is None:
                   e.edit("**Spotify cache KEY is missing**")
@@ -35,18 +37,20 @@ async def gen(e):
             response = get(url, headers=hed)
             data = loads(response.content)
             artist = data['item']['album']['artists'][0]['name']
-            song = data['item']['name']
+            name = data['item']['name']
+            song = genius.search_song(name, artist)
       else:
             await e.edit("**Syntax Error**")
             return
       if song is None:
-        await e.edit("**Can't find song **" + args[0] + "** by **" + args[1])
+        await e.edit("**Can't find song **" + name + "** by **" + artist)
         return
-      await e.edit("**Lyrics for: **" + args[1] + " - " + args[0] + " \n" + song.lyrics)
+      await e.edit("**Lyrics for: **" + name + " - " + artist + " \n" + song.lyrics)
       
 CMD_HELP.update({"lyrics": ["Lyrics",
     " - `.lyrics <song>, <author>`: Search lyrics in Genius platform\n"
-    "You'll need an Genius api, which one you can get from https://genius.com/api-clients. \nIn APP WEBSITE URL type any url (such as http://example.com) and copy CLIENT ACCESS TOKEN to config.env file"]
+    "You'll need an Genius api, which one you can get from https://genius.com/api-clients. \nIn APP WEBSITE URL type any url (such as http://example.com) and copy CLIENT ACCESS TOKEN to config.env file\n"
+    " - `.lyrics`: Search lyrics of song played now in Spotify"]
 })
 
         await e.edit("**Syntax Error**")
