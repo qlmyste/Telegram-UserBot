@@ -5,6 +5,7 @@ from userbot.utils import get_args_split_by
 import spotify_token as st
 from requests import get
 import lyricsgenius
+from os import environ
 
 @register(outgoing=True, pattern=r"^\.lyrics(.*)")
 async def gen(e):
