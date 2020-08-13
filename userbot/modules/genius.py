@@ -8,10 +8,10 @@ import lyricsgenius
 
 @register(outgoing=True, pattern=r"^\.lyrics (.*)")
 async def gen(e):
-      genius = lyricsgenius.Genius(GENIUS_API)
       if GENIUS_API is None:
         await e.edit("**We don't support magic! No Genius API!**")
         return
+      await e.edit("**Searching for song **" + name + "** by **" + artist)
       args = get_args_split_by(e.pattern_match.group(), ",")
       if len(args) == 2:
             name = args[0]
