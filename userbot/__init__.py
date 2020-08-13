@@ -73,8 +73,8 @@ OPEN_WEATHER_MAP_APPID = os.environ.get("OPEN_WEATHER_MAP_APPID") or None
 
 WELCOME_MUTE = (os.environ.get("WELCOME_MUTE") == 'True')
 
-SPOTIFY_USERNAME = os.environ.get("SPOTIFY_USERNAME") or None
-SPOTIFY_PASS = os.environ.get("SPOTIFY_PASS") or None
+SPOTIFY_DC = os.environ.get("SPOTIFY_DC") or None
+SPOTIFY_KEY = os.environ.get("SPOTIFY_KEY") or None
 BIO_PREFIX = os.environ.get("BIO_PREFIX") or None
 DEFAULT_BIO = os.environ.get("DEFAULT_BIO") or None
 
