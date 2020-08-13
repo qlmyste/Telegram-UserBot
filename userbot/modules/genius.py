@@ -52,6 +52,3 @@ CMD_HELP.update({"lyrics": ["Lyrics",
     "You'll need an Genius api, which one you can get from https://genius.com/api-clients. \nIn APP WEBSITE URL type any url (such as http://example.com) and copy CLIENT ACCESS TOKEN to config.env file\n"
     " - `.lyrics`: Search lyrics of song played now in Spotify"]
 })
-
-        await e.edit("**Syntax Error**")
-        return
