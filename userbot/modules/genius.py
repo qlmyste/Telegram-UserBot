@@ -8,6 +8,8 @@ import lyricsgenius
 from os import environ
 from json import loads
 
+genius = lyricsgenius.Genius(GENIUS_API)
+
 @register(outgoing=True, pattern=r"^\.lyrics(.*)")
 async def gen(e):
       if GENIUS_API is None:
