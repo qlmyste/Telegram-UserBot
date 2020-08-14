@@ -48,7 +48,7 @@ async def gen(e):
       if song is None:
         await e.edit("**Can't find song **" + name + "** by **" + artist)
         return
-      await e.edit("**Lyrics for: **" + name + " - " + artist + " \n" + song.lyrics)
+      await e.edit("**Lyrics for: **" + artist + " - " + name + " \n" + song.lyrics)
       
 CMD_HELP.update({"lyrics": ["Lyrics",
     " - `.lyrics <song>, <author>`: Search lyrics in Genius platform\n"
