@@ -3,7 +3,7 @@ from json import loads
 from json.decoder import JSONDecodeError
 from os import environ
 from sys import setrecursionlimit
-
+import threading
 import spotify_token as st
 from requests import get
 from telethon.errors import AboutTooLongError
@@ -124,15 +124,16 @@ async def update_token():
     access_token = sptoken[0]
     environ["spftoken"] = access_token
     environ["errorcheck"] = "1"
-    await sleep(2)
-    await update_spotify_info()
+    t1 = threading.Thread(target=update_spotify_info)
+    await t1.start()
 
 
 async def dirtyfix():
     global SPOTIFYCHECK
     SPOTIFYCHECK = True
     await sleep(4)
-    await update_spotify_info()
+    t1 = threading.Thread(target=update_spotify_info)
+    await t1.start()
 
 
 @register(outgoing=True, pattern="^.enablespotify$")
