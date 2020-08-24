@@ -49,9 +49,11 @@ async def update_spotify_info():
     global isPlaying
     global isLocal
     global isArtist
+    global onPause
     oldartist = ""
     oldsong = ""
     spobio = ""
+    
     while SPOTIFYCHECK:
         try:
             RUNNING = True
@@ -62,6 +64,8 @@ async def update_spotify_info():
             data = loads(response.content)
             isLocal = data['item']['is_local']
             isPlaying = data['is_playing']
+            if isPlaying:
+              onPause = False
             if isLocal:
               try:
                 artist = data['item']['album']['artists'][0]['name']
@@ -77,7 +81,7 @@ async def update_spotify_info():
 
             OLDEXCEPT = False
             oldsong = environ.get("oldsong", None)
-            if song != oldsong or artist != oldartist:
+            if (song != oldsong or artist != oldartist) and onPause == False:
                 oldartist = artist
                 oldsong = song
                 if isLocal:
@@ -89,12 +93,17 @@ async def update_spotify_info():
                   spobio = BIOPREFIX + " 🎧: " + artist + " - " + song
                 if isPlaying == False:
                   spobio += " [PAUSED]"
+                else:
+                  onPause = True
                 try:
                     await bot(UpdateProfileRequest(about=spobio))
                 except AboutTooLongError:
                     short_bio = "🎧: " + song
                     await bot(UpdateProfileRequest(about=short_bio))
                 environ["errorcheck"] = "0"
+                if isPlaying == False:
+                  onPause = True
+                  await dirtyfix()
         except KeyError:
             errorcheck = environ.get("errorcheck", None)
             if errorcheck == 0:
