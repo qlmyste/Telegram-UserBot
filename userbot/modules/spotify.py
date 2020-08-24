@@ -106,6 +106,8 @@ async def update_spotify_info():
                 if isPlaying == False:
                   onPause = True
                   await dirtyfix()
+                else:
+                  onPause = False
         except KeyError:
             errorcheck = environ.get("errorcheck", None)
             if errorcheck == 0:
