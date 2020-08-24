@@ -30,7 +30,6 @@ SPOTIFYCHECK = False
 RUNNING = False
 OLDEXCEPT = False
 PARSE = False
-onPause = False
 
 # ================================================
 async def get_spotify_token():
@@ -49,7 +48,6 @@ async def update_spotify_info():
     global isPlaying
     global isLocal
     global isArtist
-    global onPause
     oldartist = ""
     oldsong = ""
     spobio = ""
@@ -63,9 +61,6 @@ async def update_spotify_info():
             response = get(url, headers=hed)
             data = loads(response.content)
             isLocal = data['item']['is_local']
-            isPlaying = data['is_playing']
-            if isPlaying:
-              onPause = False
             if isLocal:
               try:
                 artist = data['item']['artists'][0]['name']
@@ -81,7 +76,7 @@ async def update_spotify_info():
 
             OLDEXCEPT = False
             oldsong = environ.get("oldsong", None)
-            if (song != oldsong or artist != oldartist) and onPause == False:
+            if song != oldsong or artist != oldartist:
                 oldartist = artist
                 oldsong = song
                 if isLocal:
@@ -91,10 +86,6 @@ async def update_spotify_info():
                     spobio = BIOPREFIX + " 🎧: " + song + " [LOCAL]"
                 else:
                   spobio = BIOPREFIX + " 🎧: " + artist + " - " + song
-                if isPlaying == False:
-                  spobio += " [PAUSED]"
-                else:
-                  onPause = True
                 try:
                     await sleep(5)
                     await bot(UpdateProfileRequest(about=spobio))
@@ -103,19 +94,13 @@ async def update_spotify_info():
                     await sleep(5) #anti flood
                     await bot(UpdateProfileRequest(about=short_bio))
                 environ["errorcheck"] = "0"
-                if isPlaying == False:
-                  onPause = True
-                  await dirtyfix()
-                else:
-                  onPause = False
-        except KeyError:
+        except KeyError: 
             errorcheck = environ.get("errorcheck", None)
             if errorcheck == 0:
                 await update_token()
             elif errorcheck == 1:
                 SPOTIFYCHECK = False
                 try:
-                  if onPause:
                     await sleep(5)
                     await dirtyfix()
                 except errors.FloodWaitError as e:
@@ -128,9 +113,8 @@ async def update_spotify_info():
         except JSONDecodeError:   #NO INFO ABOUT, means loong afk
             OLDEXCEPT = True
             try:
-                  if onPause:
-                    await sleep(20) #no need to ddos a spotify servers
-                    await dirtyfix()
+                await sleep(20) #no need to ddos a spotify servers
+                await dirtyfix()
             except errors.FloodWaitError as e:
                 print("Need to wait " + str(e.seconds) + " seconds")
                 await sleep(e.seconds)
