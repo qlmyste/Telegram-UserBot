@@ -50,6 +50,7 @@ async def update_spotify_info():
     global isLocal
     global isArtist
     global onPause
+    onPause = False
     oldartist = ""
     oldsong = ""
     spobio = ""
