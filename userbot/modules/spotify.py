@@ -124,7 +124,7 @@ async def update_spotify_info():
                 print(ERROR_MSG)
                 if BOTLOG:
                     await bot.send_message(BOTLOG_CHATID, ERROR_MSG)
-        except JSONDecodeError:
+        except JSONDecodeError:   #NO INFO ABOUT
             OLDEXCEPT = True
             await sleep(6)
             try:
