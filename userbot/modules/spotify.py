@@ -118,16 +118,14 @@ async def update_token():
     access_token = sptoken[0]
     environ["spftoken"] = access_token
     environ["errorcheck"] = "1"
-    t1 = threading.Thread(target=update_spotify_info)
-    t1.start()
+    await update_spotify_info()
 
 
 async def dirtyfix():
     global SPOTIFYCHECK
     SPOTIFYCHECK = True
     await sleep(4)
-    t1 = threading.Thread(target=update_spotify_info)
-    t1.start()
+    await update_spotify_info()
 
 
 @register(outgoing=True, pattern="^.enablespotify$")
