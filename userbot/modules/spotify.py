@@ -101,14 +101,24 @@ async def update_spotify_info():
                 await update_token()
             elif errorcheck == 1:
                 SPOTIFYCHECK = False
-                await bot(UpdateProfileRequest(about=DEFAULT_BIO))
+                try:
+                  await bot(UpdateProfileRequest(about=DEFAULT_BIO))
+                except errors.FloodWaitError as e:
+                  print("Need to wait " + str(e.seconds) + " seconds")
+                  await sleep(e.seconds)
+                  await dirtyfix()
                 print(ERROR_MSG)
                 if BOTLOG:
                     await bot.send_message(BOTLOG_CHATID, ERROR_MSG)
         except JSONDecodeError:
             OLDEXCEPT = True
             await sleep(6)
-            await bot(UpdateProfileRequest(about=DEFAULT_BIO))
+                try:
+                  await bot(UpdateProfileRequest(about=DEFAULT_BIO))
+                except errors.FloodWaitError as e:
+                  print("Need to wait " + str(e.seconds) + " seconds")
+                  await sleep(e.seconds)
+                  await dirtyfix()
         except TypeError:
             await dirtyfix()
         except IndexError:
