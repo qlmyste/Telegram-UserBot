@@ -114,7 +114,7 @@ async def update_spotify_info():
         except IndexError:
             await dirtyfix()
         except errors.FloodWaitError as e:
-            print("Need to wait " + e.seconds + " seconds")
+            print("Need to wait " + str(e.seconds) + " seconds")
             await sleep(e.seconds)
             await dirtyfix()
         SPOTIFYCHECK = False
