@@ -112,6 +112,8 @@ async def update_spotify_info():
             elif errorcheck == 1:
                 SPOTIFYCHECK = False
                 try:
+                  if onPause:
+                    await dirtyfix()
                   await bot(UpdateProfileRequest(about=DEFAULT_BIO))
                 except errors.FloodWaitError as e:
                   print("Need to wait " + str(e.seconds) + " seconds")
@@ -124,6 +126,8 @@ async def update_spotify_info():
             OLDEXCEPT = True
             await sleep(6)
             try:
+              if onPause:
+                await dirtyfix()
               await bot(UpdateProfileRequest(about=DEFAULT_BIO))
             except errors.FloodWaitError as e:
                 print("Need to wait " + str(e.seconds) + " seconds")
