@@ -68,6 +68,7 @@ async def update_spotify_info():
                 isArtist = True
               except IndexError:
                 song = data['item']['name']
+                artist = ""
                 isArtist = False
             else:
                 artist = data['item']['album']['artists'][0]['name']
