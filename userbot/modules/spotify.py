@@ -50,6 +50,7 @@ async def update_spotify_info():
     global isArtist
     oldartist = ""
     oldsong = ""
+    spobio = ""
     while SPOTIFYCHECK:
         try:
             RUNNING = True
