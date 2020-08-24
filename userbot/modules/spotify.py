@@ -6,7 +6,7 @@ from sys import setrecursionlimit
 import threading
 import spotify_token as st
 from requests import get
-from telethon.errors import AboutTooLongError
+from telethon.errors import AboutTooLongError, FloodWaitError
 from telethon.tl.functions.account import UpdateProfileRequest
 
 from userbot import (BIO_PREFIX, BOTLOG, BOTLOG_CHATID, CMD_HELP, DEFAULT_BIO,
@@ -112,7 +112,7 @@ async def update_spotify_info():
             await dirtyfix()
         except IndexError:
             await dirtyfix()
-        except telethon.errors.rpcerrorlist.FloodWaitError:
+        except FloodWaitError:
             await sleep(30)
             await dirtyfix()
         SPOTIFYCHECK = False
