@@ -75,7 +75,7 @@ async def update_spotify_info():
                 spobio += "[PAUSED] "
             OLDEXCEPT = False
             oldsong = environ.get("oldsong", None)
-            if song != oldsong and artist != oldartist:
+            if song != oldsong or artist != oldartist:
                 oldartist = artist
                 environ["oldsong"] = song
                 if isLocal:
