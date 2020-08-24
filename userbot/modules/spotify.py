@@ -68,7 +68,7 @@ async def update_spotify_info():
                 isArtist = True
               except IndexError:
                 song = data['item']['name']
-                artist = ""
+                artist = " "
                 isArtist = False
             else:
                 artist = data['item']['album']['artists'][0]['name']
@@ -112,7 +112,7 @@ async def update_spotify_info():
             await dirtyfix()
         except IndexError:
             await dirtyfix()
-        except errors.FloodWaitError:
+        except telethon.errors.rpcerrorlist.FloodWaitError:
             await sleep(30)
             await dirtyfix()
         SPOTIFYCHECK = False
