@@ -30,7 +30,7 @@ SPOTIFYCHECK = False
 RUNNING = False
 OLDEXCEPT = False
 PARSE = False
-
+onPause = False
 
 # ================================================
 async def get_spotify_token():
@@ -50,7 +50,6 @@ async def update_spotify_info():
     global isLocal
     global isArtist
     global onPause
-    onPause = False
     oldartist = ""
     oldsong = ""
     spobio = ""
@@ -69,7 +68,7 @@ async def update_spotify_info():
               onPause = False
             if isLocal:
               try:
-                artist = data['item']['album']['artists'][0]['name']
+                artist = data['item']['artists'][0]['name']
                 song = data['item']['name']
                 isArtist = True
               except IndexError:
@@ -124,12 +123,11 @@ async def update_spotify_info():
                 print(ERROR_MSG)
                 if BOTLOG:
                     await bot.send_message(BOTLOG_CHATID, ERROR_MSG)
-        except JSONDecodeError:   #NO INFO ABOUT
+        except JSONDecodeError:   #NO INFO ABOUT, means loong afk
             OLDEXCEPT = True
-            await sleep(6)
             try:
                   if onPause:
-                    await sleep(5)
+                    await sleep(20) #no need to ddos a spotify servers
                     await dirtyfix()
             except errors.FloodWaitError as e:
                 print("Need to wait " + str(e.seconds) + " seconds")
