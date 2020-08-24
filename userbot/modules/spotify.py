@@ -115,7 +115,7 @@ async def update_spotify_info():
             await sleep(6)
             try:
               await bot(UpdateProfileRequest(about=DEFAULT_BIO))
-              except errors.FloodWaitError as e:
+            except errors.FloodWaitError as e:
                 print("Need to wait " + str(e.seconds) + " seconds")
                 await sleep(e.seconds)
                 await dirtyfix()
