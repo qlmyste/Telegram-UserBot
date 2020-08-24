@@ -107,9 +107,9 @@ async def update_spotify_info():
             await bot(UpdateProfileRequest(about=DEFAULT_BIO))
         except TypeError:
             await dirtyfix()
-        SPOTIFYCHECK = False
-        await sleep(2)
-        await dirtyfix()
+            SPOTIFYCHECK = False
+            await sleep(2)
+            await dirtyfix()
         except IndexError:
             await sleep(5)
             await dirtyfix()
