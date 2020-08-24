@@ -97,9 +97,11 @@ async def update_spotify_info():
                 else:
                   onPause = True
                 try:
+                    await sleep(10)
                     await bot(UpdateProfileRequest(about=spobio))
                 except AboutTooLongError:
                     short_bio = "🎧: " + song
+                    await sleep(10) #anti flood
                     await bot(UpdateProfileRequest(about=short_bio))
                 environ["errorcheck"] = "0"
                 if isPlaying == False:
@@ -113,8 +115,8 @@ async def update_spotify_info():
                 SPOTIFYCHECK = False
                 try:
                   if onPause:
+                    await sleep(10)
                     await dirtyfix()
-                  await bot(UpdateProfileRequest(about=DEFAULT_BIO))
                 except errors.FloodWaitError as e:
                   print("Need to wait " + str(e.seconds) + " seconds")
                   await sleep(e.seconds)
@@ -126,16 +128,18 @@ async def update_spotify_info():
             OLDEXCEPT = True
             await sleep(6)
             try:
-              if onPause:
-                await dirtyfix()
-              await bot(UpdateProfileRequest(about=DEFAULT_BIO))
+                  if onPause:
+                    await sleep(10)
+                    await dirtyfix()
             except errors.FloodWaitError as e:
                 print("Need to wait " + str(e.seconds) + " seconds")
                 await sleep(e.seconds)
                 await dirtyfix()
         except TypeError:
+            await sleep(10)
             await dirtyfix()
         except IndexError:
+            await sleep(10)
             await dirtyfix()
         except errors.FloodWaitError as e:
             print("Need to wait " + str(e.seconds) + " seconds")
