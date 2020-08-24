@@ -73,8 +73,7 @@ async def update_spotify_info():
             else:
                 artist = data['item']['album']['artists'][0]['name']
                 song = data['item']['name']
-            if isPlaying == False:
-                spobio += " [PAUSED]"
+
             OLDEXCEPT = False
             oldsong = environ.get("oldsong", None)
             if song != oldsong or artist != oldartist:
@@ -83,12 +82,16 @@ async def update_spotify_info():
                 if isLocal:
                   if isArtist:
                     spobio = BIOPREFIX + " 🎧: " + artist + " - " + song + " [LOCAL]"
+                    if isPlaying == False:
+                      spobio += " [PAUSED]"
                   else:
                     spobio = BIOPREFIX + " 🎧: " + song + " [LOCAL]"
+                    if isPlaying == False:
+                      spobio += " [PAUSED]"
                 else:
                   spobio = BIOPREFIX + " 🎧: " + artist + " - " + song
-                if isPlaying == False:
-                  spobio += " [PAUSED]"
+                  if isPlaying == False:
+                    spobio += " [PAUSED]"
                 try:
                     await bot(UpdateProfileRequest(about=spobio))
                 except AboutTooLongError:
