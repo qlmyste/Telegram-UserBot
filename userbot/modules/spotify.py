@@ -45,6 +45,9 @@ async def update_spotify_info():
     global SPOTIFYCHECK
     global RUNNING
     global OLDEXCEPT
+    global isPlaying
+    global isLocal
+    global isArtist
     oldartist = ""
     oldsong = ""
     while SPOTIFYCHECK:
@@ -55,14 +58,33 @@ async def update_spotify_info():
             url = 'https://api.spotify.com/v1/me/player/currently-playing'
             response = get(url, headers=hed)
             data = loads(response.content)
-            artist = data['item']['album']['artists'][0]['name']
-            song = data['item']['name']
+            isPlaying = data['is_playing']
+            isLocal = data['item']['is_local']
+            if isLocal:
+              try:
+                artist = data['item']['album']['artists'][0]['name']
+                song = data['item']['name']
+                isArtist = True
+              except IndexError:
+                song = data['item']['name']
+                isArtist = False
+            else:
+                artist = data['item']['album']['artists'][0]['name']
+                song = data['item']['name']
             OLDEXCEPT = False
             oldsong = environ.get("oldsong", None)
             if song != oldsong and artist != oldartist:
                 oldartist = artist
                 environ["oldsong"] = song
-                spobio = BIOPREFIX + " 🎧: " + artist + " - " + song
+                if isLocal:
+                  if isArtist:
+                    spobio = BIOPREFIX + " 🎧: " + artist + " - " + song + " [LOCAL]"
+                  else:
+                    spobio = BIOPREFIX + " 🎧: " + song + " [LOCAL]"
+                else:
+                  spobio = BIOPREFIX + " 🎧: " + artist + " - " + song
+                if isPlaying == False:
+                  spobio += " [PAUSED]"
                 try:
                     await bot(UpdateProfileRequest(about=spobio))
                 except AboutTooLongError:
@@ -88,6 +110,9 @@ async def update_spotify_info():
         SPOTIFYCHECK = False
         await sleep(2)
         await dirtyfix()
+        except IndexError:
+            await sleep(5)
+            await dirtyfix()
     RUNNING = False
 
 
