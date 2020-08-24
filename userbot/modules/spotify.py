@@ -7,6 +7,7 @@ import threading
 import spotify_token as st
 from requests import get
 from telethon.errors import AboutTooLongError, FloodWaitError
+from telethon import errors
 from telethon.tl.functions.account import UpdateProfileRequest
 
 from userbot import (BIO_PREFIX, BOTLOG, BOTLOG_CHATID, CMD_HELP, DEFAULT_BIO,
@@ -68,7 +69,7 @@ async def update_spotify_info():
                 isArtist = True
               except IndexError:
                 song = data['item']['name']
-                artist = " "
+                artist = ""
                 isArtist = False
             else:
                 artist = data['item']['album']['artists'][0]['name']
@@ -78,7 +79,7 @@ async def update_spotify_info():
             oldsong = environ.get("oldsong", None)
             if song != oldsong or artist != oldartist:
                 oldartist = artist
-                environ["oldsong"] = song
+                oldsong = song
                 if isLocal:
                   if isArtist:
                     spobio = BIOPREFIX + " 🎧: " + artist + " - " + song + " [LOCAL]"
@@ -112,8 +113,9 @@ async def update_spotify_info():
             await dirtyfix()
         except IndexError:
             await dirtyfix()
-        except FloodWaitError:
-            await sleep(30)
+        except errors.FloodWaitError as e:
+            print("Need to wait " + e.seconds + " seconds")
+            await sleep(e.seconds)
             await dirtyfix()
         SPOTIFYCHECK = False
         await sleep(2)
