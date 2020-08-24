@@ -118,7 +118,7 @@ async def update_spotify_info():
             await sleep(2)
             await dirtyfix()
         except IndexError:
-            await sleep(5)
+            await sleep(2)
             await dirtyfix()
     RUNNING = False
 
