@@ -112,7 +112,7 @@ async def update_spotify_info():
             await dirtyfix()
         except IndexError:
             await dirtyfix()
-        except telethon.errors.rpcerrorlist.FloodWaitError:
+        except errors.FloodWaitError:
             await sleep(30)
             await dirtyfix()
         SPOTIFYCHECK = False
