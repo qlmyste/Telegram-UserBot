@@ -112,6 +112,9 @@ async def update_spotify_info():
             await dirtyfix()
         except IndexError:
             await dirtyfix()
+        except FloodWaitError:
+            await sleep(30)
+            await dirtyfix()
         SPOTIFYCHECK = False
         await sleep(2)
         await dirtyfix()
