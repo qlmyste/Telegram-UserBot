@@ -124,6 +124,7 @@ async def update_token():
     access_token = sptoken[0]
     environ["spftoken"] = access_token
     environ["errorcheck"] = "1"
+    await sleep(2)
     await update_spotify_info()
 
 
