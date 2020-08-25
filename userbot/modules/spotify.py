@@ -115,11 +115,10 @@ async def update_spotify_info():
                 environ["errorcheck"] = "0"
                 OLDEXCEPT = False
         except KeyError: 
-            errorcheck = environ.get("errorcheck", None)
-            if errorcheck == 0:
-                await update_token()
-            elif errorcheck == 1:
-                SPOTIFYCHECK = False
+                if OLDEXCEPT == False:
+                  await sleep(15) #anti flood
+                  await bot(UpdateProfileRequest(about=DEFAULT_BIO))
+                OLDEXCEPT = True
                 try:
                     await sleep(10)
                     await dirtyfix()
