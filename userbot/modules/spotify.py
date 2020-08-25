@@ -115,6 +115,7 @@ async def update_spotify_info():
                 environ["errorcheck"] = "0"
                 OLDEXCEPT = False
         except KeyError:   #long pause
+                print("keyerror: " + date)
                 if OLDEXCEPT == False:
                   await sleep(15) #anti flood
                   await bot(UpdateProfileRequest(about=DEFAULT_BIO))
@@ -130,7 +131,7 @@ async def update_spotify_info():
                 if BOTLOG:
                     await bot.send_message(BOTLOG_CHATID, ERROR_MSG)
         except JSONDecodeError:   #NO INFO ABOUT, user closed spotify client
-            print("json error")
+            print("json error: " + date)
             if OLDEXCEPT == False:
               await sleep(15) #anti flood
               await bot(UpdateProfileRequest(about=DEFAULT_BIO))
@@ -143,11 +144,11 @@ async def update_spotify_info():
                 await sleep(e.seconds)
                 await dirtyfix()
         except TypeError:
-            print("TypeError")
+            print("TypeError: " + date)
             await sleep(10)
             await dirtyfix()
         except IndexError:
-            print("IndexError")
+            print("IndexError: " + date)
             await sleep(10)
             await dirtyfix()
         except errors.FloodWaitError as e:
