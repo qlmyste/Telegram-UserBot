@@ -36,7 +36,7 @@ oldsong = ""
 isWritedPause = False
 isWritedPlay = False
 
-date = strftime("%Y-%m-%d %H:%M:%S", gmtime())
+
 # ================================================
 async def get_spotify_token():
     sptoken = st.start_session(SPOTIFY_DC, SPOTIFY_KEY)
@@ -61,6 +61,7 @@ async def update_spotify_info():
     spobio = ""
     
     while SPOTIFYCHECK:
+        date = strftime("%Y-%m-%d %H:%M:%S", gmtime())
         try:
             RUNNING = True
             spftoken = environ.get("spftoken", None)
