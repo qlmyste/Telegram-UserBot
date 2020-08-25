@@ -103,11 +103,11 @@ async def update_spotify_info():
                 elif isPlaying == True:
                   isWritedPlay = True
                 try:
-                    await sleep(5)
+                    await sleep(8)
                     await bot(UpdateProfileRequest(about=spobio))
                 except AboutTooLongError:
                     short_bio = "🎧: " + song
-                    await sleep(5) #anti flood
+                    await sleep(8) #anti flood
                     await bot(UpdateProfileRequest(about=short_bio))
                 environ["errorcheck"] = "0"
         except KeyError: 
@@ -117,7 +117,7 @@ async def update_spotify_info():
             elif errorcheck == 1:
                 SPOTIFYCHECK = False
                 try:
-                    await sleep(5)
+                    await sleep(10)
                     await dirtyfix()
                 except errors.FloodWaitError as e:
                   print("Need to wait " + str(e.seconds) + " seconds")
