@@ -21,7 +21,9 @@ async def randomise(items):
     itemo = (items.text[8:]).split()
     if len(itemo) == 1:
         print(itemo[0])
-        await items.edit("**Random number**: `" + str(int(random.random()) * itemo[0]) + '`')
+        number = int(random.random * itemo[0])
+        print(number)
+        await items.edit("**Random number**: `" + str(number) + '`')
         return
     if len(itemo) == 0:
         await items.edit("`1 or more items are required! Check "
