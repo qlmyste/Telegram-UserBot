@@ -8,7 +8,7 @@
 
 import sys
 from os import execl
-from random
+import random
 from time import sleep
 
 from userbot import BOTLOG, BOTLOG_CHATID, CMD_HELP, bot
