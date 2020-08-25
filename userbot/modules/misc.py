@@ -19,15 +19,16 @@ from userbot.events import register
 async def randomise(items):
     """ For .random command, get a random item from the list of items. """
     itemo = (items.text[8:]).split()
-
+    if len(itemo) == 1:
+        await items.edit('`' +  str(int(random.random() * itemo[0])) + '`')
+        return
     if len(itemo) < 2:
         await items.edit("`2 or more items are required! Check "
                          ".help random for more info.`")
         return
 
-    index = randint(1, len(itemo) - 1)
     await items.edit("**Query: **\n`" + items.text[8:] + "`\n**Output: **\n`" +
-                     itemo[index] + "`")
+                     random.choice(itemo) + "`")
 
 
 @register(outgoing=True, pattern="^.sleep( [0-9]+)?$")
