@@ -91,7 +91,7 @@ async def update_spotify_info():
                 oldartist = artist
                 oldsong = song
                 if isLocal:
-                  if isArtist:
+                  if isArtist != '':
                     spobio = BIOPREFIX + " 🎧: " + artist + " - " + song + " [LOCAL]"
                   else:
                     spobio = BIOPREFIX + " 🎧: " + song + " [LOCAL]"
