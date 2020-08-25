@@ -30,6 +30,10 @@ SPOTIFYCHECK = False
 RUNNING = False
 OLDEXCEPT = False
 PARSE = False
+oldartist = ""
+oldsong = ""
+isWritedPause = False
+isWritedPlay = False
 
 # ================================================
 async def get_spotify_token():
@@ -48,8 +52,10 @@ async def update_spotify_info():
     global isPlaying
     global isLocal
     global isArtist
-    oldartist = ""
-    oldsong = ""
+    global isWritedPause
+    global isWritedPlay
+    global oldartist
+    global oldsong
     spobio = ""
     
     while SPOTIFYCHECK:
@@ -76,7 +82,11 @@ async def update_spotify_info():
 
             OLDEXCEPT = False
             oldsong = environ.get("oldsong", None)
-            if song != oldsong or artist != oldartist:
+            if isWritedPlay and isPlaying == False:
+              isWritedPlay = False
+            if isWritedPause and isPlaying == True:
+              isWritedPause = False
+            if (song != oldsong or artist != oldartist) or (isWritedPlay == False and isWritedPause == False):
                 oldartist = artist
                 oldsong = song
                 if isLocal:
@@ -86,6 +96,11 @@ async def update_spotify_info():
                     spobio = BIOPREFIX + " 🎧: " + song + " [LOCAL]"
                 else:
                   spobio = BIOPREFIX + " 🎧: " + artist + " - " + song
+                if isPlaying == False:
+                  spobio += " [PAUSED]"
+                  isWritedPause = True
+                elif isPlaying == True:
+                  isWritedPlay = True
                 try:
                     await sleep(5)
                     await bot(UpdateProfileRequest(about=spobio))
