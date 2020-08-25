@@ -36,6 +36,7 @@ oldsong = ""
 isWritedPause = False
 isWritedPlay = False
 
+date = strftime("%Y-%m-%d %H:%M:%S", gmtime())
 # ================================================
 async def get_spotify_token():
     sptoken = st.start_session(SPOTIFY_DC, SPOTIFY_KEY)
