@@ -22,7 +22,7 @@ async def randomise(items):
     if len(itemo) == 1:
         await items.edit('`' +  str(int(random.random() * itemo[0])) + '`')
         return
-    if len(itemo) < 2:
+    if len(itemo) == 0:
         await items.edit("`1 or more items are required! Check "
                          ".help random for more info.`")
         return
