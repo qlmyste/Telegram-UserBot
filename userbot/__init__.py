@@ -109,9 +109,14 @@ DB_URI = os.environ.get("DATABASE_URL", None)
 
 TEMP_DOWNLOAD_DIRECTORY = os.environ.get("TMP_DOWNLOAD_DIRECTORY",
                                          "./downloads")
+#audiotag.info
 AUDIOTAG_API = os.environ.get("AUDIOTAG_API", None)
+
 # pylint: disable=invalid-name
 MAC_ADDRESS = os.environ.get("MAC", None)
+
+# wolframalpha.com
+WOLFRAM_ID= os.environ.get("WOLFRAM_ID", None)
 bot = TelegramClient("userbot", API_KEY, API_HASH)
 
 
