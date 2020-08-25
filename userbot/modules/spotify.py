@@ -72,7 +72,10 @@ async def update_spotify_info():
               try:
                 artist = data['item']['artists'][0]['name']
                 song = data['item']['name']
-                isArtist = True
+                if artist == "":
+                  isArtist = False
+                else:
+                  isArtist = True
               except IndexError:
                 song = data['item']['name']
                 artist = ""
@@ -91,7 +94,7 @@ async def update_spotify_info():
                 oldartist = artist
                 oldsong = song
                 if isLocal:
-                  if isArtist != '':
+                  if isArtist:
                     spobio = BIOPREFIX + " 🎧: " + artist + " - " + song + " [LOCAL]"
                   else:
                     spobio = BIOPREFIX + " 🎧: " + song + " [LOCAL]"
