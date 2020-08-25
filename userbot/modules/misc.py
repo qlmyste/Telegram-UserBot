@@ -21,7 +21,7 @@ async def randomise(items):
     itemo = (items.text[8:]).split()
     if len(itemo) == 1:
         print(itemo[0])
-        number = int(random.random * itemo[0])
+        number = int(random.random() * itemo[0])
         print(number)
         await items.edit("**Random number**: `" + str(number) + '`')
         return
