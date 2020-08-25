@@ -113,6 +113,7 @@ async def update_spotify_info():
                     await sleep(8) #anti flood
                     await bot(UpdateProfileRequest(about=short_bio))
                 environ["errorcheck"] = "0"
+                OLDEXCEPT = False
         except KeyError: 
             errorcheck = environ.get("errorcheck", None)
             if errorcheck == 0:
@@ -130,6 +131,9 @@ async def update_spotify_info():
                 if BOTLOG:
                     await bot.send_message(BOTLOG_CHATID, ERROR_MSG)
         except JSONDecodeError:   #NO INFO ABOUT, means loong afk
+            if OLDEXCEPT == False:
+              await sleep(8) #anti flood
+              await bot(UpdateProfileRequest(about=DEFAULT_BIO))
             OLDEXCEPT = True
             try:
                 await sleep(20) #no need to ddos a spotify servers
