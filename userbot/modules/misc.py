@@ -20,6 +20,7 @@ async def randomise(items):
     """ For .random command, get a random item from the list of items. """
     itemo = (items.text[8:]).split()
     if len(itemo) == 1:
+        print(itemo[0])
         await items.edit("`Random number:` **{}**".format(int(random.random() * itemo[0])))
         return
     if len(itemo) == 0:
