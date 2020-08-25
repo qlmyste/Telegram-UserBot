@@ -5,7 +5,7 @@ from os import environ
 from sys import setrecursionlimit
 import threading
 import spotify_token as st
-import time
+from time import gmtime, strftime
 from requests import get
 from telethon.errors import AboutTooLongError, FloodWaitError
 from telethon import errors
