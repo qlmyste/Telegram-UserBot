@@ -8,7 +8,7 @@
 
 import sys
 from os import execl
-from random import randint
+from random
 from time import sleep
 
 from userbot import BOTLOG, BOTLOG_CHATID, CMD_HELP, bot
@@ -23,7 +23,7 @@ async def randomise(items):
         await items.edit('`' +  str(int(random.random() * itemo[0])) + '`')
         return
     if len(itemo) < 2:
-        await items.edit("`2 or more items are required! Check "
+        await items.edit("`1 or more items are required! Check "
                          ".help random for more info.`")
         return
 
