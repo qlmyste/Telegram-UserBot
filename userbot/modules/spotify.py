@@ -58,6 +58,7 @@ async def update_spotify_info():
     global isWritedPlay
     global oldartist
     global oldsong
+    global errorcheck
     spobio = ""
     
     while SPOTIFYCHECK:
@@ -115,24 +116,24 @@ async def update_spotify_info():
                     short_bio = "🎧: " + song
                     await sleep(15) #anti flood
                     await bot(UpdateProfileRequest(about=short_bio))
-                environ["errorcheck"] = "0"
+                errorcheck = 0
                 OLDEXCEPT = False
         except KeyError:   #long pause
                 print("keyerror: " + date)
-                if OLDEXCEPT == False:
-                  await sleep(15) #anti flood
-                  await bot(UpdateProfileRequest(about=DEFAULT_BIO))
-                OLDEXCEPT = True
-                try:
-                    await sleep(20)
+                if errorcheck == 0:
+                  await update_token()
+                elif errorcheck == 1:
+                  if OLDEXCEPT == False:
+                    await sleep(15) #anti flood
+                    await bot(UpdateProfileRequest(about=DEFAULT_BIO))
+                  OLDEXCEPT = True
+                  try:
+                      await sleep(20)
+                      await dirtyfix()
+                  except errors.FloodWaitError as e:
+                    print("KeyError: Need to wait " + str(e.seconds) + " seconds")
+                    await sleep(e.seconds)
                     await dirtyfix()
-                except errors.FloodWaitError as e:
-                  print("KeyError: Need to wait " + str(e.seconds) + " seconds")
-                  await sleep(e.seconds)
-                  await dirtyfix()
-                print(ERROR_MSG)
-                if BOTLOG:
-                    await bot.send_message(BOTLOG_CHATID, ERROR_MSG)
         except JSONDecodeError:   #NO INFO ABOUT, user closed spotify client
             print("json error: " + date)
             if OLDEXCEPT == False:
@@ -168,7 +169,7 @@ async def update_token():
     sptoken = st.start_session(SPOTIFY_DC, SPOTIFY_KEY)
     access_token = sptoken[0]
     environ["spftoken"] = access_token
-    environ["errorcheck"] = "1"
+    errorcheck = 1
     await update_spotify_info()
 
 
