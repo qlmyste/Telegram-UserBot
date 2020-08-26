@@ -116,8 +116,10 @@ async def update_spotify_info():
                     short_bio = "🎧: " + song
                     await sleep(15) #anti flood
                     await bot(UpdateProfileRequest(about=short_bio))
+                    print(short_bio)
                 errorcheck = 0
                 OLDEXCEPT = False
+                print(spobio)
         except KeyError:   #long pause
                 print("keyerror: " + date)
                 if errorcheck == 0:
