@@ -33,14 +33,16 @@ async def gen(e):
             sptoken = st.start_session(SPOTIFY_DC, SPOTIFY_KEY) 
             access_token = sptoken[0]
             environ["spftoken"] = access_token
-            oldartist = ""
-            oldsong = ""
             spftoken = environ.get("spftoken", None)
             hed = {'Authorization': 'Bearer ' + spftoken}
             url = 'https://api.spotify.com/v1/me/player/currently-playing'
             response = get(url, headers=hed)
             data = loads(response.content)
-            artist = data['item']['album']['artists'][0]['name']
+            isLocal = data['item']['is_local']
+            if isLocal:
+                  artist = data['item']['artists'][0]['name']
+            else:
+                  artist = data['item']['album']['artists'][0]['name']
             name = data['item']['name']
             print(artist + " - " + name)
             await e.edit("**Searching for song **" + name + "** by **" + artist)
