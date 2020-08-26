@@ -88,8 +88,6 @@ async def update_spotify_info():
                 artist = data['item']['album']['artists'][0]['name']
                 song = data['item']['name']
 
-            OLDEXCEPT = False
-            oldsong = environ.get("oldsong", None)
             if isWritedPlay and isPlaying == False:
               isWritedPlay = False
             if isWritedPause and isPlaying == True:
@@ -110,12 +108,12 @@ async def update_spotify_info():
                 elif isPlaying == True:
                   isWritedPlay = True
                 try:
-                    await sleep(10)
+                    await sleep(5)
                     await bot(UpdateProfileRequest(about=spobio))
                     print(spobio)
                 except AboutTooLongError:
                     short_bio = "🎧: " + song
-                    await sleep(15) #anti flood
+                    await sleep(5) #anti flood
                     await bot(UpdateProfileRequest(about=short_bio))
                     print(short_bio)
                 errorcheck = 0
@@ -127,11 +125,11 @@ async def update_spotify_info():
                   await update_token()
                 elif errorcheck == 1:
                   if OLDEXCEPT == False:
-                    await sleep(15) #anti flood
+                    await sleep(5) #anti flood
                     await bot(UpdateProfileRequest(about=DEFAULT_BIO))
                   OLDEXCEPT = True
                   try:
-                      await sleep(20)
+                      await sleep(10)
                       await dirtyfix()
                   except errors.FloodWaitError as e:
                     print("KeyError: Need to wait " + str(e.seconds) + " seconds")
@@ -140,11 +138,11 @@ async def update_spotify_info():
         except JSONDecodeError:   #NO INFO ABOUT, user closed spotify client
             print("json error: " + date)
             if OLDEXCEPT == False:
-              await sleep(15) #anti flood
+              await sleep(5) #anti flood
               await bot(UpdateProfileRequest(about=DEFAULT_BIO))
             OLDEXCEPT = True
             try:
-                await sleep(20) #no need to ddos a spotify servers
+                await sleep(10) #no need to ddos a spotify servers
                 await dirtyfix()
             except errors.FloodWaitError as e:
                 print("JSON: Need to wait " + str(e.seconds) + " seconds")
@@ -152,18 +150,18 @@ async def update_spotify_info():
                 await dirtyfix()
         except TypeError:
             print("TypeError: " + date)
-            await sleep(10)
+            await sleep(5)
             await dirtyfix()
         except IndexError:
             print("IndexError: " + date)
-            await sleep(10)
+            await sleep(5)
             await dirtyfix()
         except errors.FloodWaitError as e:
             print("def: Need to wait " + str(e.seconds) + " seconds")
             await sleep(e.seconds)
             await dirtyfix()
         SPOTIFYCHECK = False
-        await sleep(10)
+        await sleep(5)
         await dirtyfix()
     RUNNING = False
 
@@ -179,7 +177,7 @@ async def update_token():
 async def dirtyfix():
     global SPOTIFYCHECK
     SPOTIFYCHECK = True
-    await sleep(7)
+    await sleep(5)
     await update_spotify_info()
 
 
