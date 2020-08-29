@@ -1,13 +1,39 @@
 # Telegram-UserBot
 
-Originaly developed by RaphielGang. Forked and modificated by me. Also there are some modules from PaperplaneExtended (https://github.com/AvinashReddy3108/PaperplaneExtended) and Friendly Telegram (https://gitlab.com/friendly-telegram)
+Originaly developed by RaphielGang. Forked and modificated by me. Also there are some modules from [PaperplaneExtended](https://github.com/AvinashReddy3108/PaperplaneExtended) and [Friendly Telegram](https://gitlab.com/friendly-telegram)
 
+
+### If you find any bugs or have any suggestions then don't hesitate to contact me in [telegram](https://t.me/Polisan_The_Easy_Nick).
 
 ### How to run it locally on linux device:
 - install python 3.7
+Ubuntu Based:
+```
+$ sudo apt install python3.7
+```
+Debian Based:
+```
+$ sudo apt update
+$ sudo apt install build-essential zlib1g-dev libncurses5-dev libgdbm-dev libnss3-dev libssl-dev libsqlite3-dev libreadline-dev libffi-dev curl libbz2-dev
+$ curl -O https://www.python.org/ftp/python/3.7.9/Python-3.7.9.tar.xz
+$ tar -xf Python-3.7.9.tar.xz
+$ cd Python-3.7.9.tar.xz
+$ ./configure --enable-optimizations
+$ make -j *number of kernels*
+$ sudo make altinstall
+```
+Alpine Linux:
+```
+$ apk add python3
+```
+Arch Linux:
+```
+$ sudo pacman -S python
+```
+
 - type: 
 ```
-# pip3 install -r requirements.txt
+# python3.7 -m pip install -r requirements.txt
 ```
 - run generate_session_file.py, enter your account
 - rename sample_config.conf to config.conf and fill it
@@ -50,7 +76,7 @@ For configuring this userbot, you can checkout the [Wiki](https://wiki.raphielga
 If you just want to stay in the loop about new features or
 announcements you can join the [news channel](https://t.me/maestro_userbot_channel).
 
-If you find any bugs or have any suggestions then don't hesitate to contact me in [my support group](https://t.me/userbot_support).
+
 
 Please head to the wiki on instructions to setting it up!
 
