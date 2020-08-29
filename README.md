@@ -1,5 +1,27 @@
 # Telegram-UserBot
 
+Originaly developed by RaphielGang. Forked and modificated by me. Also there are some modules from PaperplaneExtended (https://github.com/AvinashReddy3108/PaperplaneExtended) and Friendly Telegram (https://gitlab.com/friendly-telegram)
+
+
+### How to run it locally on linux device:
+- install python 3.7
+- type: 
+```
+# pip3 install -r requirements.txt
+```
+- run generate_session_file.py, enter your account
+- rename sample_config.conf to config.conf and fill it
+- run ./init/start.sh
+
+### How to run it on Docker:
+- run generate_session_file.py, enter your account
+- rename sample_config.conf to config.conf and fill it
+- install Docker
+- type:
+```
+# docker build . -t bot 
+# docker run bot
+```
 ### If the CI builds pass, but you still get syntax errors when running locally it's most probably not a problem with the source but with your version of python
 
 
@@ -19,7 +41,7 @@
 /**
 ```
 
-A modular telegram Python UserBot running on python3 with a mongoDB coupled with Redis backend.
+A modular telegram Python UserBot running on python3 with a mongoDB, PostgreSQL coupled with Redis backend.
 
 Started up as a simple bot, which helps with deleting messages and other stuffs when I didn't possess a smartphone(selecting each message indeed difficult) with a ton of meme features kanged from [SkittBot](https://github.com/skittles9823/SkittBot), it has evolved, becoming extremely modular and simple to use.
 
