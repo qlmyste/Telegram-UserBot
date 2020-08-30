@@ -5,6 +5,7 @@ from userbot.events import register
 import os
 from pdf2image import convert_from_path
 from docx2pdf import convert
+from shutil import rmtree
 
 @register(outgoing=True, pattern=r"^\.pdf2img$")
 async def pdf(e):
@@ -20,8 +21,8 @@ async def pdf(e):
     await e.edit("**Sending...**")
     for filename in os.listdir("/root/Telegram-UserBot/files/"):
       await e.client.send_file(e.chat_id, open('/root/Telegram-UserBot/files/' + filename, 'rb'), reply_to=message)
-      rmtree("/root/Telegram-UserBot/files")
-      os.remove(f"/root/Telegram-UserBot/file.pdf")
+    rmtree("/root/Telegram-UserBot/files")
+    os.remove(f"/root/Telegram-UserBot/file.pdf")
   else:
     await e.edit("`Not a pdf file. Aborting...`")
     return
@@ -57,9 +58,9 @@ async def doc_png(e):
     await e.edit("**Sending...**")
     for filename in os.listdir("/root/Telegram-UserBot/files/"):
       await e.client.send_file(e.chat_id, open('/root/Telegram-UserBot/files/' + filename, 'rb'), reply_to=message)
-      rmtree("/root/Telegram-UserBot/files")
-      os.remove(f"/root/Telegram-UserBot/output.pdf")
-      os.remove('file.docx')
+    rmtree("/root/Telegram-UserBot/files")
+    os.remove(f"/root/Telegram-UserBot/output.pdf")
+    os.remove('file.docx')
   else:
     await e.edit("`Not a doc file. Aborting...`")
     return
