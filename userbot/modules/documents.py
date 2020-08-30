@@ -11,7 +11,7 @@ async def pdf(e):
   test = message.file.mime_type == "application/pdf"
   print(test)
   if message.file.mime_type == "application/pdf":
-    file = message.file
+    file = message.document
     file = await bot.download_file(file, "file.pdf")
     
     
