@@ -66,12 +66,12 @@ async def doc_png(e):
     if os.path.isdir("/root/Telegram-UserBot/files") is False:
       os.mkdir("/root/Telegram-UserBot/files")
     await e.edit("**Processing...**")
-    images_from_path = convert_from_path('/root/Telegram-UserBot/output.pdf', output_folder='/root/Telegram-UserBot/files/', fmt='png')
+    images_from_path = convert_from_path('/root/Telegram-UserBot/file.pdf', output_folder='/root/Telegram-UserBot/files/', fmt='png')
     await e.edit("**Sending...**")
     for filename in os.listdir("/root/Telegram-UserBot/files/"):
       await e.client.send_file(e.chat_id, open('/root/Telegram-UserBot/files/' + filename, 'rb'), reply_to=message)
     rmtree("/root/Telegram-UserBot/files")
-    os.remove(f"/root/Telegram-UserBot/output.pdf")
+    os.remove(f"/root/Telegram-UserBot/file.pdf")
     os.remove('file.docx')
   else:
     await e.edit("`Not a doc file. Aborting...`")
