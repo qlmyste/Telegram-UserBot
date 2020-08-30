@@ -116,7 +116,7 @@ AUDIOTAG_API = os.environ.get("AUDIOTAG_API", None)
 MAC_ADDRESS = os.environ.get("MAC", None)
 
 # https://www.convertapi.com/
-CONVERT_TOKEN: os.environ.get("CONVERT_API", None)
+CONVERT_TOKEN = os.environ.get("CONVERT_API", None)
 
 # wolframalpha.com
 WOLFRAM_ID= os.environ.get("WOLFRAM_ID", None)
