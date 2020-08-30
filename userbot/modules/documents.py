@@ -5,7 +5,7 @@ from userbot.events import register
 import os, docx2pdf
 from pdf2image import convert_from_path
 
-@register(outgoing=True, pattern=r"^\.pdf2png$")
+@register(outgoing=True, pattern=r"^\.pdf2img$")
 async def pdf(e):
   message = await e.get_reply_message()
   if message.file.mime_type == "application/png":
