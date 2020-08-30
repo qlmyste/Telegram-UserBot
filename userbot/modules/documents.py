@@ -1,11 +1,13 @@
 # Module developed by Oleh Polisan
 # You can use this file without any permission.
-from userbot import bot, CMD_HELP
+from userbot import bot, CMD_HELP, CONVERT_TOKEN
 from userbot.events import register
 import os
 from pdf2image import convert_from_path
-from docx2pdf import convert
+import convertapi
 from shutil import rmtree
+
+
 
 @register(outgoing=True, pattern=r"^\.pdf2img$")
 async def pdf(e):
@@ -28,17 +30,19 @@ async def pdf(e):
     return
 @register(outgoing=True, pattern=r"^\.doc2pdf$")
 async def doc(e):
+  convertapi.api_secret = CONVERT_TOKEN
   message = await e.get_reply_message()
   if message.file.mime_type == "application/vnd.openxmlformats-officedocument.wordprocessingml.document" or message.file.mime_type == "application/msword":
     file = message.document
     await e.edit("**Downloading...**")
     file = await bot.download_file(file, "file.docx")
     await e.edit("**Converting...**")
-    convert("file.docx", "output.pdf")
+    result = convertapi.convert('pdf', { 'File': 'file.docx' })
+    result.file.save('file.pdf')
     await e.edit("**Sending...**")
-    await e.client.send_file(e.chat_id, f'output.pdf',reply_to=message)
+    await e.client.send_file(e.chat_id, f'file.pdf',reply_to=message)
     os.remove('file.docx')
-    os.remove('output.pdf')
+    os.remove('file.pdf')
   else:
     await e.edit("`Not a doc file. Aborting...`")
     return
