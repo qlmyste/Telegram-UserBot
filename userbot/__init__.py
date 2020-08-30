@@ -119,7 +119,8 @@ MAC_ADDRESS = os.environ.get("MAC", None)
 WOLFRAM_ID= os.environ.get("WOLFRAM_ID", None)
 bot = TelegramClient("userbot", API_KEY, API_HASH)
 
-
+# https://www.convertapi.com/
+CONVERT_API: os.envirot.get("CONVERT_API", None)
 async def check_botlog_chatid():
     if not BOTLOG:
         return
