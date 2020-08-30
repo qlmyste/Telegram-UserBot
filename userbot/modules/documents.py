@@ -29,8 +29,7 @@ async def pdf(e):
 @register(outgoing=True, pattern=r"^\.doc2pdf$")
 async def doc(e):
   message = await e.get_reply_message()
-  print(message.file.mime_type)
-  if message.file.mime_type == "application/doc" or message.file.mime_type == "application/docx":
+  if message.file.mime_type == "application/vnd.openxmlformats-officedocument.wordprocessingml.document" or message.file.mime_type == "application/msword":
     file = message.document
     await e.edit("**Downloading...**")
     file = await bot.download_file(file, "file.docx")
@@ -46,7 +45,7 @@ async def doc(e):
 @register(outgoing=True, pattern=r"^\.doc2img$")
 async def doc_png(e):
   message = await e.get_reply_message()
-  if message.file.mime_type == "application/doc" or message.file.mime_type == "application/docx":
+  if message.file.mime_type == "application/vnd.openxmlformats-officedocument.wordprocessingml.document" or message.file.mime_type == "application/msword":
     file = message.document
     await e.edit("**Downloading...**")
     file = await bot.download_file(file, "file.docx")
