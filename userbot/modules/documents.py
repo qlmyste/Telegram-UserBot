@@ -42,7 +42,7 @@ async def doc(e):
   else:
     await e.edit("`Not a doc file. Aborting...`")
     return
-@register(outgoing=True, pattern=r"^\.doc2pdf$")
+@register(outgoing=True, pattern=r"^\.doc2img$")
 async def doc_png(e):
   message = await e.get_reply_message()
   if message.file.mime_type == "application/doc" or message.file.mime_type == "application/docx":
