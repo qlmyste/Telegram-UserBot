@@ -14,8 +14,8 @@ async def pdf(e):
     file = message.document
     file = await bot.download_file(file, "file.pdf")
     if os.path.isdir("/root/Telegram-UserBot/files") is False:
-		  os.mkdir("/root/Telegram-UserBot/files")
+	os.mkdir("/root/Telegram-UserBot/files")
     images_from_path = convert_from_path('/root/Telegram-UserBot/file.pdf', output_folder='/root/Telegram-UserBot/files/', fmt='png')
     for filename in os.listdir("/root/Telegram-UserBot/files/"):
-          await e.client.send_file(e.chat_id, open('/root/Telegram-UserBot/files/' + filename, 'rb'), reply_to=message)
+	await e.client.send_file(e.chat_id, open('/root/Telegram-UserBot/files/' + filename, 'rb'), reply_to=message)
     
