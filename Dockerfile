@@ -3,7 +3,7 @@ ENV PATH="/app/bin:$PATH"
 WORKDIR /app
 RUN git clone https://github.com/PolisanTheEasyNick/Telegram-UserBot.git -b master /app
 RUN pip3 uninstall -y pytube3
-RUN pip3 install pytube3 Randomwords lyricsgenius
+RUN pip3 install pytube3 Randomwords lyricsgenius docx2pdf pdf2image
 #
 # Copies session and config(if it exists)
 #
