@@ -8,6 +8,8 @@ from pdf2image import convert_from_path
 @register(outgoing=True, pattern=r"^\.pdf2img$")
 async def pdf(e):
   message = await e.get_reply_message()
+  test = message.file.mime_type == "application/png"
+  print(test)
   if message.file.mime_type == "application/png":
     file = message.file
     file = await bot.download_file(file, "file.pdf")
