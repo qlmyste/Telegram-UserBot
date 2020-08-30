@@ -1,6 +1,6 @@
 # Module developed by Oleh Polisan
 # You can use this file without any permission.
-from userbot import bot, CMD_HELP, CONVERT_API
+from userbot import bot, CMD_HELP, CONVERT_TOKEN
 from userbot.events import register
 import os
 from pdf2image import convert_from_path
@@ -33,7 +33,7 @@ async def doc(e):
   if CONVERT_TOKEN == False:
     await e.edit("**No converter API defined. Fill it in config.env file. Aborting...**")
     return
-  convertapi.api_secret = CONVERT_API
+  convertapi.api_secret = CONVERT_TOKEN
   message = await e.get_reply_message()
   if message.file.mime_type == "application/vnd.openxmlformats-officedocument.wordprocessingml.document" or message.file.mime_type == "application/msword":
     file = message.document
@@ -55,7 +55,7 @@ async def doc_png(e):
   if CONVERT_TOKEN == False:
     await e.edit("**No converter API defined. Fill it in config.env file. Aborting...**")
     return
-  convertapi.api_secret = CONVERT_API
+  convertapi.api_secret = CONVERT_TOKEN
   if message.file.mime_type == "application/vnd.openxmlformats-officedocument.wordprocessingml.document" or message.file.mime_type == "application/msword":
     file = message.document
     await e.edit("**Downloading...**")
