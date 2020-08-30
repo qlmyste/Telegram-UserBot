@@ -1,6 +1,6 @@
 # Module developed by Oleh Polisan
 # You can use this file without any permission.
-from userbot import bot, CMD_HELP, CONVERT_TOKEN
+from userbot import CONVERT_TOKEN, bot, CMD_HELP
 from userbot.events import register
 import os
 from pdf2image import convert_from_path
