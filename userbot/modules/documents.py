@@ -29,6 +29,7 @@ async def pdf(e):
 @register(outgoing=True, pattern=r"^\.doc2pdf$")
 async def doc(e):
   message = await e.get_reply_message()
+  print(message.file.mime_type)
   if message.file.mime_type == "application/doc" or message.file.mime_type == "application/docx":
     file = message.document
     await e.edit("**Downloading...**")
