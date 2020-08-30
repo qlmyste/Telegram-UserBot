@@ -30,6 +30,9 @@ async def pdf(e):
     return
 @register(outgoing=True, pattern=r"^\.doc2pdf$")
 async def doc(e):
+  if CONVERT_TOKEN == False:
+  await e.edit("**No converter API defined. Fill it in config.env file. Aborting...**")
+  return
   convertapi.api_secret = CONVERT_TOKEN
   message = await e.get_reply_message()
   if message.file.mime_type == "application/vnd.openxmlformats-officedocument.wordprocessingml.document" or message.file.mime_type == "application/msword":
@@ -49,12 +52,17 @@ async def doc(e):
 @register(outgoing=True, pattern=r"^\.doc2img$")
 async def doc_png(e):
   message = await e.get_reply_message()
+  if CONVERT_TOKEN == False:
+    await e.edit("**No converter API defined. Fill it in config.env file. Aborting...**")
+    return
+  convertapi.api_secret = CONVERT_TOKEN
   if message.file.mime_type == "application/vnd.openxmlformats-officedocument.wordprocessingml.document" or message.file.mime_type == "application/msword":
     file = message.document
     await e.edit("**Downloading...**")
     file = await bot.download_file(file, "file.docx")
     await e.edit("**Converting...**")
-    convert("file.docx", "output.pdf")
+    result = convertapi.convert('pdf', { 'File': 'file.docx' })
+    result.file.save('file.pdf')
     if os.path.isdir("/root/Telegram-UserBot/files") is False:
       os.mkdir("/root/Telegram-UserBot/files")
     await e.edit("**Processing...**")
