@@ -18,7 +18,7 @@ async def pdf(e):
     for filename in os.listdir("/root/Telegram-UserBot/files/"):
       await e.client.send_file(e.chat_id, open('/root/Telegram-UserBot/files/' + filename, 'rb'), reply_to=message)
       rmtree("/root/Telegram-UserBot/files")
-	    os.remove(f"/root/Telegram-UserBot/file.pdf")
+      os.remove(f"/root/Telegram-UserBot/file.pdf")
       
 @register(outgoing=True, pattern=r"^\.doc2pdf$")
 async def doc(e):
@@ -44,5 +44,5 @@ async def doc_png(e):
     for filename in os.listdir("/root/Telegram-UserBot/files/"):
       await e.client.send_file(e.chat_id, open('/root/Telegram-UserBot/files/' + filename, 'rb'), reply_to=message)
       rmtree("/root/Telegram-UserBot/files")
-	    os.remove(f"/root/Telegram-UserBot/output.pdf")
+      os.remove(f"/root/Telegram-UserBot/output.pdf")
       os.remove('file.docx')
