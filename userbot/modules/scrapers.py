@@ -15,7 +15,6 @@ from emoji import get_emoji_regexp
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 from googletrans import LANGUAGES, Translator
-from gtts import gTTS
 from pytube import YouTube
 from pytube.helpers import safe_filename
 from requests import get
@@ -28,7 +27,7 @@ from userbot.utils import get_args_split_by
 from userbot import (BOTLOG, BOTLOG_CHATID, CMD_HELP, CURRENCY_API,
                      YOUTUBE_API_KEY, bot, WOLFRAM_ID)
 from userbot.events import register
-
+import pyttsx3
 LANG = "en"
 
 
@@ -157,26 +156,8 @@ async def text_to_speech(query):
         return
 
     try:
-        gTTS(message, LANG)
-    except AssertionError:
-        await query.edit('The text is empty.\n'
-                         'Nothing left to speak after pre-precessing, '
-                         'tokenizing and cleaning.')
-        return
-    except ValueError:
-        await query.edit('Language is not supported.')
-        return
-    except RuntimeError:
-        await query.edit('Error loading the languages dictionary.')
-        return
-    tts = gTTS(message, LANG)
-    tts.save("k.mp3")
-    with open("k.mp3", "rb") as audio:
-        linelist = list(audio)
-        linecount = len(linelist)
-    if linecount == 1:
-        tts = gTTS(message, LANG)
-        tts.save("k.mp3")
+        engine = pyttsx3.init()
+        engine.save_to_file(text, 'k.mp3')
     with open("k.mp3", "r"):
         await query.client.send_file(query.chat_id, "k.mp3", voice_note=True)
         os.remove("k.mp3")
