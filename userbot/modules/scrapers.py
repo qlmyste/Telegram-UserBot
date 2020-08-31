@@ -155,15 +155,14 @@ async def text_to_speech(query):
                          "message for Text-to-Speech!`")
         return
 
-    try:
-        engine = pyttsx3.init()
-        engine.save_to_file(text, 'k.mp3')
-        await query.client.send_file(query.chat_id, "k.mp3", voice_note=True)
-        os.remove("k.mp3")
-        if BOTLOG:
-            await query.client.send_message(
-                BOTLOG_CHATID, "tts of " + message + " executed successfully!")
-        await query.delete()
+    engine = pyttsx3.init()
+    engine.save_to_file(text, 'k.mp3')
+    await query.client.send_file(query.chat_id, "k.mp3", voice_note=True)
+    os.remove("k.mp3")
+    if BOTLOG:
+        await query.client.send_message(
+            BOTLOG_CHATID, "tts of " + message + " executed successfully!")
+    await query.delete()
 
 @register(outgoing=True, pattern=r"^.trt(?: |$)([\s\S]*)")
 async def translateme(trans):
