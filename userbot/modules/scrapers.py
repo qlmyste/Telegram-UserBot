@@ -158,7 +158,6 @@ async def text_to_speech(query):
     try:
         engine = pyttsx3.init()
         engine.save_to_file(text, 'k.mp3')
-    with open("k.mp3", "r"):
         await query.client.send_file(query.chat_id, "k.mp3", voice_note=True)
         os.remove("k.mp3")
         if BOTLOG:
