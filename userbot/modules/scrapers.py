@@ -165,7 +165,6 @@ async def text_to_speech(query):
                 BOTLOG_CHATID, "tts of " + message + " executed successfully!")
         await query.delete()
 
-
 @register(outgoing=True, pattern=r"^.trt(?: |$)([\s\S]*)")
 async def translateme(trans):
     """ For .trt command, translate the given text using Google Translate. """
