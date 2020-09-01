@@ -32,11 +32,11 @@ async def speech_to_text(e):
     content = io.BytesIO(file)
     audio = types.RecognitionAudio(content=file)
 
-    config = types.RecognitionConfig(
+    config = {
         encoding=enums.RecognitionConfig.AudioEncoding.OGG_OPUS,
         sample_rate_hertz=16000,
         language_code=lang
-    )
+    }
 
     response = client.recognize(config, audio)
     op_result = response.result()
