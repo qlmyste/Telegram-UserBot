@@ -27,7 +27,7 @@ from userbot.utils import get_args_split_by
 from userbot import (BOTLOG, BOTLOG_CHATID, CMD_HELP, CURRENCY_API,
                      YOUTUBE_API_KEY, bot, WOLFRAM_ID)
 from userbot.events import register
-import pyttsx3
+from gtts import gTTS, gTTSError #tts
 LANG = "en"
 
 
