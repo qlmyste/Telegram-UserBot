@@ -37,9 +37,10 @@ async def speech_to_text(e):
         'sample_rate_hertz':16000,
         'language_code':lang
     }
-
+    res = ''
     response = client.recognize(config, audio)
     for result in response.results:
+       global res
        alternative = result.alternatives[0]
        res += alternative.transcript
 
