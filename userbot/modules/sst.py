@@ -29,8 +29,8 @@ async def speech_to_text(e):
 
     file = await bot.download_file(file)
 
-    content = io.BytesIO(file)
-    audio = {'content': content}
+    #content = io.BytesIO(file)
+    audio = {'content': file}
 
     config = {
         'encoding':enums.RecognitionConfig.AudioEncoding.OGG_OPUS,
