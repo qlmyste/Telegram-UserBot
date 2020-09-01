@@ -38,8 +38,8 @@ async def speech_to_text(e):
         'language_code':lang
     }
 
-    response = client.recognize(config, audio)
-    print(response)
+    response = client.long_running_recognize(config=config, audio=audio)
+    #print(response)
     op_result = response.result()
     result = op_result.results[0].alternatives[0]
     
