@@ -27,10 +27,10 @@ async def speech_to_text(e):
         await e.edit("**No audio file specified**", delete_in=3)
         return
 
-    file = await bot.download_file(file)
+    file = await bot.download_file('audio.ogg')
 
     content = io.BytesIO(file)
-    audio = types.RecognitionAudio(content=file)
+    audio = {'content' = content}
 
     config = {
         'encoding':enums.RecognitionConfig.AudioEncoding.OGG_OPUS,
