@@ -27,7 +27,7 @@ async def speech_to_text(e):
         await e.edit("**No audio file specified**", delete_in=3)
         return
 
-    file = await bot.download_file('audio.ogg')
+    file = await bot.download_file(file)
 
     content = io.BytesIO(file)
     audio = {'content': content}
