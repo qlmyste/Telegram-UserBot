@@ -1,21 +1,18 @@
 import io
 import os
 
-from google.cloud import speech_v1
-from google.cloud.speech_v1 import enums,types
+import speech_recognition as sr
 
-from userbot import BOTLOG, BOTLOG_CHATID, STTClient, stt, bot, CMD_HELP
+from userbot import BOTLOG, BOTLOG_CHATID, bot, CMD_HELP
 from userbot.events import register
 from userbot.utils import parse_arguments
 
-DEFAULT_LANG = "en-US"
 
 @register(outgoing=True, pattern=r"^\.stt(\s+[\s\S]+|$)")
 async def speech_to_text(e):
     opts = e.pattern_match.group(1) or ""
     args, _ = parse_arguments(opts, ['lang'])
 
-    lang = args.get('lang', DEFAULT_LANG)
     await e.edit("**Transcribing...**")
 
     message = await e.get_reply_message()
@@ -26,20 +23,13 @@ async def speech_to_text(e):
         return
 
     file = await bot.download_file(file)
-
-    content = io.BytesIO(file)
-    audio = types.RecognitionAudio(content=file)
-
-    config = types.RecognitionConfig(
-        encoding=enums.RecognitionConfig.AudioEncoding.OGG_OPUS,
-        sample_rate_hertz=16000,
-        language_code=lang
-    )
-
-    response = STTClient.long_running_recognize(config, audio)
-    op_result = response.result()
-    print(op_result)
-    result = op_result.results[0].alternatives[0]
-    
-    output = f"**Transcript:** {result.transcript}\n\n**Confidence:** __{round(result.confidence, 5)}__"
-    await e.edit(output)
+    r = sr.Recognizer()
+    with sr.AudioFile(file) as source:
+        audio_text = r.listen(source)
+    try:
+        text = r.recognize_google(audio_text)
+        print('Converting audio transcripts into text ...')
+        await e.edit(text)
+    except:
+        await e.edit("Unknown error")
+        return
