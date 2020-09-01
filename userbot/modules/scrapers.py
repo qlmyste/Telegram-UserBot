@@ -7,7 +7,7 @@
 
 import os
 from html import unescape
-from re import findall
+import re
 from shutil import rmtree
 from urllib.error import HTTPError
 #from subprocess import call
