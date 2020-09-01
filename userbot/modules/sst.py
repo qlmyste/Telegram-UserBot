@@ -1,8 +1,8 @@
 import io
 import os
 
-from google.cloud.speech_v1 import types
-from google.cloud.speech_v1.gapic import enums
+from google.cloud import speech_v1
+from google.cloud.speech_v1 import enums
 
 from userbot import BOTLOG, BOTLOG_CHATID, STTClient, stt, bot, CMD_HELP
 from userbot.events import register
@@ -13,6 +13,7 @@ DEFAULT_LANG = "en-US"
 
 @register(outgoing=True, pattern=r"^\.stt(\s+[\s\S]+|$)")
 async def speech_to_text(e):
+    client = speech_v1.SpeechClient()
     opts = e.pattern_match.group(1) or ""
     args, _ = parse_arguments(opts, ['lang'])
 
@@ -37,7 +38,7 @@ async def speech_to_text(e):
         language_code=lang
     )
 
-    response = STTClient.long_running_recognize(config, audio)
+    response = client.recognize(config, audio)
     op_result = response.result()
     result = op_result.results[0].alternatives[0]
 
