@@ -38,10 +38,11 @@ async def speech_to_text(e):
         'language_code':lang
     }
     res = ''
+    conf = 0
     response = client.recognize(config, audio)
     for result in response.results:
        alternative = result.alternatives[0]
-       res += alternative.transcript
-
-    output = f"**Transcript:** {res}\n\n**Confidence:** __{round(result.confidence, 5)}__"
+       res = alternative.transcript
+       conf = alternative.confidence
+    output = f"**Transcript:** {res}\n\n**Confidence:** __{round(conf, 5)}__"
     await e.edit(output)
