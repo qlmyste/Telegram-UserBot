@@ -22,10 +22,10 @@ async def speech_to_text(e):
         await e.edit("**No audio file specified**", delete_in=3)
         return
 
-    await bot.download_file("audio.mp3")
+    await bot.download_file('audio.mp3')
     r = sr.Recognizer()
     with sr.AudioFile(file) as source:
-        audio_text = r.listen("audio.mp3")
+        audio_text = r.listen('audio.mp3')
     try:
         text = r.recognize_google(audio_text)
         print('Converting audio transcripts into text ...')
