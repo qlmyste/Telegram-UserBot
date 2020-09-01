@@ -38,7 +38,8 @@ async def speech_to_text(e):
 
     response = STTClient.long_running_recognize(config, audio)
     op_result = response.result()
+    print(op_result)
     result = op_result.results[0].alternatives[0]
-
+    
     output = f"**Transcript:** {result.transcript}\n\n**Confidence:** __{round(result.confidence, 5)}__"
     await e.edit(output)
