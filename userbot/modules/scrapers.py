@@ -28,6 +28,7 @@ from userbot import (BOTLOG, BOTLOG_CHATID, CMD_HELP, CURRENCY_API,
                      YOUTUBE_API_KEY, bot, WOLFRAM_ID)
 from userbot.events import register
 from gtts import gTTS, gTTSError #tts
+from bs4 import BeautifulSoup #imdb
 LANG = "en"
 
 
