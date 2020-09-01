@@ -143,7 +143,7 @@ async def urban_dict(ud_e):
 
 @register(outgoing=True, pattern=r"^.tts(?: |$)([\s\S]*)")
 async def text_to_speech(query):
-    """ For .tts command, a wrapper for Google Text-to-Speech. """
+    """ For .tts command, a wrapper for Text-to-Speech. """
     textx = await query.get_reply_message()
     message = query.pattern_match.group(1)
     if message:
@@ -156,7 +156,7 @@ async def text_to_speech(query):
         return
 
     engine = pyttsx3.init()
-    engine.save_to_file(text, 'k.mp3')
+    engine.save_to_file(message, 'k.mp3')
     await query.client.send_file(query.chat_id, "k.mp3", voice_note=True)
     os.remove("k.mp3")
     if BOTLOG:
