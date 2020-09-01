@@ -33,9 +33,9 @@ async def speech_to_text(e):
     audio = types.RecognitionAudio(content=file)
 
     config = {
-        encoding=enums.RecognitionConfig.AudioEncoding.OGG_OPUS,
-        sample_rate_hertz=16000,
-        language_code=lang
+        'encoding':enums.RecognitionConfig.AudioEncoding.OGG_OPUS,
+        'sample_rate_hertz':16000,
+        'language_code':lang
     }
 
     response = client.recognize(config, audio)
