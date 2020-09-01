@@ -41,7 +41,10 @@ async def speech_to_text(e):
     response = client.long_running_recognize(config=config, audio=audio)
     #print(response)
     op_result = response.result()
-    result = op_result.results[0].alternatives[0]
-    
-    output = f"**Transcript:** {result.transcript}\n\n**Confidence:** __{round(result.confidence, 5)}__"
+    alternative = result.alternatives[0]
+    for result in response.results:
+       alternative = result.alternatives[0]
+       res += alternative.transcript
+
+    output = f"**Transcript:** {res}\n\n**Confidence:** __{round(result.confidence, 5)}__"
     await e.edit(output)
