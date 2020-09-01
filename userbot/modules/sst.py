@@ -39,8 +39,6 @@ async def speech_to_text(e):
     }
 
     response = client.recognize(config, audio)
-    #print(response)
-    op_result = response.result()
     for result in response.results:
        alternative = result.alternatives[0]
        res += alternative.transcript
