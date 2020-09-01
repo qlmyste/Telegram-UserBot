@@ -39,8 +39,9 @@ async def speech_to_text(e):
     }
 
     response = client.recognize(config, audio)
+    print(response)
     op_result = response.result()
     result = op_result.results[0].alternatives[0]
-
+    
     output = f"**Transcript:** {result.transcript}\n\n**Confidence:** __{round(result.confidence, 5)}__"
     await e.edit(output)
