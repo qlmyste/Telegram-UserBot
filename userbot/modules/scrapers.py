@@ -143,7 +143,8 @@ async def urban_dict(ud_e):
 
 @register(outgoing=True, pattern=r"^.tts(?: |$)([\s\S]*)")
 async def text_to_speech(query):
-    """ For .tts command, a wrapper for Text-to-Speech. """
+async def text_to_speech(query):
+    """ For .tts command, a wrapper for Google Text-to-Speech. """
     textx = await query.get_reply_message()
     message = query.pattern_match.group(1)
     if message:
@@ -155,14 +156,32 @@ async def text_to_speech(query):
                          "message for Text-to-Speech!`")
         return
 
-    engine = pyttsx3.init()
-    engine.save_to_file(message, 'k.mp3')
-    await query.client.send_file(query.chat_id, "k.mp3", voice_note=True)
-    os.remove("k.mp3")
-    if BOTLOG:
-        await query.client.send_message(
-            BOTLOG_CHATID, "tts of " + message + " executed successfully!")
-    await query.delete()
+    try:
+        tts = gTTS(message, tld='com', lang=LANG)
+        tts.save("k.mp3")
+    except AssertionError:
+        await query.edit('The text is empty.\n'
+                         'Nothing left to speak after pre-precessing, '
+                         'tokenizing and cleaning.')
+        return
+    except ValueError:
+        await query.edit('Language is not supported.')
+        return
+    except RuntimeError:
+        await query.edit('Error loading the languages dictionary.')
+        return
+    except gTTSError:
+        await query.edit('Error in Google Text-to-Speech API request! '
+                         'Check Paperplane logs for details.')
+        return
+
+    with open("k.mp3", "r"):
+        await query.client.send_file(query.chat_id, "k.mp3", voice_note=True)
+        os.remove("k.mp3")
+        if BOTLOG:
+            await query.client.send_message(
+                BOTLOG_CHATID, "TTS of " + message + " executed successfully!")
+        await query.delete()
 
 @register(outgoing=True, pattern=r"^.trt(?: |$)([\s\S]*)")
 async def translateme(trans):
