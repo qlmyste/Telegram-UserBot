@@ -44,9 +44,10 @@ async def stick(args):
                 await bot.download_file(message.sticker, "sticker.png")
                 await args.edit("**Sending...**")
                 await args.client.send_file(args.chat_id, "sticker.png", reply_to=message)
+                os.remove("sticker.png")
         elif "tgsticker" in message.media.document.mime_type:
             await args.edit("**Downloading animated sticker...**")
-            await bot.download_file(message.media.document, 'AnimatedSticker.tgs')
+            await bot.download_file(message.media.document, 'sticker.tgs')
             fps = 60
             quality = 256
             await args.edit("**Converting to .gif...**")
@@ -57,6 +58,8 @@ async def stick(args):
             result.seek(0)
             await args.edit("**Sending...**")
             await args.client.send_file(args.chat_id, "animation.gif", reply_to=message)
+            os.remove("animation.gif")
+            os.remove("sticker.tgs")
 @register(outgoing=True, pattern="^.kang")
 async def kang(args):
     """ For .kang command, kangs stickers or creates new ones. """
