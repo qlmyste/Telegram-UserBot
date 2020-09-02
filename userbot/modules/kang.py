@@ -17,6 +17,7 @@ from userbot.events import register
 from telethon.tl.functions.messages import GetStickerSetRequest
 from telethon.tl.types import InputStickerSetID
 from telethon.tl.types import DocumentAttributeSticker
+from lottie.exporters.gif import export_gif
 
 KANGING_STR = [
     "Using Witchery to kang this sticker...",
@@ -31,7 +32,29 @@ KANGING_STR = [
     "Mr.Steal Your Sticker is stealing this sticker... ",
 ]
 
-
+@register(outgoing=True, pattern="^.getsticker")
+async def stick(args):
+    message = await args.get_reply_message()
+    if message and message.media:
+        if "image" in message.media.document.mime_type.split('/'):
+            if (DocumentAttributeFilename(file_name='sticker.webp') in message.media.document.attributes):
+                await args.edit("**Downloading...**")
+                photo = await bot.download_media(message.photo, photo)
+                await args.edit("**Sending...**")
+                await args.client.send_file(args.chat_id, photo, reply_to=message)
+        elif "tgsticker" in message.media.document.mime_type:
+            await args.edit("**Downloading animated sticker...**")
+            await bot.download_file(message.media.document, 'AnimatedSticker.tgs')
+            fps = 60
+			quality = 256
+            await args.edit("**Converting to .gif...**")
+            anim = lottie.parsers.tgs.parse_tgs("sticker.tgs")
+            result = BytesIO()
+            result.name = "animation.gif"
+            export_gif(anim, result,quality, 1)
+            result.seek(0)
+            await args.edit("**Sending...**")
+            await args.client.send_file(args.chat_id, "animation.gif", reply_to=message)
 @register(outgoing=True, pattern="^.kang")
 async def kang(args):
     """ For .kang command, kangs stickers or creates new ones. """
@@ -309,7 +332,10 @@ async def get_pack_info(event):
         f"**Emojis In Pack:**\n{' '.join(pack_emojis)}"
 
     await event.edit(OUTPUT)
+    
+    
 
+   
 CMD_HELP.update({"kang": ["Kang",
     " - `.kang <emoji> <number>`: Reply .kang to a sticker or an image to kang "
     "it to your Paperplane pack.\n"
