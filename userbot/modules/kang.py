@@ -40,9 +40,9 @@ async def stick(args):
         if "image" in message.media.document.mime_type.split('/'):
             if (DocumentAttributeFilename(file_name='sticker.webp') in message.media.document.attributes):
                 await args.edit("**Downloading...**")
-                photo = await bot.download_media(message.photo, photo)
+                await bot.download_media(message.photo, "sticker.webp")
                 await args.edit("**Sending...**")
-                await args.client.send_file(args.chat_id, photo, reply_to=message)
+                await args.client.send_file(args.chat_id, "sticker.webp", reply_to=message)
         elif "tgsticker" in message.media.document.mime_type:
             await args.edit("**Downloading animated sticker...**")
             await bot.download_file(message.media.document, 'AnimatedSticker.tgs')
