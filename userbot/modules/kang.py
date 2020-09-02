@@ -35,7 +35,7 @@ KANGING_STR = [
 @register(outgoing=True, pattern="^.getsticker")
 async def stick(args):
     message = await args.get_reply_message()
-    photo = None
+    global photo
     if message and message.media:
         if "image" in message.media.document.mime_type.split('/'):
             if (DocumentAttributeFilename(file_name='sticker.webp') in message.media.document.attributes):
