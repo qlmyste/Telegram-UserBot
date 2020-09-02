@@ -18,6 +18,7 @@ from telethon.tl.functions.messages import GetStickerSetRequest
 from telethon.tl.types import InputStickerSetID
 from telethon.tl.types import DocumentAttributeSticker
 from lottie.exporters.gif import export_gif
+import lottie
 
 KANGING_STR = [
     "Using Witchery to kang this sticker...",
@@ -40,9 +41,9 @@ async def stick(args):
         if "image" in message.media.document.mime_type.split('/'):
             if (DocumentAttributeFilename(file_name='sticker.webp') in message.media.document.attributes):
                 await args.edit("**Downloading...**")
-                await bot.download_file(message.sticker, "sticker.webp")
+                await bot.download_file(message.sticker, "sticker.png")
                 await args.edit("**Sending...**")
-                await args.client.send_file(args.chat_id, "sticker.webp", reply_to=message)
+                await args.client.send_file(args.chat_id, "sticker.png", reply_to=message)
         elif "tgsticker" in message.media.document.mime_type:
             await args.edit("**Downloading animated sticker...**")
             await bot.download_file(message.media.document, 'AnimatedSticker.tgs')
