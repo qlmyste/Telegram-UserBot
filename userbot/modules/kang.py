@@ -36,11 +36,11 @@ KANGING_STR = [
 async def stick(args):
     message = await args.get_reply_message()
     global photo
-    if message and message.media:
+    if message.sticker:
         if "image" in message.media.document.mime_type.split('/'):
             if (DocumentAttributeFilename(file_name='sticker.webp') in message.media.document.attributes):
                 await args.edit("**Downloading...**")
-                await bot.download_media(message.photo, "sticker.webp")
+                await bot.download_file(message.sticker, "sticker.webp")
                 await args.edit("**Sending...**")
                 await args.client.send_file(args.chat_id, "sticker.webp", reply_to=message)
         elif "tgsticker" in message.media.document.mime_type:
