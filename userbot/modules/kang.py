@@ -8,7 +8,8 @@
 import io
 import math
 import urllib.request
-from os import remove
+import os
+from io import BytesIO
 from PIL import Image
 import random
 from telethon.tl.types import DocumentAttributeFilename, MessageMediaPhoto
