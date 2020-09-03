@@ -58,7 +58,7 @@ async def stick(args):
             export_gif(anim, result,quality, 1)
             result.seek(0)
             await args.edit("**Sending...**")
-            await args.client.send_file(args.chat_id, 'animation.gif', reply_to=message, force_document=True)
+            await args.client.send_file(args.chat_id, result, reply_to=message, force_document=True)
             os.remove("animation.gif")
             os.remove("sticker.tgs")
 @register(outgoing=True, pattern="^.kang")
