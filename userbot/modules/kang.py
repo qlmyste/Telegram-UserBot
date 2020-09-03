@@ -44,7 +44,7 @@ async def stick(args):
                 await args.edit("**Downloading...**")
                 await bot.download_file(message.sticker, "sticker.png")
                 await args.edit("**Sending...**")
-                await args.client.send_file(args.chat_id, f'sticker.png', reply_to=message)
+                await args.client.send_file(args.chat_id, f'sticker.png', reply_to=message, force_document=True)
                 os.remove("sticker.png")
         elif "tgsticker" in message.media.document.mime_type:
             await args.edit("**Downloading animated sticker...**")
@@ -58,7 +58,7 @@ async def stick(args):
             export_gif(anim, result,quality, 1)
             result.seek(0)
             await args.edit("**Sending...**")
-            await args.client.send_file(args.chat_id, "animation.gif", reply_to=message)
+            await args.client.send_file(args.chat_id, 'animation.gif', reply_to=message, force_document=True)
             os.remove("animation.gif")
             os.remove("sticker.tgs")
 @register(outgoing=True, pattern="^.kang")
