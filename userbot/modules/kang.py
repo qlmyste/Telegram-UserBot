@@ -54,12 +54,11 @@ async def stick(args):
             await args.edit("**Converting to .mp4...**")
             anim = lottie.parsers.tgs.parse_tgs("sticker.tgs")
             result = BytesIO()
-            result.name = "animation"
+            result.name = "animation.gif"
             export_gif(anim, result,quality, 1)
             result.seek(0)
             await args.edit("**Sending...**")
             await args.client.send_file(args.chat_id, result, reply_to=message, force_document=True)
-            os.remove(result)
             os.remove("sticker.tgs")
 @register(outgoing=True, pattern="^.kang")
 async def kang(args):
