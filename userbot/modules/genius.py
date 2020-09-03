@@ -8,13 +8,15 @@ import lyricsgenius
 from os import environ
 from json import loads
 
-genius = lyricsgenius.Genius(GENIUS_API)
+
 
 @register(outgoing=True, pattern=r"^\.lyrics(.*)")
 async def gen(e):
       if GENIUS_API is None:
         await e.edit("**We don't support magic! No Genius API!**")
         return
+      else:
+            genius = lyricsgenius.Genius(GENIUS_API)
       args = get_args_split_by(e.pattern_match.group(), ",")
       if len(args) == 2:
             name = args[0]
