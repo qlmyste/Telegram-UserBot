@@ -51,7 +51,7 @@ async def stick(args):
             await bot.download_file(message.media.document, 'sticker.tgs')
             fps = 60
             quality = 256
-            await args.edit("**Converting to .gif...**")
+            await args.edit("**Converting to .mp4...**")
             anim = lottie.parsers.tgs.parse_tgs("sticker.tgs")
             result = BytesIO()
             result.name = "animation"
