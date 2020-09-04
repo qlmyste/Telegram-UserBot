@@ -3,10 +3,10 @@ from json import loads
 from json.decoder import JSONDecodeError
 from os import environ
 from sys import setrecursionlimit
-import threading
 import spotify_token as st
 from time import gmtime, strftime
 from requests import get
+import telethon
 from telethon.errors import AboutTooLongError, FloodWaitError
 from telethon import errors
 from telethon.tl.functions.account import UpdateProfileRequest
@@ -111,7 +111,7 @@ async def update_spotify_info():
                     await sleep(5)
                     await bot(UpdateProfileRequest(about=spobio))
                     print(spobio)
-                except AboutTooLongError:
+                except telethon.errors.rpcerrorlist.AboutTooLongError:
                     short_bio = "🎧: " + song
                     await sleep(5) #anti flood
                     await bot(UpdateProfileRequest(about=short_bio))
