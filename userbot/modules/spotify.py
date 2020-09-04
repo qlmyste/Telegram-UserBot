@@ -111,12 +111,22 @@ async def update_spotify_info():
                     await sleep(5)
                     await bot(UpdateProfileRequest(about=spobio))
                     print(spobio)
-                except telethon.errors.rpcerrorlist.AboutTooLongError:
-                    short_bio = "🎧: " + song
-                    await sleep(5) #anti flood
-                    print(short_bio)
-                    await bot(UpdateProfileRequest(about=short_bio))
-                    
+                except AboutTooLongError:
+                    try:
+                      short_bio = "🎧: " + song
+                      await sleep(5) #anti flood
+                      print(short_bio)
+                      await bot(UpdateProfileRequest(about=short_bio))
+                    except AboutTooLongError:
+                      short_bio = "🎧: " + song
+                      await sleep(5) #anti flood
+                      symbols = 0
+                      for i in range(len(short_bio)):
+                        symbols = symbols + 1
+                      if symbols > 70:
+                        short_bio = short_bio[:70]
+                      print(short_bio)
+                      await bot(UpdateProfileRequest(about=short_bio))
                 errorcheck = 0
                 OLDEXCEPT = False
                 
