@@ -124,7 +124,8 @@ async def update_spotify_info():
                       for i in range(len(short_bio)):
                         symbols = symbols + 1
                       if symbols > 70:
-                        short_bio = short_bio[:70]
+                        short_bio = short_bio[:67]
+                        short_bio += '...'
                       print(short_bio)
                       await bot(UpdateProfileRequest(about=short_bio))
                 errorcheck = 0
