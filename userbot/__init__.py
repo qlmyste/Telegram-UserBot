@@ -17,8 +17,8 @@ from pymongo import MongoClient
 from redis import StrictRedis
 from requests import get
 from telethon import TelegramClient
-from google.cloud import texttospeech_v1 as tts
-from google.cloud import speech_v1 as stt
+#from google.cloud import texttospeech_v1 as tts
+#from google.cloud import speech_v1 as stt
 
 load_dotenv("config.env")
 
@@ -181,7 +181,7 @@ dl1 = Downloader(url=url1, filename="bin/cmrudl")
 
 os.chmod('bin/megadown', 0o755)
 os.chmod('bin/cmrudl', 0o755)
-
+"""
 GOOGLE_APPLICATION_CREDENTIALS = os.environ.get("GOOGLE_APPLICATION_CREDENTIALS", None)
 if GOOGLE_APPLICATION_CREDENTIALS:
     TTSClient = tts.TextToSpeechClient()
@@ -189,7 +189,7 @@ if GOOGLE_APPLICATION_CREDENTIALS:
 else:
     TTSClient = None
     STTClient = None
-
+"""
 # Global Variables
 COUNT_MSG = 0
 USERS = {}
