@@ -103,7 +103,7 @@ async def upstream(ups):
     open("./temp.txt", 'w').close
     f = open("./temp.txt", "w+")
     f.write("True")
-    await bot.disconnect()
+    await ups.client.disconnect()
 
 
 CMD_HELP.update({"updater": ['Updater',
