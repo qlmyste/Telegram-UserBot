@@ -31,7 +31,7 @@ Arch Linux:
 ```
 $ sudo pacman -S python
 ```
-
+ 
 - type: 
 ```
 python3.7 -m pip install -r requirements.txt
