@@ -12,7 +12,7 @@ while isRestart is "True" or isFirstBoot:
     isFirstBoot = False
   tf = open("./temp.txt", "r")
   isRestart = tf.read()
-
+  print("isrestart = " + isRestart)
   if isRestart is "True":
     print("restarted")
     open("./temp.txt", "w").close()
