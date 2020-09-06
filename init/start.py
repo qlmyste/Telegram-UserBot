@@ -5,7 +5,6 @@ tf.write("False")
 tf = open("./temp.txt", "r")
 isRestart = tf.read()
 isFirstBoot = True
-print(isRestart)
 while isRestart == "True" or isFirstBoot:
   os.system("redis-server --daemonize yes")
   os.system("python3 -m userbot")
