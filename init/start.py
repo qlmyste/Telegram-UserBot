@@ -14,12 +14,13 @@ while (isRestart == "True") or isFirstBoot:
   isRestart = tf.read()
   print("isrestart = " + isRestart)
   print(isRestart == "False")
+  """
   if isRestart == "True":
     print("restarted")
     open("./temp.txt", "w").close()
     tf = open("./temp.txt", "w+")
     tf.write("False")
-
+"""
   try:
     os.system("redis-server --daemonize yes")
     os.system("python3 -m userbot")
