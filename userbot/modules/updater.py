@@ -100,11 +100,10 @@ async def upstream(ups):
     repo.git.reset('--hard', 'FETCH_HEAD')
     await ups.edit('`Successfully Updated!\n'
                    'Bot is restarting... Wait for a second!`')
-    await ups.client.disconnect()
-    # Spin a new instance of bot
-    execl(sys.executable, sys.executable, *sys.argv)
-    # Shut the existing one down
-    exit()
+    open("./temp.txt", 'w').close
+    f = open("./temp.txt", "w+")
+    f.write("True")
+    await bot.disconnect()
 
 
 CMD_HELP.update({"updater": ['Updater',
