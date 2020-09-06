@@ -19,5 +19,8 @@ while isRestart is "True" or isFirstBoot:
     tf = open("./temp.txt", "w+")
     tf.write("False")
 
-  os.system("redis-server --daemonize yes")
-  os.system("python3 -m userbot")
+  try:
+    os.system("redis-server --daemonize yes")
+    os.system("python3 -m userbot")
+  except:
+    pass
