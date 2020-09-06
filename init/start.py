@@ -6,6 +6,8 @@ tf = open("./temp.txt", "r")
 isRestart = tf.read()
 isFirstBoot = True
 while (isRestart == "True") or isFirstBoot:
+  os.system("redis-server --daemonize yes")
+  os.system("python3 -m userbot")
   print("first boot or restarted")
   if isFirstBoot:
     print("first boot")
@@ -21,8 +23,5 @@ while (isRestart == "True") or isFirstBoot:
     tf = open("./temp.txt", "w+")
     tf.write("False")
 """
-  try:
-    os.system("redis-server --daemonize yes")
-    os.system("python3 -m userbot")
-  except:
-    pass
+
+
