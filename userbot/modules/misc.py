@@ -67,9 +67,10 @@ async def killdabot(event):
     if BOTLOG:
         await event.client.send_message(BOTLOG_CHATID, "#RESTART \n"
                                         "Bot Restarted")
+    open("./temp.txt", 'w').close
+    f = open("./temp.txt", "w+")
+    f.write("True")
     await bot.disconnect()
-    # Spin a new instance of bot
-    execl(sys.executable, sys.executable, *sys.argv)
 
 @register(outgoing=True, pattern="^.support$")
 async def bot_support(wannahelp):
