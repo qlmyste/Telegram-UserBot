@@ -54,6 +54,8 @@ cd Telegram-UserBot
 ```
 ### How to run it on termux:
 ```
+pkg update
+pkg install git
 git clone https://github.com/PolisanTheEasyNick/Telegram-UserBot.git
 cd Telegram-UserBot
 ```
