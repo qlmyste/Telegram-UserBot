@@ -38,7 +38,7 @@ git clone https://github.com/PolisanTheEasyNick/Telegram-UserBot.git
 cd Telegram-UserBot
 ```
 - rename sample_config.env to config.env and fill it with nano, vim etc
-- run ./init/start.sh
+- run ./init/start.py
 
 ### How to run it on Docker:
 ```
@@ -61,7 +61,7 @@ cd Telegram-UserBot
 ```
 - rename sample_config.env to config.env and fill it with nano, vim etc
 - run ./termux_installer.sh
-- run ./init/start.sh
+- run ./init/start.py
 ### If the CI builds pass, but you still get syntax errors when running locally it's most probably not a problem with the source but with your version of python
 
 
