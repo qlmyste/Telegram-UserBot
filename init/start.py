@@ -5,7 +5,7 @@ tf.write("False")
 tf = open("./temp.txt", "r")
 isRestart = tf.read()
 isFirstBoot = True
-while isRestart is "True" or isFirstBoot:
+while (isRestart == "True") or isFirstBoot:
   print("first boot or restarted")
   if isFirstBoot:
     print("first boot")
@@ -14,7 +14,7 @@ while isRestart is "True" or isFirstBoot:
   isRestart = tf.read()
   print("isrestart = " + isRestart)
   print(isRestart == "False")
-  if isRestart is "True":
+  if isRestart == "True":
     print("restarted")
     open("./temp.txt", "w").close()
     tf = open("./temp.txt", "w+")
