@@ -57,7 +57,7 @@ async def killdabot(event):
     if BOTLOG:
         await event.client.send_message(BOTLOG_CHATID, "#SHUTDOWN \n"
                                         "Bot shut down")
-     open("./temp.txt", 'w').close
+    open("./temp.txt", 'w').close
     f = open("./temp.txt", "w+")
     f.write("False")
     await bot.disconnect()
