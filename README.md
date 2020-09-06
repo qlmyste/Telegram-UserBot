@@ -33,21 +33,33 @@ $ sudo pacman -S python
 
 - type: 
 ```
-# python3.7 -m pip install -r requirements.txt
+python3.7 -m pip install -r requirements.txt
+git clone https://github.com/PolisanTheEasyNick/Telegram-UserBot.git
+cd Telegram-UserBot
 ```
-- run generate_session_file.py, enter your account
-- rename sample_config.conf to config.conf and fill it
+- rename sample_config.env to config.env and fill it with nano, vim etc
 - run ./init/start.sh
 
 ### How to run it on Docker:
-- run generate_session_file.py, enter your account
-- rename sample_config.conf to config.conf and fill it
+```
+git clone https://github.com/PolisanTheEasyNick/Telegram-UserBot.git
+cd Telegram-UserBot
+```
+- rename sample_config.env to config.env and fill it with nano, vim etc
 - install Docker
 - type:
 ```
 # docker build . -t bot 
 # docker run bot
 ```
+### How to run it on termux:
+```
+git clone https://github.com/PolisanTheEasyNick/Telegram-UserBot.git
+cd Telegram-UserBot
+```
+- rename sample_config.env to config.env and fill it with nano, vim etc
+- run ./termux_installer.sh
+- run ./
 ### If the CI builds pass, but you still get syntax errors when running locally it's most probably not a problem with the source but with your version of python
 
 
