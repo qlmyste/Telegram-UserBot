@@ -110,12 +110,10 @@ async def update_spotify_info():
                 try:
                     await sleep(5)
                     await bot(UpdateProfileRequest(about=spobio))
-                    print(spobio)
                 except AboutTooLongError:
                     try:
                       short_bio = "🎧: " + song
                       await sleep(5) #anti flood
-                      print(short_bio)
                       await bot(UpdateProfileRequest(about=short_bio))
                     except AboutTooLongError:
                       short_bio = "🎧: " + song
@@ -126,7 +124,6 @@ async def update_spotify_info():
                       if symbols > 70:
                         short_bio = short_bio[:67]
                         short_bio += '...'
-                      print(short_bio)
                       await bot(UpdateProfileRequest(about=short_bio))
                 errorcheck = 0
                 OLDEXCEPT = False
@@ -144,7 +141,6 @@ async def update_spotify_info():
                       await sleep(10)
                       await dirtyfix()
                   except errors.FloodWaitError as e:
-                    print("KeyError: Need to wait " + str(e.seconds) + " seconds")
                     await sleep(e.seconds)
                     await dirtyfix()
         except JSONDecodeError:   #NO INFO ABOUT, user closed spotify client
@@ -157,21 +153,21 @@ async def update_spotify_info():
                 await sleep(10) #no need to ddos a spotify servers
                 await dirtyfix()
             except errors.FloodWaitError as e:
-                print("JSON: Need to wait " + str(e.seconds) + " seconds")
                 await sleep(e.seconds)
                 await dirtyfix()
         except TypeError:
-            print("TypeError: " + date)
             await sleep(5)
             await dirtyfix()
         except IndexError:
-            print("IndexError: " + date)
             await sleep(5)
             await dirtyfix()
         except errors.FloodWaitError as e:
             print("def: Need to wait " + str(e.seconds) + " seconds")
             await sleep(e.seconds)
             await dirtyfix()
+        except requests.exceptions.HTTPError:
+            await dirtyfix()
+
         SPOTIFYCHECK = False
         await sleep(5)
         await dirtyfix()
