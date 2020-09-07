@@ -12,7 +12,7 @@ from telethon import errors
 from telethon.tl.functions.account import UpdateProfileRequest
 
 from userbot import (BIO_PREFIX, BOTLOG, BOTLOG_CHATID, CMD_HELP, DEFAULT_BIO,
-                     SPOTIFY_KEY, SPOTIFY_DC, bot, SPOTIFY_AUTO)
+                     SPOTIFY_KEY, SPOTIFY_DC, bot)
 from userbot.events import register
 
 # =================== CONSTANT ===================
@@ -208,10 +208,6 @@ async def set_biodgraph(setdbio):
     RUNNING = False
     await bot(UpdateProfileRequest(about=DEFAULT_BIO))
     await setdbio.edit(SPO_BIO_DISABLED)
-
-if SPOTIFY_AUTO:
-  SPOTIFYCHECK = True
-  dirtyfix()
     
 CMD_HELP.update({"spotify": ['Spotify',
     " - `.enablespotify`: Enable Spotify bio updating.\n"
