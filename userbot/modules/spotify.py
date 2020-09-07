@@ -36,11 +36,9 @@ oldsong = ""
 isWritedPause = False
 isWritedPlay = False
 
-print(SPOTIFY_AUTO)
 if SPOTIFY_AUTO:
   SPOTIFYCHECK = True
-  print(SPOTIFYCHECK)
-
+  dirtyfix()
 # ================================================
 async def get_spotify_token():
     sptoken = st.start_session(SPOTIFY_DC, SPOTIFY_KEY)
