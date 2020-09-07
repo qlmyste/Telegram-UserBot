@@ -36,9 +36,7 @@ oldsong = ""
 isWritedPause = False
 isWritedPlay = False
 
-if SPOTIFY_AUTO:
-  SPOTIFYCHECK = True
-  dirtyfix()
+
 # ================================================
 async def get_spotify_token():
     sptoken = st.start_session(SPOTIFY_DC, SPOTIFY_KEY)
@@ -211,7 +209,10 @@ async def set_biodgraph(setdbio):
     await bot(UpdateProfileRequest(about=DEFAULT_BIO))
     await setdbio.edit(SPO_BIO_DISABLED)
 
-
+if SPOTIFY_AUTO:
+  SPOTIFYCHECK = True
+  dirtyfix()
+    
 CMD_HELP.update({"spotify": ['Spotify',
     " - `.enablespotify`: Enable Spotify bio updating.\n"
     " - `.disablespotify`: Disable Spotify bio updating.\n"]
