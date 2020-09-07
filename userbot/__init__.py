@@ -121,7 +121,6 @@ CONVERT_TOKEN = os.environ.get("CONVERT_API", None)
 # wolframalpha.com
 WOLFRAM_ID= os.environ.get("WOLFRAM_ID", None)
 
-SPOTIFY_AUTO= os.environ.get("SPOTIFY_AUTO", False)
 
 bot = TelegramClient("userbot", API_KEY, API_HASH)
 
