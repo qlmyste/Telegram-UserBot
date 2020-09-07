@@ -144,7 +144,6 @@ async def update_spotify_info():
                     await sleep(e.seconds)
                     await dirtyfix()
         except JSONDecodeError:   #NO INFO ABOUT, user closed spotify client
-            print("json error: " + date)
             if OLDEXCEPT == False:
               await sleep(5) #anti flood
               await bot(UpdateProfileRequest(about=DEFAULT_BIO))
