@@ -6,6 +6,7 @@ from sys import setrecursionlimit
 import spotify_token as st
 from time import gmtime, strftime
 from requests import get
+from requests.exceptions import HTTPError
 import telethon
 from telethon.errors import AboutTooLongError, FloodWaitError
 from telethon import errors
@@ -41,7 +42,7 @@ isWritedPlay = False
 async def get_spotify_token():
     try:
       sptoken = st.start_session(SPOTIFY_DC, SPOTIFY_KEY)
-    except requests.exceptions.HTTPError:
+    except HTTPError:
       await sleep(1)
       get_spotify_token()
     access_token = sptoken[0]
@@ -168,7 +169,7 @@ async def update_spotify_info():
             print("def: Need to wait " + str(e.seconds) + " seconds")
             await sleep(e.seconds)
             await dirtyfix()
-        except requests.exceptions.HTTPError:
+        except HTTPError:
             await dirtyfix()
 
         SPOTIFYCHECK = False
@@ -180,7 +181,7 @@ async def update_spotify_info():
 async def update_token():
     try:
       sptoken = st.start_session(SPOTIFY_DC, SPOTIFY_KEY)
-    except requests.exceptions.HTTPError:
+    except HTTPError:
       await sleep(1)
       update_token()
     access_token = sptoken[0]
