@@ -39,7 +39,11 @@ isWritedPlay = False
 
 # ================================================
 async def get_spotify_token():
-    sptoken = st.start_session(SPOTIFY_DC, SPOTIFY_KEY)
+    try:
+      sptoken = st.start_session(SPOTIFY_DC, SPOTIFY_KEY)
+    except requests.exceptions.HTTPError:
+      await sleep(1)
+      get_spotify_token()
     access_token = sptoken[0]
     environ["spftoken"] = access_token
 
@@ -174,7 +178,11 @@ async def update_spotify_info():
 
 
 async def update_token():
-    sptoken = st.start_session(SPOTIFY_DC, SPOTIFY_KEY)
+    try:
+      sptoken = st.start_session(SPOTIFY_DC, SPOTIFY_KEY)
+    except requests.exceptions.HTTPError:
+      await sleep(1)
+      update_token()
     access_token = sptoken[0]
     environ["spftoken"] = access_token
     errorcheck = 1
