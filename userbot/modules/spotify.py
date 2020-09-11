@@ -44,7 +44,7 @@ async def get_spotify_token():
       sptoken = st.start_session(SPOTIFY_DC, SPOTIFY_KEY)
     except HTTPError:
       await sleep(1)
-      get_spotify_token()
+      await get_spotify_token()
     access_token = sptoken[0]
     environ["spftoken"] = access_token
 
@@ -183,7 +183,7 @@ async def update_token():
       sptoken = st.start_session(SPOTIFY_DC, SPOTIFY_KEY)
     except HTTPError:
       await sleep(1)
-      update_token()
+      await update_token()
     access_token = sptoken[0]
     environ["spftoken"] = access_token
     errorcheck = 1
