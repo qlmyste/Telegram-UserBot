@@ -88,7 +88,7 @@ async def doc_png(e):
       await e.client.send_file(e.chat_id, open('/root/Telegram-UserBot/files/' + filename, 'rb'), reply_to=message)
     rmtree("/root/Telegram-UserBot/files")
     os.remove(f"/root/Telegram-UserBot/file.pdf")
-    os.remove('file.docx')
   else:
     await e.edit("`Not a doc file. Aborting...`")
     return
+#TODO: Help
