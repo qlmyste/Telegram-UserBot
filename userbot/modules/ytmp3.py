@@ -33,8 +33,6 @@ async def youtube_mp3(yt):
                               reply_to=reply_message)
 
     await yt.delete()
-
-    os.remove('video.mp4')
     os.remove(f'{safe_filename(video.title)}.mp3')
 
 CMD_HELP.update({"ytmp3": ["YtMP3",
