@@ -67,9 +67,17 @@ async def doc_png(e):
   if message.file.mime_type == "application/vnd.openxmlformats-officedocument.wordprocessingml.document" or message.file.mime_type == "application/msword":
     file = message.document
     await e.edit("**Downloading...**")
-    file = await bot.download_file(file, "file.docx")
-    await e.edit("**Converting...**")
-    result = convertapi.convert('pdf', { 'File': 'file.docx' })
+    result = None
+    if  message.file.mime_type == "application/vnd.openxmlformats-officedocument.wordprocessingml.document": #docx
+      file = await bot.download_file(file, "file.docx")
+      await e.edit("**Converting...**")
+      result = convertapi.convert('pdf', { 'File': 'file.docx' })
+      os.remove('file.docx')
+    if message.file.mime_type == "application/msword": #docx
+        file = await bot.download_file(file, "file.doc")
+        await e.edit("**Converting...**")
+        result = convertapi.convert('pdf', { 'File': 'file.doc' })
+        os.remove('file.doc')
     result.file.save('file.pdf')
     if os.path.isdir("/root/Telegram-UserBot/files") is False:
       os.mkdir("/root/Telegram-UserBot/files")
