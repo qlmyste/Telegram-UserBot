@@ -91,4 +91,74 @@ async def doc_png(e):
   else:
     await e.edit("`Not a doc file. Aborting...`")
     return
-#TODO: Help
+  
+@register(outgoing=True, pattern=r"^\.xls2img$")
+async def xls_png(e):
+  message = await e.get_reply_message()
+  if CONVERT_TOKEN == False:
+    await e.edit("**No converter API defined. Fill it in config.env file. Aborting...**")
+    return
+  convertapi.api_secret = CONVERT_TOKEN
+  if message.file.mime_type == "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" or message.file.mime_type == "application/vnd.ms-excel":
+    file = message.document
+    await e.edit("**Downloading...**")
+    result = None
+    if  message.file.mime_type == "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": #xlsx
+      file = await bot.download_file(file, "file.xlsx")
+      await e.edit("**Converting...**")
+      result = convertapi.convert('pdf', { 'File': 'file.xlsx' })
+      os.remove('file.xlsx')
+    if message.file.mime_type == "application/vnd.ms-excel": #xls
+        file = await bot.download_file(file, "file.xls")
+        await e.edit("**Converting...**")
+        result = convertapi.convert('pdf', { 'File': 'file.xls' })
+        os.remove('file.xls')
+    result.file.save('file.pdf')
+    if os.path.isdir("/root/Telegram-UserBot/files") is False:
+      os.mkdir("/root/Telegram-UserBot/files")
+    await e.edit("**Processing...**")
+    images_from_path = convert_from_path('/root/Telegram-UserBot/file.pdf', output_folder='/root/Telegram-UserBot/files/', fmt='png')
+    await e.edit("**Sending...**")
+    for filename in os.listdir("/root/Telegram-UserBot/files/"):
+      await e.client.send_file(e.chat_id, open('/root/Telegram-UserBot/files/' + filename, 'rb'), reply_to=message)
+    rmtree("/root/Telegram-UserBot/files")
+    os.remove(f"/root/Telegram-UserBot/file.pdf")
+  else:
+    await e.edit("`Not a xls/xlsx file. Aborting...`")
+    return
+  
+@register(outgoing=True, pattern=r"^\.xls2pdf$")
+async def xls_png(e):
+  message = await e.get_reply_message()
+  if CONVERT_TOKEN == False:
+    await e.edit("**No converter API defined. Fill it in config.env file. Aborting...**")
+    return
+  convertapi.api_secret = CONVERT_TOKEN
+  if message.file.mime_type == "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" or message.file.mime_type == "application/vnd.ms-excel":
+    file = message.document
+    await e.edit("**Downloading...**")
+    result = None
+    if  message.file.mime_type == "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": #xlsx
+      file = await bot.download_file(file, "file.xlsx")
+      await e.edit("**Converting...**")
+      result = convertapi.convert('pdf', { 'File': 'file.xlsx' })
+      os.remove('file.xlsx')
+    if message.file.mime_type == "application/vnd.ms-excel": #xls
+        file = await bot.download_file(file, "file.xls")
+        await e.edit("**Converting...**")
+        result = convertapi.convert('pdf', { 'File': 'file.xls' })
+        os.remove('file.xls')
+    result.file.save('file.pdf')
+    await e.edit("**Sending...**")
+    await e.client.send_file(e.chat_id, f'file.pdf',reply_to=message)
+  else:
+    await e.edit("`Not a xls/xlsx file. Aborting...`")
+    return
+
+CMD_HELP.update({"documents": ['Documents',
+    " - `.pdf2img`: Convert pdf to images.\n"
+    " - `.xls2img`: Convert xls/xlsx to images.\n"
+    " - `.xls2pdf`: Convert xls/xlsx to pdf.\n"
+    " - `.doc2pdf`: Convert doc/docx to pdf.\n"
+    " - `.doc2img`: Convert doc/docx to images.\n"]
+})
