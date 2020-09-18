@@ -1,8 +1,14 @@
 # port to userbot by @MoveAngel
 # KANGED FROM KensurBot
 
-from asyncio.exceptions import TimeoutError
+#python version 8
+if sys.version_info[1] == "8":
+    from asyncio.exceptions import TimeoutError
 
+# if python version 7
+if sys.version_info[1] == "7":
+    from asyncio import TimeoutError
+    
 from telethon import events
 from telethon.errors.rpcerrorlist import YouBlockedUserError
 
