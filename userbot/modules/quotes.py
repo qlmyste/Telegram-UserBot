@@ -1,5 +1,6 @@
 # port to userbot by @MoveAngel
 # KANGED FROM KensurBot
+import sys
 
 #python version 8
 if sys.version_info[1] == "8":
