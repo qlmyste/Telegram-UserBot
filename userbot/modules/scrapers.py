@@ -19,7 +19,6 @@ from pytube import YouTube
 from pytube.helpers import safe_filename
 from requests import get
 from search_engine_parser import GoogleSearch
-from urbandict import define
 from wikipedia import summary
 from wikipedia.exceptions import DisambiguationError, PageError
 from random_words import RandomWords
@@ -29,6 +28,8 @@ from userbot import (BOTLOG, BOTLOG_CHATID, CMD_HELP, CURRENCY_API,
 from userbot.events import register
 from gtts import gTTS, gTTSError #tts
 from bs4 import BeautifulSoup #imdb
+import asyncurban #ud
+
 LANG = "en"
 
 
@@ -103,26 +104,27 @@ async def wiki(wiki_q):
             BOTLOG_CHATID, f"Wiki query {match} was executed successfully")
 
 
-@register(outgoing=True, pattern="^.ud (.*)")
+@register(outgoing=True, pattern="^\.ud (.*)")
 async def urban_dict(ud_e):
     """ For .ud command, fetch content from Urban Dictionary. """
     await ud_e.edit("Processing...")
     query = ud_e.pattern_match.group(1)
+    urban_dict_helper = asyncurban.UrbanDictionary()
     try:
-        define(query)
-    except HTTPError:
+        urban_def = await urban_dict_helper.get_word(query)
+    except asyncurban.WordNotFoundError:
         await ud_e.edit(f"Sorry, couldn't find any results for: {query}")
         return
-    mean = define(query)
-    deflen = sum(len(i) for i in mean[0]["def"])
-    exalen = sum(len(i) for i in mean[0]["example"])
+    deflen = sum(len(i) for i in urban_def.definition)
+    exalen = sum(len(i) for i in urban_def.example)
     meanlen = deflen + exalen
     if int(meanlen) >= 0:
         if int(meanlen) >= 4096:
             await ud_e.edit("`Output too large, sending as file.`")
             file = open("output.txt", "w+")
-            file.write("Text: " + query + "\n\nMeaning: " + mean[0]["def"] +
-                       "\n\n" + "Example: \n" + mean[0]["example"])
+            file.write("Text: " + query + "\n\nMeaning: " +
+                       urban_def.definition + "\n\n" + "Example: \n" +
+                       urban_def.example)
             file.close()
             await ud_e.client.send_file(
                 ud_e.chat_id,
@@ -133,11 +135,12 @@ async def urban_dict(ud_e):
             await ud_e.delete()
             return
         await ud_e.edit("Text: **" + query + "**\n\nMeaning: **" +
-                        mean[0]["def"] + "**\n\n" + "Example: \n__" +
-                        mean[0]["example"] + "__")
+                        urban_def.definition + "**\n\n" + "Example: \n__" +
+                        urban_def.example + "__")
         if BOTLOG:
             await ud_e.client.send_message(
-                BOTLOG_CHATID, "ud query " + query + " executed successfully.")
+                BOTLOG_CHATID, "UrbanDictionary query for `" + query +
+                "` executed successfully.")
     else:
         await ud_e.edit("No result found for **" + query + "**")
 
