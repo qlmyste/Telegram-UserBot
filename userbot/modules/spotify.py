@@ -6,7 +6,7 @@ from sys import setrecursionlimit
 import spotify_token as st
 from time import gmtime, strftime
 from requests import get
-from requests.exceptions import HTTPError
+from requests.exceptions import HTTPError, ConnectionError
 import telethon
 from telethon.errors import AboutTooLongError, FloodWaitError
 from telethon import errors
@@ -73,7 +73,16 @@ async def update_spotify_info():
             spftoken = environ.get("spftoken", None)
             hed = {'Authorization': 'Bearer ' + spftoken}
             url = 'https://api.spotify.com/v1/me/player/currently-playing'
-            response = get(url, headers=hed)
+            try:
+              response = get(url, headers=hed)
+            except ConnectionError:
+              sleep(0.1)
+              #trying again
+              try:
+                response = get(url,headers=hed)
+              except ConnectionError:
+                sleep(1)
+                pass #skip
             data = loads(response.content)
             isLocal = data['item']['is_local']
             isPlaying = data['is_playing']
