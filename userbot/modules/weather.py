@@ -6,7 +6,7 @@
 """ Userbot module for getting the weather of a city. """
 
 import json
-from datetime import datetime
+from datetime import datetime, timedelta
 
 import requests
 from pytz import country_names as c_n
