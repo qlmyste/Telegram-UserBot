@@ -162,6 +162,9 @@ async def fetch_forecast(weather):
       description_string = ', '.join(descriptions)
       forecast_line = f"**{time}** - `{temp}`, `{description_string}`\n"
       weather_string += forecast_line
+    url = f'https://api.openweathermap.org/data/2.5/weather?q={city}&appid={OpenWeatherAPI}'
+    request = requests.get(url)
+    result = json.loads(request.text)
     desc = result['weather'][0]
     desc = desc['main']
     weather_string += "\n\n\n" + f"**{desc}**\n" + f"`{cityname}, {fullc_n}`\n" + f"`{time}`"
