@@ -144,6 +144,9 @@ async def fetch_forecast(weather):
     if OWM_API is None:
         await weather.edit(NO_API_KEY)
         return
+
+    OpenWeatherAPI = OWM_API
+    saved_props = await get_weather() if is_mongo_alive() else None
     url = f'https://api.openweathermap.org/data/2.5/onecall?lat=50.04&lon=21.99&APPID={OpenWeatherAPI}'
     request = requests.get(url)
     if request.status_code != 200:
