@@ -140,24 +140,24 @@ async def fetch_weather(weather):
 
 
 @register(outgoing=True, pattern="^.setcity(?: |$)(.*)")
-async def set_default_city(city):
+async def set_default_city(scity):
     """ For .setcity command, change the default
         city for weather command. """
     if not is_mongo_alive() or not is_redis_alive():
-        await city.edit(DB_FAILED)
+        await scity.edit(DB_FAILED)
         return
 
     if OWM_API is None:
-        await city.edit(NO_API_KEY)
+        await scity.edit(NO_API_KEY)
         return
 
     OpenWeatherAPI = OWM_API
 
-    if not city.pattern_match.group(1):
-        await city.edit("`Please specify a city to set one as default.`")
+    if not scity.pattern_match.group(1):
+        await scity.edit("`Please specify a city to set one as default.`")
         return
     else:
-        city = city.pattern_match.group(1)
+        city = scity.pattern_match.group(1)
 
     timezone_countries = {
         timezone: country
@@ -165,7 +165,7 @@ async def set_default_city(city):
     }
 
     if "," in city:
-        newcity = city.split(",")
+        newcity = scity.split(",")
         if len(newcity[1]) == 2:
             city = newcity[0].strip() + "," + newcity[1].strip()
         else:
@@ -173,7 +173,7 @@ async def set_default_city(city):
             try:
                 countrycode = timezone_countries[f'{country}']
             except KeyError:
-                await city.edit(INV_PARAM)
+                await scity.edit(INV_PARAM)
                 return
             city = newcity[0].strip() + "," + countrycode.strip()
 
@@ -182,7 +182,7 @@ async def set_default_city(city):
     result = json.loads(request.text)
 
     if request.status_code != 200:
-        await city.edit(INV_PARAM)
+        await scity.edit(INV_PARAM)
         return
 
     await set_weather(city)
@@ -191,7 +191,7 @@ async def set_default_city(city):
 
     fullc_n = c_n[f"{country}"]
 
-    await city.edit(f"`Set default city as {cityname}, {fullc_n}.`")
+    await scity.edit(f"`Set default city as {cityname}, {fullc_n}.`")
 
 
 CMD_HELP.update({"weather": ["Weather",
