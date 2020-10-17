@@ -160,15 +160,17 @@ async def fetch_forecast(weather):
     request = requests.get(url)
     result = json.loads(request.text)
     list = result['list']
-    weather_string = f"Forecast for `{city}`:\n"
+    weather_string = f"Forecast for **{city}**:\n"
     now = datetime.now()
     hour = int(now.strftime("%H"))
     multiplier = 0
     for dt in list[:9]:
-      hour = format(datetime.now() + timedelta(hours=multiplier), '%H')
+      date_str = dt['dt_txt']
+      all_date = datetime.strptime(date_str, '%Y-%m-%d %H:%M:%S')
+      hour = all_date.strftime("%H")
       temp = f"{round(dt['main']['temp'] - 273.15, 2)}°C"
       desc = dt['weather'][0]['description']
-      weather_string += '`'+str(hour)+'`' + '`:00: `' + '`'+ temp + '`' + ", **" + str(desc) + "**\n"
+      weather_string += '`'+str(hour)+'`' + '`:00:` ' + '`'+ temp + '`' + ", **" + str(desc) + "**\n"
       multiplier += 3 
 
     url = f'https://api.openweathermap.org/data/2.5/weather?q={city}&appid={OpenWeatherAPI}'
