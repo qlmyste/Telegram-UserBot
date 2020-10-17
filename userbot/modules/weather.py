@@ -170,7 +170,7 @@ async def fetch_forecast(weather):
       hour = all_date.strftime("%H")
       temp = f"{round(dt['main']['temp'] - 273.15, 2)}°C"
       desc = dt['weather'][0]['description']
-      weather_string += '`'+str(hour)+'`' + '`:00:` ' + '`'+ temp + '`' + ", **" + str(desc) + "**\n"
+      weather_string += '`'+str(hour)+'' + ':00:` ' + '`'+ temp + '`' + ", **" + str(desc) + "**\n"
       multiplier += 3 
 
     url = f'https://api.openweathermap.org/data/2.5/weather?q={city}&appid={OpenWeatherAPI}'
