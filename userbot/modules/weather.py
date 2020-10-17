@@ -157,7 +157,7 @@ async def fetch_forecast(weather):
       temp = f"{round(forecast['temp'] - 273.15, 2)}°C"
       descriptions = [description['description'] for description in forecast['weather']]
       description_string = ', '.join(descriptions)
-      forecast_line = f"{time} - `{temp}`, **{description_string}**\n"
+      forecast_line = f"**{time}** - `{temp}`, `{description_string}`\n"
       weather_string += forecast_line
     weather_string += "\n\n\n" + "f"**{desc}**\n" +
         f"`{cityname}, {fullc_n}`\n" + f"`{time}`
