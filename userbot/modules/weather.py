@@ -147,27 +147,41 @@ async def fetch_forecast(weather):
 
     OpenWeatherAPI = OWM_API
     saved_props = await get_weather() if is_mongo_alive() else None
-    url = f'https://api.openweathermap.org/data/2.5/onecall?lat=50.04&lon=21.99&APPID={OpenWeatherAPI}'
+
+    if not weather.pattern_match.group(1):
+        if 'weather_city' in saved_props:
+            city = saved_props['weather_city']
+        else:
+            await weather.edit("`Please specify a city or set one as default.`")
+            return
+    else:
+        city = weather.pattern_match.group(1)
+    url = f'https://api.openweathermap.org/data/2.5/forecast?q={city}&appid={OpenWeatherAPI}'
     request = requests.get(url)
-    if request.status_code != 200:
-        await weather.edit(INV_PARAM)
-        return
     result = json.loads(request.text)
-    hourly = result['hourly']
-    weather_string = f"**Forecast**:\n"
-    for forecast in hourly[:12]:
-      time = str(datetime.fromtimestamp(forecast["dt"]))[11:]
-      temp = f"{round(forecast['temp'] - 273.15, 2)}°C"
-      descriptions = [description['description'] for description in forecast['weather']]
-      description_string = ', '.join(descriptions)
-      forecast_line = f"**{time}** - `{temp}`, `{description_string}`\n"
-      weather_string += forecast_line
+    list = result['list']
+    weather_string = f"Forecast for `{city}`:"
+    now = datetime.now()
+    hour = int(now.strftime("%H"))
+    multiplier = 0
+    for dt in list[:9]:
+      hour = format(datetime.now() + timedelta(hours=multiplier), '%H')
+      temp = f"{round(dt['main']['temp'] - 273.15, 2)}°C"
+      desc = dt['weather'][0]['description']
+      weather_string += '`'+str(hour)+'`' + '`:00: `' + '`'+ temp + '`' + ", **" + str(desc) + "**\n"
+      multiplier += 3 
+
     url = f'https://api.openweathermap.org/data/2.5/weather?q={city}&appid={OpenWeatherAPI}'
     request = requests.get(url)
     result = json.loads(request.text)
+    curtemp = result['main']['temp']
     desc = result['weather'][0]
     desc = desc['main']
-    weather_string += "\n\n\n" + f"**{desc}**\n" + f"`{cityname}, {fullc_n}`\n" + f"`{time}`"
+    country = result['sys']['country']
+    ctimezone = tz(c_tz[country][0])
+    time = datetime.now(ctimezone).strftime("%A, %I:%M %p")
+    fullc_n = c_n[f"{country}"]
+    weather_string += "\n\n\n" + f"**{desc}**\n" + f"`{city}, {fullc_n}`\n" + f"`{time}`"
     weather.edit(weather_string)
     
 @register(outgoing=True, pattern="^.setcity(?: |$)(.*)")
