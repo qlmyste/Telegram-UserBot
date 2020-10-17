@@ -182,7 +182,7 @@ async def fetch_forecast(weather):
     time = datetime.now(ctimezone).strftime("%A, %I:%M %p")
     fullc_n = c_n[f"{country}"]
     weather_string += "\n\n\n" + f"**{desc}**\n" + f"`{city}, {fullc_n}`\n" + f"`{time}`"
-    weather.edit(weather_string)
+    await weather.edit(weather_string)
     
 @register(outgoing=True, pattern="^.setcity(?: |$)(.*)")
 async def set_default_city(scity):
@@ -242,6 +242,8 @@ async def set_default_city(scity):
 CMD_HELP.update({"weather": ["Weather",
     " - `.weather <city> or .weather <city>, <country name/code>`: "
     "Gets the weather of a city.\n"
+    " - `.forecst <city> or .forecast <city>, <country name/code>`: "
+    "Gets the weather of a city by every 3 hours.\n" 
     " - `.setcity <city> or .setcity <city>, <country name/code>`: "
     "Set the default city for the .weather command.\n"]
 })
