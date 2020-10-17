@@ -162,6 +162,8 @@ async def fetch_forecast(weather):
       description_string = ', '.join(descriptions)
       forecast_line = f"**{time}** - `{temp}`, `{description_string}`\n"
       weather_string += forecast_line
+    desc = result['weather'][0]
+    desc = desc['main']
     weather_string += "\n\n\n" + f"**{desc}**\n" + f"`{cityname}, {fullc_n}`\n" + f"`{time}`"
     weather.edit(weather_string)
     
