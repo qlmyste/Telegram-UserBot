@@ -138,7 +138,31 @@ async def fetch_weather(weather):
         f"**Sunset:** `{sun(sunset)}`\n\n\n" + f"**{desc}**\n" +
         f"`{cityname}, {fullc_n}`\n" + f"`{time}`")
 
-
+@register(outgoing=True, pattern="^.forecast(?: |$)(.*)")
+async def fetch_forecast(weather):
+    """ For .weather command, gets the current weather of a city. """
+    if OWM_API is None:
+        await weather.edit(NO_API_KEY)
+        return
+    url = f'https://api.openweathermap.org/data/2.5/onecall?lat=50.04&lon=21.99&APPID={OpenWeatherAPI}'
+    request = requests.get(url)
+    if request.status_code != 200:
+        await weather.edit(INV_PARAM)
+        return
+    result = json.loads(request.text)
+    hourly = result['hourly']
+    weather_string = ""
+    for forecast in hourly[:12]:
+      time = str(datetime.fromtimestamp(forecast["dt"]))[11:]
+      temp = f"{round(forecast['temp'] - 273.15, 2)}°C"
+      descriptions = [description['description'] for description in forecast['weather']]
+      description_string = ', '.join(descriptions)
+      forecast_line = f"{time} - `{temp}`, {description_string}\n"
+      weather_string += forecast_line
+    weather_string += "\n\n\n" + "f"**{desc}**\n" +
+        f"`{cityname}, {fullc_n}`\n" + f"`{time}`
+    weather.edit(weather_string)
+    
 @register(outgoing=True, pattern="^.setcity(?: |$)(.*)")
 async def set_default_city(scity):
     """ For .setcity command, change the default
