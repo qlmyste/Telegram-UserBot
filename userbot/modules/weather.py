@@ -160,7 +160,7 @@ async def fetch_forecast(weather):
     request = requests.get(url)
     result = json.loads(request.text)
     list = result['list']
-    weather_string = f"Forecast for `{city}`:"
+    weather_string = f"Forecast for `{city}`:\n"
     now = datetime.now()
     hour = int(now.strftime("%H"))
     multiplier = 0
