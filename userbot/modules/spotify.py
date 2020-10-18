@@ -75,15 +75,16 @@ async def update_spotify_info():
             url = 'https://api.spotify.com/v1/me/player/currently-playing'
             try:
               response = get(url, headers=hed)
+              data = loads(response.content)
             except ConnectionError:
-              sleep(0.1)
+              sleep(2)
               #trying again
               try:
                 response = get(url,headers=hed)
+                 
               except ConnectionError:
-                sleep(1)
+                sleep(2)
                 pass #skip
-            data = loads(response.content)
             isLocal = data['item']['is_local']
             isPlaying = data['is_playing']
             if isLocal:
