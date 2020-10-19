@@ -74,13 +74,11 @@ async def update_spotify_info():
             url = 'https://api.spotify.com/v1/me/player/currently-playing'
             try:
               response_temp = get(url, headers=hed)
-              data = loads(response.content)
             except ConnectionError:
               sleep(2)
               #trying again
               try:
                 response_temp = get(url,headers=hed)
-                 
               except ConnectionError:
                 sleep(2)
                 pass #skip
