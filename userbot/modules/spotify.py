@@ -65,7 +65,6 @@ async def update_spotify_info():
     global oldsong
     global errorcheck
     spobio = ""
-    response = ""
     while SPOTIFYCHECK:
         date = strftime("%Y-%m-%d %H:%M:%S", gmtime())
         try:
