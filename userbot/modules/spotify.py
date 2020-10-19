@@ -65,7 +65,7 @@ async def update_spotify_info():
     global oldsong
     global errorcheck
     spobio = ""
-    
+    response = ""
     while SPOTIFYCHECK:
         date = strftime("%Y-%m-%d %H:%M:%S", gmtime())
         try:
@@ -74,17 +74,22 @@ async def update_spotify_info():
             hed = {'Authorization': 'Bearer ' + spftoken}
             url = 'https://api.spotify.com/v1/me/player/currently-playing'
             try:
-              response = get(url, headers=hed)
+              response_temp = get(url, headers=hed)
               data = loads(response.content)
             except ConnectionError:
               sleep(2)
               #trying again
               try:
-                response = get(url,headers=hed)
+                response_temp = get(url,headers=hed)
                  
               except ConnectionError:
                 sleep(2)
                 pass #skip
+              finally: 
+                response = response_temp #write response, getted by second try
+            finally:
+              response = response_temp #by first try
+            data = loads(response.content)
             isLocal = data['item']['is_local']
             isPlaying = data['is_playing']
             if isLocal:
