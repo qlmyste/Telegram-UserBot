@@ -78,7 +78,7 @@ async def update_spotify_info():
                 response = get(url,headers=hed)
                 data = loads(response.content)
                 isGetted = True            
-            except ConnectionError:
+            except:
                 isGetted = False
                 pass #skip
             if isGetted:
