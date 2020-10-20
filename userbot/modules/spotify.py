@@ -65,6 +65,7 @@ async def update_spotify_info():
     global oldsong
     global errorcheck
     global isGetted
+    global data
     spobio = ""
     while SPOTIFYCHECK:
         try:
