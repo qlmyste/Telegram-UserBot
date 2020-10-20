@@ -36,7 +36,7 @@ oldartist = ""
 oldsong = ""
 isWritedPause = False
 isWritedPlay = False
-
+isGetted = False
 
 # ================================================
 async def get_spotify_token():
@@ -64,129 +64,124 @@ async def update_spotify_info():
     global oldartist
     global oldsong
     global errorcheck
+    global isGetted
     spobio = ""
     while SPOTIFYCHECK:
-        date = strftime("%Y-%m-%d %H:%M:%S", gmtime())
         try:
             RUNNING = True
             spftoken = environ.get("spftoken", None)
             hed = {'Authorization': 'Bearer ' + spftoken}
             url = 'https://api.spotify.com/v1/me/player/currently-playing'
             try:
-              response_temp = get(url, headers=hed)
-            except ConnectionError:
-              sleep(2)
-              #trying again
-              try:
-                response_temp = get(url,headers=hed)
-              except ConnectionError:
-                sleep(2)
-                pass #skip
-              finally: 
-                response = response_temp #write response, getted by second try
-            finally:
-              response = response_temp #by first try
-            data = loads(response.content)
-            isLocal = data['item']['is_local']
-            isPlaying = data['is_playing']
-            if isLocal:
-              try:
-                artist = data['item']['artists'][0]['name']
-                song = data['item']['name']
-                if artist == "":
-                  isArtist = False
-                else:
-                  isArtist = True
-              except IndexError:
-                song = data['item']['name']
-                artist = ""
-                isArtist = False
-            else:
-                artist = data['item']['album']['artists'][0]['name']
-                song = data['item']['name']
-
-            if isWritedPlay and isPlaying == False:
-              isWritedPlay = False
-            if isWritedPause and isPlaying == True:
-              isWritedPause = False
-            if (song != oldsong or artist != oldartist) or (isWritedPlay == False and isWritedPause == False):
-                oldartist = artist
-                oldsong = song
-                if isLocal:
-                  if isArtist:
-                    spobio = BIOPREFIX + " 🎧: " + artist + " - " + song + " [LOCAL]"
-                  else:
-                    spobio = BIOPREFIX + " 🎧: " + song + " [LOCAL]"
-                else:
-                  spobio = BIOPREFIX + " 🎧: " + artist + " - " + song
-                if isPlaying == False:
-                  spobio += " [PAUSED]"
-                  isWritedPause = True
-                elif isPlaying == True:
-                  isWritedPlay = True
+              response = get(url,headers=hed)
+              data = loads(response.content)
+              isGetted = True            
+            except: #can't connect to spoti or some else trouble
+              isGetted = False
+              pass #skip            
+            if isGetted:
+              isLocal = data['item']['is_local']
+              isPlaying = data['is_playing']
+              if isLocal:
                 try:
-                    await sleep(5)
-                    await bot(UpdateProfileRequest(about=spobio))
-                except AboutTooLongError:
-                    try:
-                      short_bio = "🎧: " + song
-                      await sleep(5) #anti flood
-                      await bot(UpdateProfileRequest(about=short_bio))
-                    except AboutTooLongError:
-                      short_bio = "🎧: " + song
-                      await sleep(5) #anti flood
-                      symbols = 0
-                      for i in range(len(short_bio)):
-                        symbols = symbols + 1
-                      if symbols > 70:
-                        short_bio = short_bio[:67]
-                        short_bio += '...'
-                      await bot(UpdateProfileRequest(about=short_bio))
-                errorcheck = 0
-                OLDEXCEPT = False
-                
-        except KeyError:   #long pause
-                print("keyerror: " + date)
-                if errorcheck == 0:
-                  await update_token()
-                elif errorcheck == 1:
-                  if OLDEXCEPT == False:
-                    await sleep(5) #anti flood
-                    await bot(UpdateProfileRequest(about=DEFAULT_BIO))
-                  OLDEXCEPT = True
-                  try:
-                      await sleep(10)
-                      await dirtyfix()
-                  except errors.FloodWaitError as e:
-                    await sleep(e.seconds)
-                    await dirtyfix()
-        except JSONDecodeError:   #NO INFO ABOUT, user closed spotify client
-            if OLDEXCEPT == False:
-              await sleep(5) #anti flood
-              await bot(UpdateProfileRequest(about=DEFAULT_BIO))
-            OLDEXCEPT = True
-            try:
-                await sleep(10) #no need to ddos a spotify servers
-                await dirtyfix()
-            except errors.FloodWaitError as e:
-                await sleep(e.seconds)
-                await dirtyfix()
-        except TypeError:
-            await sleep(5)
-            await dirtyfix()
-        except IndexError:
-            await sleep(5)
-            await dirtyfix()
-        except errors.FloodWaitError as e:
-            print("def: Need to wait " + str(e.seconds) + " seconds")
-            await sleep(e.seconds)
-            await dirtyfix()
-        except HTTPError:
-            await dirtyfix()
+                  artist = data['item']['artists'][0]['name']
+                  song = data['item']['name']
+                  if artist == "":
+                    isArtist = False
+                  else:
+                    isArtist = True
+                except IndexError:
+                  song = data['item']['name']
+                  artist = ""
+                  isArtist = False
+              else:
+                  artist = data['item']['album']['artists'][0]['name']
+                  song = data['item']['name']
 
-        SPOTIFYCHECK = False
-        await sleep(5)
-        await dirtyfix()
+              if isWritedPlay and isPlaying == False:
+                isWritedPlay = False
+              if isWritedPause and isPlaying == True:
+                isWritedPause = False
+              if (song != oldsong or artist != oldartist) or (isWritedPlay == False and isWritedPause == False):
+                  oldartist = artist
+                  oldsong = song
+                  if isLocal:
+                    if isArtist:
+                      spobio = BIOPREFIX + " 🎧: " + artist + " - " + song + " [LOCAL]"
+                    else:
+                      spobio = BIOPREFIX + " 🎧: " + song + " [LOCAL]"
+                  else:
+                    spobio = BIOPREFIX + " 🎧: " + artist + " - " + song
+                  if isPlaying == False:
+                    spobio += " [PAUSED]"
+                    isWritedPause = True
+                  elif isPlaying == True:
+                    isWritedPlay = True
+                  try:
+                      await sleep(5)
+                      await bot(UpdateProfileRequest(about=spobio))
+                  except AboutTooLongError:
+                      try:
+                        short_bio = "🎧: " + song
+                        await sleep(5) #anti flood
+                        await bot(UpdateProfileRequest(about=short_bio))
+                      except AboutTooLongError:
+                        short_bio = "🎧: " + song
+                        await sleep(5) #anti flood
+                        symbols = 0
+                        for i in range(len(short_bio)):
+                          symbols = symbols + 1
+                        if symbols > 70:
+                          short_bio = short_bio[:67]
+                          short_bio += '...'
+                        await bot(UpdateProfileRequest(about=short_bio))
+                  errorcheck = 0
+                  OLDEXCEPT = False
+            else: #no data, means no need to update profile. Trying to get again (by next loop)
+              pass
+          except KeyError:   #long pause
+                  print("keyerror: " + date)
+                  if errorcheck == 0:
+                    await update_token()
+                  elif errorcheck == 1:
+                    if OLDEXCEPT == False:
+                      await sleep(5) #anti flood
+                      await bot(UpdateProfileRequest(about=DEFAULT_BIO))
+                    OLDEXCEPT = True
+                    try:
+                        await sleep(10)
+                        await dirtyfix()
+                    except errors.FloodWaitError as e:
+                      await sleep(e.seconds)
+                      await dirtyfix()
+          except JSONDecodeError:   #NO INFO ABOUT, user closed spotify client
+              if OLDEXCEPT == False:
+                await sleep(5) #anti flood
+                await bot(UpdateProfileRequest(about=DEFAULT_BIO))
+              OLDEXCEPT = True
+              try:
+                  await sleep(10) #no need to ddos a spotify servers
+                  await dirtyfix()
+              except errors.FloodWaitError as e:
+                  await sleep(e.seconds)
+                  await dirtyfix()
+          except TypeError:
+              await sleep(5)
+              await dirtyfix()
+          except IndexError:
+              await sleep(5)
+              await dirtyfix()
+          except errors.FloodWaitError as e:
+              print("def: Need to wait " + str(e.seconds) + " seconds")
+              await sleep(e.seconds)
+              await dirtyfix()
+          except HTTPError:
+              await dirtyfix()
+
+
+          SPOTIFYCHECK = False
+          await sleep(5)
+          await dirtyfix()
     RUNNING = False
 
 
