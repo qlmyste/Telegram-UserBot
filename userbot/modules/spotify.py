@@ -68,17 +68,18 @@ async def update_spotify_info():
     spobio = ""
     while SPOTIFYCHECK:
         try:
+
             RUNNING = True
             spftoken = environ.get("spftoken", None)
             hed = {'Authorization': 'Bearer ' + spftoken}
             url = 'https://api.spotify.com/v1/me/player/currently-playing'
             try:
-              response = get(url,headers=hed)
-              data = loads(response.content)
-              isGetted = True            
-            except: #can't connect to spoti or some else trouble
-              isGetted = False
-              pass #skip            
+                response = get(url,headers=hed)
+                data = loads(response.content)
+                isGetted = True            
+            except ConnectionError:
+                isGetted = False
+                pass #skip
             if isGetted:
               isLocal = data['item']['is_local']
               isPlaying = data['is_playing']
@@ -137,51 +138,50 @@ async def update_spotify_info():
                         await bot(UpdateProfileRequest(about=short_bio))
                   errorcheck = 0
                   OLDEXCEPT = False
-            else: #no data, means no need to update profile. Trying to get again (by next loop)
+            else: #means no new data. NO need to update. Trying to get again by new loop 
               pass
-          except KeyError:   #long pause
-                  print("keyerror: " + date)
-                  if errorcheck == 0:
-                    await update_token()
-                  elif errorcheck == 1:
-                    if OLDEXCEPT == False:
-                      await sleep(5) #anti flood
-                      await bot(UpdateProfileRequest(about=DEFAULT_BIO))
-                    OLDEXCEPT = True
-                    try:
-                        await sleep(10)
-                        await dirtyfix()
-                    except errors.FloodWaitError as e:
-                      await sleep(e.seconds)
+        except KeyError:   #long pause
+                print("keyerror: " + date)
+                if errorcheck == 0:
+                  await update_token()
+                elif errorcheck == 1:
+                  if OLDEXCEPT == False:
+                    await sleep(5) #anti flood
+                    await bot(UpdateProfileRequest(about=DEFAULT_BIO))
+                  OLDEXCEPT = True
+                  try:
+                      await sleep(10)
                       await dirtyfix()
-          except JSONDecodeError:   #NO INFO ABOUT, user closed spotify client
-              if OLDEXCEPT == False:
-                await sleep(5) #anti flood
-                await bot(UpdateProfileRequest(about=DEFAULT_BIO))
-              OLDEXCEPT = True
-              try:
-                  await sleep(10) #no need to ddos a spotify servers
-                  await dirtyfix()
-              except errors.FloodWaitError as e:
-                  await sleep(e.seconds)
-                  await dirtyfix()
-          except TypeError:
-              await sleep(5)
-              await dirtyfix()
-          except IndexError:
-              await sleep(5)
-              await dirtyfix()
-          except errors.FloodWaitError as e:
-              print("def: Need to wait " + str(e.seconds) + " seconds")
-              await sleep(e.seconds)
-              await dirtyfix()
-          except HTTPError:
-              await dirtyfix()
+                  except errors.FloodWaitError as e:
+                    await sleep(e.seconds)
+                    await dirtyfix()
+        except JSONDecodeError:   #NO INFO ABOUT, user closed spotify client
+            if OLDEXCEPT == False:
+              await sleep(5) #anti flood
+              await bot(UpdateProfileRequest(about=DEFAULT_BIO))
+            OLDEXCEPT = True
+            try:
+                await sleep(10) #no need to ddos a spotify servers
+                await dirtyfix()
+            except errors.FloodWaitError as e:
+                await sleep(e.seconds)
+                await dirtyfix()
+        except TypeError:
+            await sleep(5)
+            await dirtyfix()
+        except IndexError:
+            await sleep(5)
+            await dirtyfix()
+        except errors.FloodWaitError as e:
+            print("def: Need to wait " + str(e.seconds) + " seconds")
+            await sleep(e.seconds)
+            await dirtyfix()
+        except HTTPError:
+            await dirtyfix()
 
-
-          SPOTIFYCHECK = False
-          await sleep(5)
-          await dirtyfix()
+        SPOTIFYCHECK = False
+        await sleep(5)
+        await dirtyfix()
     RUNNING = False
 
 
