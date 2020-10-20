@@ -69,7 +69,7 @@ async def update_spotify_info():
     spobio = ""
     while SPOTIFYCHECK:
         try:
-
+            date = strftime("%Y-%m-%d %H:%M:%S", gmtime())
             RUNNING = True
             spftoken = environ.get("spftoken", None)
             hed = {'Authorization': 'Bearer ' + spftoken}
