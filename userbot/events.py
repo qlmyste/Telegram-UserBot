@@ -75,8 +75,8 @@ def register(**args):
                 if not disable_errors:
                     date = strftime("%Y-%m-%d %H:%M:%S", gmtime())
 
-                    text = "**Sorry, I encountered a error!**\n"
-                    link = "[https://t.me/userbot_support](Userbot Support Chat)"
+                    text = "**Sorry, I encountered an error!**\n"
+                    link = "[maintainer of this fork](https://t.me/Polisan_The_Easy_Nick)"
                     text += "If you wanna you can report it"
                     text += f"- just forward this message to {link}.\n"
                     text += "I won't log anything except the fact of error and date\n"
