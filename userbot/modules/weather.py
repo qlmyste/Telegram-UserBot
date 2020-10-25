@@ -23,8 +23,10 @@ from userbot.modules.dbhelper import get_weather, set_weather
 INV_PARAM = "`Invalid parameters. Try again!`"
 NO_API_KEY = "`Get an API key from` https://openweathermap.org/ `first.`"
 DB_FAILED = "`Database connections failed!`"
-
-
+weather_writed = False #whether wheather is writed to variable (maked for not writing weather for next day in this hour
+weather = '' #celcius current
+max_hours = 12
+iterator = 0 #for forecast loop
 # ====================
 async def get_tz(con):
     """
@@ -141,50 +143,42 @@ async def fetch_weather(weather):
 @register(outgoing=True, pattern="^.forecast(?: |$)(.*)")
 async def fetch_forecast(weather):
     """ For .weather command, gets the current weather of a city. """
-    if OWM_API is None:
-        await weather.edit(NO_API_KEY)
-        return
-
-    OpenWeatherAPI = OWM_API
-    saved_props = await get_weather() if is_mongo_alive() else None
 
     if not weather.pattern_match.group(1):
         if 'weather_city' in saved_props:
-            city = saved_props['weather_city']
+            city_given = saved_props['weather_city']
         else:
             await weather.edit("`Please specify a city or set one as default.`")
             return
     else:
-        city = weather.pattern_match.group(1)
-    url = f'https://api.openweathermap.org/data/2.5/forecast?q={city}&appid={OpenWeatherAPI}'
-    request = requests.get(url)
-    result = json.loads(request.text)
-    list = result['list']
-    weather_string = f"Forecast for **{city}**:\n"
-    now = datetime.now()
-    hour = int(now.strftime("%H"))
-    multiplier = 0
-    for dt in list[:9]:
-      date_str = dt['dt_txt']
-      all_date = datetime.strptime(date_str, '%Y-%m-%d %H:%M:%S')
-      hour = all_date.strftime("%H")
-      temp = f"{round(dt['main']['temp'] - 273.15, 2)}°C"
-      desc = dt['weather'][0]['description']
-      weather_string += '`'+str(hour)+'' + ':00:` ' + '`'+ temp + '`' + ", **" + str(desc) + "**\n"
-      multiplier += 3 
-
-    url = f'https://api.openweathermap.org/data/2.5/weather?q={city}&appid={OpenWeatherAPI}'
-    request = requests.get(url)
-    result = json.loads(request.text)
-    curtemp = result['main']['temp']
-    desc = result['weather'][0]
-    desc = desc['main']
-    country = result['sys']['country']
-    ctimezone = tz(c_tz[country][0])
-    time = datetime.now(ctimezone).strftime("%A, %I:%M %p")
-    fullc_n = c_n[f"{country}"]
-    weather_string += "\n\n\n" + f"**{desc}**\n" + f"`{city}, {fullc_n}`\n" + f"`{time}`"
-    await weather.edit(weather_string)
+        city_given = weather.pattern_match.group(1)
+    url_city = f'https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates?f=pjson&outFields=Addr_type&maxLocations=1&forStorage=false&SingleLine={city_given}'
+    request_city = requests.get(url_city)
+    result_city = loads(request_city.text)
+    city = result_city['candidates'][0]['address']
+    forecast = f"Forecast for **{city}**:\n"
+    lat = result_city['candidates'][0]['location']['y']
+    lng = result_city['candidates'][0]['location']['x']
+    url_weather = f'https://api.met.no/weatherapi/locationforecast/2.0/compact?lat={lat}&lon={lng}'
+    request_city = requests.get(url_weather)
+    result_weather = loads(request_city.text)
+    timeser = result_weather['properties']['timeseries']
+    time_now = datetime.now().strftime("%H")
+    for weather in timeser:
+        all_date = datetime.strptime(weather['time'], "%Y-%m-%dT%H:%M:%SZ")
+        hour = all_date.strftime("%H")
+        weather_temp = weather['data']['instant']['details']['air_temperature']
+        try:
+            desc = weather['data']['next_1_hours']['summary']['symbol_code']
+        except KeyError:
+            pass #meaning desc is trying to get details which is unavaible. Also, we need only 6, which is avaible..
+        if (hour == time_now) and (weather_writed == False):
+            weather = weather_temp
+            weather_writed = True
+        if(weather_writed) and iterator != max_hours: #means we can write forecast now
+            forecast += '`' + str(hour) + ":00`:`" + str(weather_temp) + '`°C, **' + desc + "**\n" 
+            iterator += 1
+    await weather.edit(forecast)
     
 @register(outgoing=True, pattern="^.setcity(?: |$)(.*)")
 async def set_default_city(scity):
