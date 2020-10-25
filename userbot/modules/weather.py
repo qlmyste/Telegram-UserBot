@@ -204,18 +204,18 @@ async def set_default_city(scity):
         for country, timezones in c_tz.items() for timezone in timezones
     }
 
-    if "," in city:
-        newcity = scity.split(",")
-        if len(newcity[1]) == 2:
-            city = newcity[0].strip() + "," + newcity[1].strip()
-        else:
-            country = await get_tz((newcity[1].strip()).title())
-            try:
-                countrycode = timezone_countries[f'{country}']
-            except KeyError:
-                await scity.edit(INV_PARAM)
-                return
-            city = newcity[0].strip() + "," + countrycode.strip()
+    #if "," in city:
+    #    newcity = scity.split(",")
+    #    if len(newcity[1]) == 2:
+    #        city = newcity[0].strip() + "," + newcity[1].strip()
+    #    else:
+    #        country = await get_tz((newcity[1].strip()).title())
+    #        try:
+    #            countrycode = timezone_countries[f'{country}']
+    #        except KeyError:
+    #            await scity.edit(INV_PARAM)
+    #            return
+    #        city = newcity[0].strip() + "," + countrycode.strip()
 
     url = f'https://api.openweathermap.org/data/2.5/weather?q={city}&appid={OpenWeatherAPI}'
     request = requests.get(url)
