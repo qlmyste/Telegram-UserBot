@@ -137,23 +137,22 @@ async def fetch_weather(weather):
         f"`{cityname}, {fullc_n}`\n" + f"`{time}`")
 
 @register(outgoing=True, pattern="^.forecast(?: |$)(.*)")
-async def fetch_forecast(weather):
+async def fetch_forecast(weath):
     """ For .weather command, gets the current weather of a city. """
     weather_writed = False #whether wheather is writed to variable (maked for not writing weather for next day in this hour
-    weather = '' #celcius current
     max_hours = 12
     iterator = 0 #for forecast loop
     
     
     saved_props = await get_weather() if is_mongo_alive() else None
-    if not weather.pattern_match.group(1):
+    if not weath.pattern_match.group(1):
         if 'weather_city' in saved_props:
             city_given = saved_props['weather_city']
         else:
-            await weather.edit("`Please specify a city or set one as default.`")
+            await weath.edit("`Please specify a city or set one as default.`")
             return
     else:
-        city_given = weather.pattern_match.group(1)
+        city_given = weath.pattern_match.group(1)
     url_city = f'https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates?f=pjson&outFields=Addr_type&maxLocations=1&forStorage=false&SingleLine={city_given}'
     request_city = requests.get(url_city)
     result_city = loads(request_city.text)
@@ -175,12 +174,11 @@ async def fetch_forecast(weather):
         except KeyError:
             pass #meaning desc is trying to get details which is unavaible. Also, we need only 6, which is avaible..
         if (hour == time_now) and (weather_writed == False):
-            weather = weather_temp
-            weather_writed = True
-        if(weather_writed) and iterator != max_hours: #means we can write forecast now
+            weather_current = True
+        if weather_current and iterator != max_hours: #means we can write forecast now
             forecast += '`' + str(hour) + ":00`:`" + str(weather_temp) + '`°C, **' + desc + "**\n" 
             iterator += 1
-    await weather.edit(forecast)
+    await weath.edit(forecast)
     
 @register(outgoing=True, pattern="^.setcity(?: |$)(.*)")
 async def set_default_city(scity):
