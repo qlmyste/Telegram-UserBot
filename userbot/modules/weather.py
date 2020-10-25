@@ -224,7 +224,7 @@ async def set_default_city(scity):
 
     url = f'https://api.openweathermap.org/data/2.5/weather?q={city}&appid={OpenWeatherAPI}'
     request = requests.get(url)
-    result = json.loads(request.text)
+    result = loads(request.text)
 
     if request.status_code != 200:
         await scity.edit(INV_PARAM)
