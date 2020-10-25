@@ -23,7 +23,10 @@ from userbot.modules.dbhelper import get_weather, set_weather
 INV_PARAM = "`Invalid parameters. Try again!`"
 NO_API_KEY = "`Get an API key from` https://openweathermap.org/ `first.`"
 DB_FAILED = "`Database connections failed!`"
+
 # ====================
+city_given = ""
+
 async def get_tz(con):
     """
     Get time zone of the given country.
@@ -142,7 +145,7 @@ async def fetch_forecast(weath):
     weather_writed = False #whether wheather is writed to variable (maked for not writing weather for next day in this hour
     max_hours = 12
     iterator = 0 #for forecast loop
-    
+    global city_given
     saved_props = await get_weather() if is_mongo_alive() else None
     if not weath.pattern_match.group(1):
         if 'weather_city' in saved_props:
@@ -183,6 +186,7 @@ async def fetch_forecast(weath):
 async def set_default_city(scity):
     """ For .setcity command, change the default
         city for weather command. """
+    global city_given
     if not is_mongo_alive() or not is_redis_alive():
         await scity.edit(DB_FAILED)
         return
@@ -198,24 +202,25 @@ async def set_default_city(scity):
         return
     else:
         city = scity.pattern_match.group(1)
+        city_given = scity.pattern_match.group(1)
 
     timezone_countries = {
         timezone: country
         for country, timezones in c_tz.items() for timezone in timezones
     }
 
-    #if "," in city:
-    #    newcity = scity.split(",")
-    #    if len(newcity[1]) == 2:
-    #        city = newcity[0].strip() + "," + newcity[1].strip()
-    #    else:
-    #        country = await get_tz((newcity[1].strip()).title())
-    #        try:
-    #            countrycode = timezone_countries[f'{country}']
-    #        except KeyError:
-    #            await scity.edit(INV_PARAM)
-    #            return
-    #        city = newcity[0].strip() + "," + countrycode.strip()
+    if "," in city:
+        newcity = scity.split(",")
+        if len(newcity[1]) == 2:
+            city = newcity[0].strip() + "," + newcity[1].strip()
+        else:
+            country = await get_tz((newcity[1].strip()).title())
+            try:
+                countrycode = timezone_countries[f'{country}']
+            except KeyError:
+                await scity.edit(INV_PARAM)
+                return
+            city = newcity[0].strip() + "," + countrycode.strip()
 
     url = f'https://api.openweathermap.org/data/2.5/weather?q={city}&appid={OpenWeatherAPI}'
     request = requests.get(url)
