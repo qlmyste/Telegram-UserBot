@@ -5,7 +5,7 @@
 #
 """ Userbot module for getting the weather of a city. """
 
-import json
+import json import loads
 from datetime import datetime, timedelta
 
 import requests
@@ -83,7 +83,7 @@ async def fetch_weather(weather):
 
     url = f'https://api.openweathermap.org/data/2.5/weather?q={city}&appid={OpenWeatherAPI}'
     request = requests.get(url)
-    result = json.loads(request.text)
+    result = loads(request.text)
 
     if request.status_code != 200:
         await weather.edit(INV_PARAM)
