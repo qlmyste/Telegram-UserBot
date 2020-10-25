@@ -143,7 +143,6 @@ async def fetch_forecast(weath):
     max_hours = 12
     iterator = 0 #for forecast loop
     
-    
     saved_props = await get_weather() if is_mongo_alive() else None
     if not weath.pattern_match.group(1):
         if 'weather_city' in saved_props:
@@ -174,8 +173,8 @@ async def fetch_forecast(weath):
         except KeyError:
             pass #meaning desc is trying to get details which is unavaible. Also, we need only 6, which is avaible..
         if (hour == time_now) and (weather_writed == False):
-            weather_current = True
-        if weather_current and iterator != max_hours: #means we can write forecast now
+            weather_writed = True
+        if weather_writed and iterator != max_hours: #means we can write forecast now
             forecast += '`' + str(hour) + ":00`:`" + str(weather_temp) + '`°C, **' + desc + "**\n" 
             iterator += 1
     await weath.edit(forecast)
