@@ -82,7 +82,10 @@ async def update_spotify_info():
                 isGetted = False
                 pass #skip
             if isGetted:
-              isLocal = data['item']['is_local']
+              try:
+                isLocal = data['item']['is_local']
+              except:
+                isLocal = False
               isPlaying = data['is_playing']
               if isLocal:
                 try:
