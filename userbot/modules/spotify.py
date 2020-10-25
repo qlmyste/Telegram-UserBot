@@ -68,6 +68,7 @@ async def update_spotify_info():
     global data
     spobio = ""
     while SPOTIFYCHECK:
+        isGetted = False
         try:
             date = strftime("%Y-%m-%d %H:%M:%S", gmtime())
             RUNNING = True
@@ -82,10 +83,7 @@ async def update_spotify_info():
                 isGetted = False
                 pass #skip
             if isGetted:
-              try:
-                isLocal = data['item']['is_local']
-              except:
-                isLocal = False
+              isLocal = data['item']['is_local']
               isPlaying = data['is_playing']
               if isLocal:
                 try:
