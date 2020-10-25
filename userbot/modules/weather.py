@@ -143,7 +143,7 @@ async def fetch_weather(weather):
 @register(outgoing=True, pattern="^.forecast(?: |$)(.*)")
 async def fetch_forecast(weather):
     """ For .weather command, gets the current weather of a city. """
-
+    saved_props = await get_weather() if is_mongo_alive() else None
     if not weather.pattern_match.group(1):
         if 'weather_city' in saved_props:
             city_given = saved_props['weather_city']
