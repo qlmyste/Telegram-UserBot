@@ -23,10 +23,6 @@ from userbot.modules.dbhelper import get_weather, set_weather
 INV_PARAM = "`Invalid parameters. Try again!`"
 NO_API_KEY = "`Get an API key from` https://openweathermap.org/ `first.`"
 DB_FAILED = "`Database connections failed!`"
-weather_writed = False #whether wheather is writed to variable (maked for not writing weather for next day in this hour
-weather = '' #celcius current
-max_hours = 12
-iterator = 0 #for forecast loop
 # ====================
 async def get_tz(con):
     """
@@ -143,6 +139,12 @@ async def fetch_weather(weather):
 @register(outgoing=True, pattern="^.forecast(?: |$)(.*)")
 async def fetch_forecast(weather):
     """ For .weather command, gets the current weather of a city. """
+    weather_writed = False #whether wheather is writed to variable (maked for not writing weather for next day in this hour
+    weather = '' #celcius current
+    max_hours = 12
+    iterator = 0 #for forecast loop
+    
+    
     saved_props = await get_weather() if is_mongo_alive() else None
     if not weather.pattern_match.group(1):
         if 'weather_city' in saved_props:
