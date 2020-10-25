@@ -210,7 +210,7 @@ async def set_default_city(scity):
     }
 
     if "," in city:
-        newcity = scity.split(",")
+        newcity = city.split(",")
         if len(newcity[1]) == 2:
             city = newcity[0].strip() + "," + newcity[1].strip()
         else:
