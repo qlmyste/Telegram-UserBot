@@ -175,7 +175,7 @@ async def fetch_forecast(weath):
         if (hour == time_now) and (weather_writed == False):
             weather_writed = True
         if weather_writed and iterator != max_hours: #means we can write forecast now
-            forecast += '`' + str(hour) + ":00`:`" + str(weather_temp) + '`°C, **' + desc + "**\n" 
+            forecast += '`' + str(hour) + ":00`: `" + str(weather_temp) + '`°C, **' + desc + "**\n" 
             iterator += 1
     await weath.edit(forecast)
     
