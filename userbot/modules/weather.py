@@ -5,7 +5,7 @@
 #
 """ Userbot module for getting the weather of a city. """
 
-import json import loads
+from json import loads
 from datetime import datetime, timedelta
 
 import requests
