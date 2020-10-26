@@ -37,7 +37,7 @@ oldsong = ""
 isWritedPause = False
 isWritedPlay = False
 isGetted = False
-
+isDefault = True
 # ================================================
 async def get_spotify_token():
     try:
@@ -66,9 +66,17 @@ async def update_spotify_info():
     global errorcheck
     global isGetted
     global data
+    global isDefault
     spobio = ""
+
     while SPOTIFYCHECK:
         isGetted = False
+        
+        if isDefault == True:
+          oldsong = ""
+          oldartist = ""
+
+
         try:
             date = strftime("%Y-%m-%d %H:%M:%S", gmtime())
             RUNNING = True
@@ -81,7 +89,9 @@ async def update_spotify_info():
                   data = loads(response.content)
                   isGetted = True      
                 else:
-                  await bot(UpdateProfileRequest(about=DEFAULT_BIO))       
+                  if isDefault == False:
+                    await bot(UpdateProfileRequest(about=DEFAULT_BIO))
+                    isDefault = True
             except:
                 isGetted = False
                 pass #skip
@@ -126,11 +136,13 @@ async def update_spotify_info():
                   try:
                       await sleep(5)
                       await bot(UpdateProfileRequest(about=spobio))
+                      isDefault = False
                   except AboutTooLongError:
                       try:
                         short_bio = "🎧: " + song
                         await sleep(5) #anti flood
                         await bot(UpdateProfileRequest(about=short_bio))
+                        isDefault = False
                       except AboutTooLongError:
                         short_bio = "🎧: " + song
                         await sleep(5) #anti flood
@@ -141,6 +153,7 @@ async def update_spotify_info():
                           short_bio = short_bio[:67]
                           short_bio += '...'
                         await bot(UpdateProfileRequest(about=short_bio))
+                        isDefault = False
                   errorcheck = 0
                   OLDEXCEPT = False
             else: #means no new data. NO need to update. Trying to get again by new loop 
@@ -153,6 +166,7 @@ async def update_spotify_info():
                   if OLDEXCEPT == False:
                     await sleep(5) #anti flood
                     await bot(UpdateProfileRequest(about=DEFAULT_BIO))
+                    isDefault = True
                   OLDEXCEPT = True
                   try:
                       await sleep(10)
@@ -164,6 +178,7 @@ async def update_spotify_info():
             if OLDEXCEPT == False:
               await sleep(5) #anti flood
               await bot(UpdateProfileRequest(about=DEFAULT_BIO))
+              isDefault = True
             OLDEXCEPT = True
             try:
                 await sleep(10) #no need to ddos a spotify servers
@@ -174,18 +189,22 @@ async def update_spotify_info():
         except TypeError:
             await sleep(5)
             await bot(UpdateProfileRequest(about=DEFAULT_BIO))
+            isDefault = True
             await dirtyfix()
         except IndexError:
             await sleep(5)
             await bot(UpdateProfileRequest(about=DEFAULT_BIO))
+            isDefault = True
             await dirtyfix()
         except errors.FloodWaitError as e:
             print("Telegram anti-flood: Need to wait " + str(e.seconds) + " seconds")
             await sleep(e.seconds)
             await bot(UpdateProfileRequest(about=DEFAULT_BIO))
+            isDefault = True
             await dirtyfix()
         except HTTPError:
             await bot(UpdateProfileRequest(about=DEFAULT_BIO))
+            isDefault = True
             await dirtyfix()
 
         SPOTIFYCHECK = False
