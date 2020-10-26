@@ -77,8 +77,11 @@ async def update_spotify_info():
             url = 'https://api.spotify.com/v1/me/player/currently-playing'
             try:
                 response = get(url,headers=hed)
-                data = loads(response.content)
-                isGetted = True            
+                if(response.status_code == 200):
+                  data = loads(response.content)
+                  isGetted = True      
+                else:
+                  await bot(UpdateProfileRequest(about=DEFAULT_BIO))       
             except:
                 isGetted = False
                 pass #skip
@@ -170,15 +173,19 @@ async def update_spotify_info():
                 await dirtyfix()
         except TypeError:
             await sleep(5)
+            await bot(UpdateProfileRequest(about=DEFAULT_BIO))
             await dirtyfix()
         except IndexError:
             await sleep(5)
+            await bot(UpdateProfileRequest(about=DEFAULT_BIO))
             await dirtyfix()
         except errors.FloodWaitError as e:
-            print("def: Need to wait " + str(e.seconds) + " seconds")
+            print("Telegram anti-flood: Need to wait " + str(e.seconds) + " seconds")
             await sleep(e.seconds)
+            await bot(UpdateProfileRequest(about=DEFAULT_BIO))
             await dirtyfix()
         except HTTPError:
+            await bot(UpdateProfileRequest(about=DEFAULT_BIO))
             await dirtyfix()
 
         SPOTIFYCHECK = False
