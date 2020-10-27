@@ -94,8 +94,9 @@ async def update_spotify_info():
                     await bot(UpdateProfileRequest(about=DEFAULT_BIO))
                     print("SP: not 200 response, setting default.")
                     isDefault = True
-            except:
+            except Exception as e:
                 isGetted = False
+                print("SP: skip, exception:" + str(e))
                 pass #skip
             if isGetted:
               isLocal = data['item']['is_local']
@@ -159,6 +160,7 @@ async def update_spotify_info():
                   errorcheck = 0
                   OLDEXCEPT = False
             else: #means no new data. NO need to update. Trying to get again by new loop 
+              print("no new data, trying again")
               pass
         except KeyError:   #long pause
                 print("keyerror: " + date)
