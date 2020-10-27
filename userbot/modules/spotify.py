@@ -87,10 +87,12 @@ async def update_spotify_info():
                 response = get(url,headers=hed)
                 if(response.status_code == 200):
                   data = loads(response.content)
-                  isGetted = True      
+                  isGetted = True
+                  print("SPOTIFY: response = " + str(response.status_code))
                 else:
                   if isDefault == False:
                     await bot(UpdateProfileRequest(about=DEFAULT_BIO))
+                    print("SP: not 200 response, setting default.")
                     isDefault = True
             except:
                 isGetted = False
@@ -175,6 +177,7 @@ async def update_spotify_info():
                     await sleep(e.seconds)
                     await dirtyfix()
         except JSONDecodeError:   #NO INFO ABOUT, user closed spotify client
+            print("JSONDecodeError")
             if OLDEXCEPT == False:
               await sleep(5) #anti flood
               await bot(UpdateProfileRequest(about=DEFAULT_BIO))
@@ -187,11 +190,13 @@ async def update_spotify_info():
                 await sleep(e.seconds)
                 await dirtyfix()
         except TypeError:
+            print("TypeError")
             await sleep(5)
             await bot(UpdateProfileRequest(about=DEFAULT_BIO))
             isDefault = True
             await dirtyfix()
         except IndexError:
+            print("IndexError")
             await sleep(5)
             await bot(UpdateProfileRequest(about=DEFAULT_BIO))
             isDefault = True
@@ -203,6 +208,7 @@ async def update_spotify_info():
             isDefault = True
             await dirtyfix()
         except HTTPError:
+            print("HTTPErr")
             await bot(UpdateProfileRequest(about=DEFAULT_BIO))
             isDefault = True
             await dirtyfix()
@@ -219,6 +225,8 @@ async def update_token():
     except HTTPError:
       await sleep(1)
       await update_token()
+    except:
+      print("Can't get sp token. The token is likely expired")
     access_token = sptoken[0]
     environ["spftoken"] = access_token
     errorcheck = 1
