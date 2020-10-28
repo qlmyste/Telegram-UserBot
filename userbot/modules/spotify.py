@@ -85,6 +85,7 @@ async def update_spotify_info():
             url = 'https://api.spotify.com/v1/me/player/currently-playing'
             try:
                 response = get(url,headers=hed)
+                print(str(response.status_code))
                 if(response.status_code == 200):
                   data = loads(response.content)
                   isGetted = True
