@@ -90,7 +90,8 @@ async def update_spotify_info():
                   data = loads(response.content)
                   isGetted = True
                   print("SPOTIFY: response = " + str(response.status_code))
-                else if response.status_code == 401: #No token provided 
+                else if response.status_code == 401: #No token provided
+                  print("SP: 401: Trying to get new token.")
                   await dirtyfix()
                 else:
                   if isDefault == False:
