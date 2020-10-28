@@ -90,6 +90,8 @@ async def update_spotify_info():
                   data = loads(response.content)
                   isGetted = True
                   print("SPOTIFY: response = " + str(response.status_code))
+                else if response.status_code == 401: #No token provided 
+                  await dirtyfix()
                 else:
                   if isDefault == False:
                     await bot(UpdateProfileRequest(about=DEFAULT_BIO))
