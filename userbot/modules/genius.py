@@ -60,7 +60,7 @@ async def gen(e):
         await e.client.send_message(e.chat_id, lyrics_2)
 
         
-      elif len(song.lyrics) <= 4096:
+      elif (len(song.lyrics + artist + name) + 20) <= 4096:
         await e.edit("**Lyrics for: **" + artist + " - " + name + " \n" + song.lyrics)
       
 CMD_HELP.update({"lyrics": ["Lyrics",
