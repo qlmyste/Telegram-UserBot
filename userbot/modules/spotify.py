@@ -89,15 +89,15 @@ async def update_spotify_info():
                 if(response.status_code == 200):
                   data = loads(response.content)
                   isGetted = True
-                  print("SPOTIFY: response = " + str(response.status_code))
+                  #print("SPOTIFY: response = " + str(response.status_code))
                 elif response.status_code == 401: #No token provided
-                  print("SP: 401: " + response.reason)
+                  #print("SP: 401: " + response.reason)
                   await get_spotify_token()
                   await dirtyfix()
                 else:
                   if isDefault == False:
                     await bot(UpdateProfileRequest(about=DEFAULT_BIO))
-                    print("SP: not 200 response, setting default.")
+                    #print("SP: not 200 response, setting default.")
                     isDefault = True
             except Exception as e:
                 isGetted = False
@@ -165,10 +165,10 @@ async def update_spotify_info():
                   errorcheck = 0
                   OLDEXCEPT = False
             else: #means no new data. NO need to update. Trying to get again by new loop 
-              print("no new data, trying again")
+              #print("no new data, trying again")
               pass
         except KeyError:   #long pause
-                print("keyerror: " + date)
+                #print("keyerror: " + date)
                 if errorcheck == 0:
                   await update_token()
                 elif errorcheck == 1:
@@ -184,7 +184,7 @@ async def update_spotify_info():
                     await sleep(e.seconds)
                     await dirtyfix()
         except JSONDecodeError:   #NO INFO ABOUT, user closed spotify client
-            print("JSONDecodeError")
+            #print("JSONDecodeError")
             if OLDEXCEPT == False:
               await sleep(5) #anti flood
               await bot(UpdateProfileRequest(about=DEFAULT_BIO))
@@ -197,25 +197,25 @@ async def update_spotify_info():
                 await sleep(e.seconds)
                 await dirtyfix()
         except TypeError:
-            print("TypeError")
+            #print("TypeError")
             await sleep(5)
             await bot(UpdateProfileRequest(about=DEFAULT_BIO))
             isDefault = True
             await dirtyfix()
         except IndexError:
-            print("IndexError")
+            #print("IndexError")
             await sleep(5)
             await bot(UpdateProfileRequest(about=DEFAULT_BIO))
             isDefault = True
             await dirtyfix()
         except errors.FloodWaitError as e:
-            print("Telegram anti-flood: Need to wait " + str(e.seconds) + " seconds")
+            #print("Telegram anti-flood: Need to wait " + str(e.seconds) + " seconds")
             await sleep(e.seconds)
             await bot(UpdateProfileRequest(about=DEFAULT_BIO))
             isDefault = True
             await dirtyfix()
         except HTTPError:
-            print("HTTPErr")
+            #print("HTTPErr")
             await bot(UpdateProfileRequest(about=DEFAULT_BIO))
             isDefault = True
             await dirtyfix()
