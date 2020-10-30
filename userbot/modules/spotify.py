@@ -284,24 +284,18 @@ async def show_song(song_info):
           #print("SPOTIFY: response = " + str(response.status_code))
           data = loads(response.content)
           isLocal = data['item']['is_local']
+          if data['item']['artists'][0]['name'] == "":
+            isArtist = False
           if isLocal:
-            try:
-              artist = data['item']['artists'][0]['name']
-              song = data['item']['name']
-              getted = True
-              is_Artist = True
-            except IndexError:
-              song = data['item']['name']
-              artist = ""
-              getted = True
-              is_Artist = False
+            artist = data['item']['artists'][0]['name']
+            song = data['item']['name']
+            getted = True
           else:
               artist = data['item']['album']['artists'][0]['name']
               song = data['item']['name']
               link = data['item']['external_urls']['spotify']
               getted = True
         else:
-          printf("Something went wrong while getting info from spotify.")
           getted = False
         if getted:
           if isArtist:
@@ -311,7 +305,8 @@ async def show_song(song_info):
           if link != '':
             str_song += f"\n**Link:** {link}"
           await song_info.edit(str_song)
-            
+        else:
+          await song_info.edit("Can't find current song in spotify")
             
 CMD_HELP.update({"spotify": ['Spotify',
     " - `.spoton`: Enable Spotify bio updating.\n"
