@@ -300,7 +300,7 @@ async def show_song(song_info):
           printf("Something went wrong while getting info from spotify.")
           getted = False
         if getted:
-          song_info.edit("I'm listening now: `" + artist + " - " + song + '`')
+          await song_info.edit("I'm listening now: `" + artist + " - " + song + '`')
             
             
 CMD_HELP.update({"spotify": ['Spotify',
