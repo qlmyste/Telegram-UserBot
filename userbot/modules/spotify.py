@@ -272,6 +272,9 @@ async def set_biodgraph(setdbio):
 async def show_song(song_info):
         getted = False
         await get_spotify_token()
+        spftoken = environ.get("spftoken", None)
+        hed = {'Authorization': 'Bearer ' + spftoken}
+        url = 'https://api.spotify.com/v1/me/player/currently-playing'
         response = get(url,headers=hed)
         #print(str(response.status_code))
         if(response.status_code == 200):
