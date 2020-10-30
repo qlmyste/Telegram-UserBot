@@ -1131,7 +1131,6 @@ async def handler(event):
             for r in range(i):
                 edit_text += '🍎'
             edit_text += '🦔'
-            print(origin_text)
             await event.edit(edit_text)
             time.sleep(0.5)
 
