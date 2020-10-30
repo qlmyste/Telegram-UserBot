@@ -1121,7 +1121,7 @@ async def typewriter(typew):
         await asyncio.sleep(sleep_time)
                       
 #🦔🍎 kang from https://github.com/awitwicki/kodzu_thon
-@client.on(events.NewMessage(pattern='🦔', outgoing=True))
+@register(pattern=r"🦔", outgoing=True)
 async def handler(event):
     try:
         origin_text = ''
