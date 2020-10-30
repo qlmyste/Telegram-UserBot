@@ -275,7 +275,7 @@ async def show_song(song_info):
         spftoken = environ.get("spftoken", None)
         hed = {'Authorization': 'Bearer ' + spftoken}
         url = 'https://api.spotify.com/v1/me/player/currently-playing'
-        str_song = "I'm listening now: "
+        str_song = "Now playing: "
         link = ""
         isArtist = True
         response = get(url,headers=hed)
