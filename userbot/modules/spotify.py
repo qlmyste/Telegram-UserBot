@@ -275,32 +275,42 @@ async def show_song(song_info):
         spftoken = environ.get("spftoken", None)
         hed = {'Authorization': 'Bearer ' + spftoken}
         url = 'https://api.spotify.com/v1/me/player/currently-playing'
+        str_song = "I'm listening now: "
+        link = ""
+        isArtist = True
         response = get(url,headers=hed)
         #print(str(response.status_code))
         if(response.status_code == 200):
           #print("SPOTIFY: response = " + str(response.status_code))
           data = loads(response.content)
           isLocal = data['item']['is_local']
-          isPlaying = data['is_playing']
           if isLocal:
             try:
               artist = data['item']['artists'][0]['name']
               song = data['item']['name']
               getted = True
+              is_Artist = True
             except IndexError:
               song = data['item']['name']
               artist = ""
               getted = True
-              
+              is_Artist = False
           else:
               artist = data['item']['album']['artists'][0]['name']
               song = data['item']['name']
+              link = data['item']['external_urls']['spotify']
               getted = True
         else:
           printf("Something went wrong while getting info from spotify.")
           getted = False
         if getted:
-          await song_info.edit("I'm listening now: `" + artist + " - " + song + '`')
+          if isArtist:
+            str_song += '`' + artist + " - " + song + '`'
+          else:
+            str_song += song
+          if link != '':
+            str_song += f"\n**Link:** {link}"
+          await song_info.edit(str_song)
             
             
 CMD_HELP.update({"spotify": ['Spotify',
