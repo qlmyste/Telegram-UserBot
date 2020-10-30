@@ -301,7 +301,7 @@ async def show_song(song_info):
           if isArtist:
             str_song += '`' + artist + " - " + song + '`'
           else:
-            str_song += song
+            str_song += '`' + song + '`'
           if link != '':
             str_song += f"\n**Link:** {link}"
           await song_info.edit(str_song)
