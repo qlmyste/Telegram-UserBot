@@ -272,31 +272,30 @@ async def set_biodgraph(setdbio):
 async def show_song(song_info):
         getted = False
         await get_spotify_token()
-        try:
-          response = get(url,headers=hed)
-          #print(str(response.status_code))
-          if(response.status_code == 200):
-            #print("SPOTIFY: response = " + str(response.status_code))
-            data = loads(response.content)
-            isLocal = data['item']['is_local']
-            isPlaying = data['is_playing']
-            if isLocal:
-              try:
-                artist = data['item']['artists'][0]['name']
-                song = data['item']['name']
-                getted = True
-              except IndexError:
-                song = data['item']['name']
-                artist = ""
-                getted = True
-                
-            else:
-                artist = data['item']['album']['artists'][0]['name']
-                song = data['item']['name']
-                getted = True
+        response = get(url,headers=hed)
+        #print(str(response.status_code))
+        if(response.status_code == 200):
+          #print("SPOTIFY: response = " + str(response.status_code))
+          data = loads(response.content)
+          isLocal = data['item']['is_local']
+          isPlaying = data['is_playing']
+          if isLocal:
+            try:
+              artist = data['item']['artists'][0]['name']
+              song = data['item']['name']
+              getted = True
+            except IndexError:
+              song = data['item']['name']
+              artist = ""
+              getted = True
+              
           else:
-            printf("Something went wrong while getting info from spotify.")
-            getted = False
+              artist = data['item']['album']['artists'][0]['name']
+              song = data['item']['name']
+              getted = True
+        else:
+          printf("Something went wrong while getting info from spotify.")
+          getted = False
         if getted:
           song_info.edit("I'm listening now: `" + artist + " - " + song + '`')
             
