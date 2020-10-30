@@ -247,7 +247,7 @@ async def dirtyfix():
     await update_spotify_info()
 
 
-@register(outgoing=True, pattern="^.enablespotify$")
+@register(outgoing=True, pattern="^.spoton$")
 async def set_biostgraph(setstbio):
     setrecursionlimit(700000)
     if not SPOTIFYCHECK:
@@ -259,7 +259,7 @@ async def set_biostgraph(setstbio):
         await setstbio.edit(SPO_BIO_RUNNING)
 
 
-@register(outgoing=True, pattern="^.disablespotify$")
+@register(outgoing=True, pattern="^.spotoff$")
 async def set_biodgraph(setdbio):
     global SPOTIFYCHECK
     global RUNNING
@@ -268,7 +268,41 @@ async def set_biodgraph(setdbio):
     await bot(UpdateProfileRequest(about=DEFAULT_BIO))
     await setdbio.edit(SPO_BIO_DISABLED)
     
+@register(outgoing=True, pattern="^.song")
+async def show_song(song_info):
+        getted = False
+        await get_spotify_token()
+        try:
+          response = get(url,headers=hed)
+          #print(str(response.status_code))
+          if(response.status_code == 200):
+            #print("SPOTIFY: response = " + str(response.status_code))
+            data = loads(response.content)
+            isLocal = data['item']['is_local']
+            isPlaying = data['is_playing']
+            if isLocal:
+              try:
+                artist = data['item']['artists'][0]['name']
+                song = data['item']['name']
+                getted = True
+              except IndexError:
+                song = data['item']['name']
+                artist = ""
+                getted = True
+                
+            else:
+                artist = data['item']['album']['artists'][0]['name']
+                song = data['item']['name']
+                getted = True
+          else:
+            printf("Something went wrong while getting info from spotify.")
+            getted = False
+        if getted:
+          song_info.edit("I'm listening now: `" + artist + " - " + song + '`')
+            
+            
 CMD_HELP.update({"spotify": ['Spotify',
-    " - `.enablespotify`: Enable Spotify bio updating.\n"
-    " - `.disablespotify`: Disable Spotify bio updating.\n"]
+    " - `.spoton`: Enable Spotify bio updating.\n"
+    " - `.spotoff`: Disable Spotify bio updating.\n"
+    " - `.song:`: Show current playing song.\n"]
 })
