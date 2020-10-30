@@ -1119,6 +1119,24 @@ async def typewriter(typew):
         await asyncio.sleep(sleep_time)
         await typew.edit(old_text)
         await asyncio.sleep(sleep_time)
+                      
+#🦔🍎 kang from https://github.com/awitwicki/kodzu_thon
+@client.on(events.NewMessage(pattern='🦔', outgoing=True))
+async def handler(event):
+    try:
+        origin_text = ''
+
+        for i in range(19, -1, -1):
+            edit_text = origin_text
+            for r in range(i):
+                edit_text += '🍎'
+            edit_text += '🦔'
+            print(origin_text)
+            await event.edit(edit_text)
+            time.sleep(0.5)
+
+    except Exception as e:
+        print(e)
 
 CMD_HELP.update({"memes": ["Memes",
     " - `.cowsay`: cow which says things.\n"
