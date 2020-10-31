@@ -281,7 +281,7 @@ async def show_song(song_info):
         try:
           response = get(url,headers=hed)
         except:
-          await song_info.edit("Something went wrong. Trying again..."
+          await song_info.edit("Something went wrong. Trying again...")
           try:
             await sleep(1)
             response = get(url,headers=hed)
