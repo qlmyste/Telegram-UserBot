@@ -286,7 +286,7 @@ async def show_song(song_info):
             await sleep(1)
             response = get(url,headers=hed)
           except:
-            await song_info.edit("Can't connect to spotify servers.)
+            await song_info.edit("Can't connect to spotify servers.")
             return
         #print(str(response.status_code))
         if(response.status_code == 200):
