@@ -278,7 +278,16 @@ async def show_song(song_info):
         str_song = "Now playing: "
         link = ""
         isArtist = True
-        response = get(url,headers=hed)
+        try:
+          response = get(url,headers=hed)
+        except:
+          await song_info.edit("Something went wrong. Trying again..."
+          try:
+            await sleep(1)
+            response = get(url,headers=hed)
+          except:
+            await song_info.edit("Can't connect to spotify servers.)
+            return
         #print(str(response.status_code))
         if(response.status_code == 200):
           #print("SPOTIFY: response = " + str(response.status_code))
