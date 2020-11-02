@@ -64,6 +64,9 @@ cd Telegram-UserBot
 - run ./termux_installer.sh
 - run ./init/start.py
 
+### Deploy on Heroku:
+<p align="left"><a href="https://heroku.com/deploy"> <img src="https://www.herokucdn.com/deploy/button.svg" alt="Deploy to Heroku" /></a></p>
+
 ### If the CI builds pass, but you still get syntax errors when running locally it's most probably not a problem with the source but with your version of python
 
 
