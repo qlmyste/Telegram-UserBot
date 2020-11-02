@@ -9,4 +9,4 @@ COPY ./userbot.session* ./google.json* ./config.env ./client_secrets.json* ./sec
 #
 # Finalization
 #
-CMD ["init/start.py"]
+CMD ["bash","init/start.sh"]
