@@ -17,6 +17,7 @@ from pymongo import MongoClient
 from redis import StrictRedis
 from requests import get
 from telethon import TelegramClient
+from telethon.sessions import StringSession
 #from google.cloud import texttospeech_v1 as tts
 #from google.cloud import speech_v1 as stt
 
