@@ -121,9 +121,12 @@ CONVERT_TOKEN = os.environ.get("CONVERT_API", None)
 # wolframalpha.com
 WOLFRAM_ID= os.environ.get("WOLFRAM_ID", None)
 
+STRING_SESSION = os.environ.get("STRING_SESSION") or None #means heroku
 
-bot = TelegramClient("userbot", API_KEY, API_HASH)
-
+if STRING_SESSION:
+    bot = TelegramClient(StringSession(STRING_SESSION), API_KEY, API_HASH)
+else:
+    bot = TelegramClient("userbot", API_KEY, API_HASH)
 
 async def check_botlog_chatid():
     if not BOTLOG:
