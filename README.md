@@ -38,7 +38,7 @@ python3.7 -m pip install -r requirements.txt
 git clone https://github.com/PolisanTheEasyNick/Telegram-UserBot.git
 cd Telegram-UserBot
 ```
-- rename sample_config.env to config.env and fill it with nano, vim etc
+- fill config.env with nano, vim etc
 - run ./init/start.py
 
 ### How to run it on Docker:
@@ -46,7 +46,7 @@ cd Telegram-UserBot
 git clone https://github.com/PolisanTheEasyNick/Telegram-UserBot.git
 cd Telegram-UserBot
 ```
-- rename sample_config.env to config.env and fill it with nano, vim etc
+- fill config.env with nano, vim etc
 - install Docker
 - type:
 ```
@@ -60,7 +60,7 @@ pkg install git
 git clone https://github.com/PolisanTheEasyNick/Telegram-UserBot.git
 cd Telegram-UserBot
 ```
-- rename sample_config.env to config.env and fill it with nano, vim etc
+- fill config.env with nano, vim etc
 - run ./termux_installer.sh
 - run ./init/start.py
 
