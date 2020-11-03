@@ -77,7 +77,7 @@ async def spammer(e):
             BOTLOG_CHATID, "#DelaySPAM\n"
             "DelaySpam was executed successfully")
 
-CMD_HELP.update({"stats": ["Stats",
+CMD_HELP.update({"spam": ["Spam",
     " - `.cspam <text>`: Spam the text letter by letter.\n"
     " - `.spam <count> <text>`: Floods text in the chat !!\n"
     " - `.picspam <count> <link to image/gif>`: As if text spam was not enough !!\n"
