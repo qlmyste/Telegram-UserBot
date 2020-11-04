@@ -16,15 +16,18 @@ async def pdf(e):
     file = message.document
     await e.edit("**Downloading...**")
     file = await bot.download_file(file, "file.pdf")
-    if os.path.isdir("/root/Telegram-UserBot/files") is False:
-      os.mkdir("/root/Telegram-UserBot/files")
+    if os.path.isdir("./files") is False:
+      os.mkdir("./files")
+    else:
+      mtree("./files")
+      os.mkdir("./files")
     await e.edit("**Processing...**")  
-    images_from_path = convert_from_path('/root/Telegram-UserBot/file.pdf', output_folder='/root/Telegram-UserBot/files/', fmt='png')
+    images_from_path = convert_from_path('./file.pdf', output_folder='./files', fmt='png')
     await e.edit("**Sending...**")
-    for filename in os.listdir("/root/Telegram-UserBot/files/"):
-      await e.client.send_file(e.chat_id, open('/root/Telegram-UserBot/files/' + filename, 'rb'), reply_to=message)
-    rmtree("/root/Telegram-UserBot/files")
-    os.remove(f"/root/Telegram-UserBot/file.pdf")
+    for filename in os.listdir("./files"):
+      await e.client.send_file(e.chat_id, open('./files/' + filename, 'rb'), reply_to=message)
+    rmtree("./files")
+    os.remove("./file.pdf")
   else:
     await e.edit("`Not a pdf file. Aborting...`")
     return
@@ -80,15 +83,18 @@ async def doc_png(e):
         result = convertapi.convert('pdf', { 'File': 'file.doc' })
         os.remove('file.doc')
     result.file.save('file.pdf')
-    if os.path.isdir("/root/Telegram-UserBot/files") is False:
-      os.mkdir("/root/Telegram-UserBot/files")
+    if os.path.isdir("./files") is False:
+      os.mkdir("./files")
+    else:
+      mtree("./files")
+      os.mkdir("./files")
     await e.edit("**Processing...**")
-    images_from_path = convert_from_path('/root/Telegram-UserBot/file.pdf', output_folder='/root/Telegram-UserBot/files/', fmt='png')
+    images_from_path = convert_from_path('./file.pdf', output_folder='./files', fmt='png')
     await e.edit("**Sending...**")
-    for filename in os.listdir("/root/Telegram-UserBot/files/"):
-      await e.client.send_file(e.chat_id, open('/root/Telegram-UserBot/files/' + filename, 'rb'), reply_to=message)
-    rmtree("/root/Telegram-UserBot/files")
-    os.remove(f"/root/Telegram-UserBot/file.pdf")
+    for filename in os.listdir("/./files"):
+      await e.client.send_file(e.chat_id, open('./files/' + filename, 'rb'), reply_to=message)
+    rmtree("./files")
+    os.remove(f"file.pdf")
   else:
     await e.edit("`Not a doc file. Aborting...`")
     return
@@ -115,15 +121,18 @@ async def xls_png(e):
         result = convertapi.convert('pdf', { 'File': 'file.xls' })
         os.remove('file.xls')
     result.file.save('file.pdf')
-    if os.path.isdir("/root/Telegram-UserBot/files") is False:
-      os.mkdir("/root/Telegram-UserBot/files")
+    if os.path.isdir("./files") is False:
+      os.mkdir("./files")
+    else:
+      mtree("./files")
+      os.mkdir("./files")
     await e.edit("**Processing...**")
-    images_from_path = convert_from_path('/root/Telegram-UserBot/file.pdf', output_folder='/root/Telegram-UserBot/files/', fmt='png')
+    images_from_path = convert_from_path('./file.pdf', output_folder='./files', fmt='png')
     await e.edit("**Sending...**")
-    for filename in os.listdir("/root/Telegram-UserBot/files/"):
-      await e.client.send_file(e.chat_id, open('/root/Telegram-UserBot/files/' + filename, 'rb'), reply_to=message)
-    rmtree("/root/Telegram-UserBot/files")
-    os.remove(f"/root/Telegram-UserBot/file.pdf")
+    for filename in os.listdir("./files"):
+      await e.client.send_file(e.chat_id, open('./files' + filename, 'rb'), reply_to=message)
+    rmtree("./files")
+    os.remove(f"file.pdf")
   else:
     await e.edit("`Not a xls/xlsx file. Aborting...`")
     return
@@ -177,15 +186,15 @@ async def ppt_png(e):
         result = convertapi.convert('pdf', { 'File': 'file.ppt' })
         os.remove('file.ppt')
     result.file.save('file.pdf')
-    if os.path.isdir("/root/Telegram-UserBot/files") is False:
-      os.mkdir("/root/Telegram-UserBot/files")
+    if os.path.isdir("./files") is False:
+      os.mkdir("./files")
     await e.edit("**Processing...**")
-    images_from_path = convert_from_path('/root/Telegram-UserBot/file.pdf', output_folder='/root/Telegram-UserBot/files/', fmt='png')
+    images_from_path = convert_from_path('./file.pdf', output_folder='./files', fmt='png')
     await e.edit("**Sending...**")
     for filename in os.listdir("/root/Telegram-UserBot/files/"):
-      await e.client.send_file(e.chat_id, open('/root/Telegram-UserBot/files/' + filename, 'rb'), reply_to=message)
-    rmtree("/root/Telegram-UserBot/files")
-    os.remove(f"/root/Telegram-UserBot/file.pdf")
+      await e.client.send_file(e.chat_id, open('./files/' + filename, 'rb'), reply_to=message)
+    rmtree("./files")
+    os.remove(f"./file.pdf")
   else:
     await e.edit("`Not a ppt/pptx file. Aborting...`")
     return
