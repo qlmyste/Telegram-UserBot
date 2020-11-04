@@ -91,7 +91,7 @@ async def doc_png(e):
     await e.edit("**Processing...**")
     images_from_path = convert_from_path('./file.pdf', output_folder='./files', fmt='png')
     await e.edit("**Sending...**")
-    for filename in os.listdir("/./files"):
+    for filename in os.listdir("./files"):
       await e.client.send_file(e.chat_id, open('./files/' + filename, 'rb'), reply_to=message)
     rmtree("./files")
     os.remove(f"file.pdf")
