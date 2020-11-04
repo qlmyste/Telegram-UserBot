@@ -124,7 +124,7 @@ async def xls_png(e):
     if os.path.isdir("./files") is False:
       os.mkdir("./files")
     else:
-     rmtree("./files")
+      rmtree("./files")
       os.mkdir("./files")
     await e.edit("**Processing...**")
     images_from_path = convert_from_path('./file.pdf', output_folder='./files', fmt='png')
