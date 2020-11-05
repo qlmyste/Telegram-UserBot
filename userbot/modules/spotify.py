@@ -73,15 +73,17 @@ async def update_spotify_info():
     global data
     global isDefault
     spobio = ""
-
+    
+    ##dirty fix 2.0
+    if SPOTIFYCHECK == False:
+      return
+    
     while SPOTIFYCHECK:
         isGetted = False
         
         if isDefault == True:
           oldsong = ""
           oldartist = ""
-
-
         try:
             date = strftime("%Y-%m-%d %H:%M:%S", gmtime())
             RUNNING = True
@@ -251,28 +253,6 @@ async def dirtyfix():
     await sleep(5)
     await update_spotify_info()
 
-
-@register(outgoing=True, pattern="^.spoton$")
-async def set_biostgraph(setstbio):
-    setrecursionlimit(700000)
-    if not SPOTIFYCHECK:
-        environ["errorcheck"] = "0"
-        await setstbio.edit(SPO_BIO_ENABLED)
-        await get_spotify_token()
-        await dirtyfix()
-    else:
-        await setstbio.edit(SPO_BIO_RUNNING)
-
-
-@register(outgoing=True, pattern="^.spotoff$")
-async def set_biodgraph(setdbio):
-    global SPOTIFYCHECK
-    global RUNNING
-    SPOTIFYCHECK = False
-    RUNNING = False
-    await bot(UpdateProfileRequest(about=DEFAULT_BIO))
-    await setdbio.edit(SPO_BIO_DISABLED)
-    
 @register(outgoing=True, pattern="^.song")
 async def show_song(song_info):
         global isArtist
@@ -388,6 +368,30 @@ async def find_song():
               isGetted = True
         else:
           isGetted = False
+          
+
+@register(outgoing=True, pattern="^.spoton$")
+async def set_biostgraph(setstbio):
+    setrecursionlimit(700000)
+    if not SPOTIFYCHECK:
+        environ["errorcheck"] = "0"
+        await setstbio.edit(SPO_BIO_ENABLED)
+        await get_spotify_token()
+        await dirtyfix()
+    else:
+        await setstbio.edit(SPO_BIO_RUNNING)
+
+
+@register(outgoing=True, pattern="^.spotoff$")
+async def set_biodgraph(setdbio):
+    global SPOTIFYCHECK
+    global RUNNING
+    SPOTIFYCHECK = False
+    RUNNING = False
+    await bot(UpdateProfileRequest(about=DEFAULT_BIO))
+    await setdbio.edit(SPO_BIO_DISABLED)
+    
+
 
 CMD_HELP.update({"spotify": ['Spotify',
     " - `.spoton`: Enable Spotify bio updating.\n"
