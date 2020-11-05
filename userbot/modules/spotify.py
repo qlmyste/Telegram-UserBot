@@ -43,6 +43,7 @@ isWritedPlay = False
 isGetted = False
 isDefault = True
 isArtist = True
+mustDisable = False
 # ================================================
 async def get_spotify_token():
     try:
@@ -72,11 +73,9 @@ async def update_spotify_info():
     global isGetted
     global data
     global isDefault
+    global mustDisable
     spobio = ""
     
-    ##dirty fix 2.0
-    if SPOTIFYCHECK == False:
-      return
     
     while SPOTIFYCHECK:
         print("start sp: " + str(SPOTIFYCHECK))
@@ -239,7 +238,7 @@ async def update_spotify_info():
 
         SPOTIFYCHECK = False
         await sleep(5)
-        if SPOTIFYCHECK:
+        if mustDisable == False:
           print("243 dirty")
           await dirtyfix()
     RUNNING = False
@@ -400,11 +399,13 @@ async def set_biostgraph(setstbio):
 @register(outgoing=True, pattern="^.spotoff$")
 async def set_biodgraph(setdbio):
     global SPOTIFYCHECK
+    global mustDisable
     print("start spotoff: " + str(SPOTIFYCHECK))
     global RUNNING
     SPOTIFYCHECK = False
     print("changed spotoff: " + str(SPOTIFYCHECK))
     RUNNING = False
+    mustDisable = True
     await bot(UpdateProfileRequest(about=DEFAULT_BIO))
     await setdbio.edit(SPO_BIO_DISABLED)
     
