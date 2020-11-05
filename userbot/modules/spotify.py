@@ -310,14 +310,14 @@ async def show_song(song_info):
             await song_info.edit(str_song)
             return
           finally:
-            str_song += "\nFound song link for: `" + data['videos'][0]['title'] + '`'
+            str_song += "\n\nFound yt song link for: `" + data['videos'][0]['title'] + '`'
             str_song += "\n**Youtube link**: https://youtube.com" + data['videos'][0]['url_suffix']
             await song_info.edit(str_song)
             return
 
 @register(outgoing=True, pattern="^.spdl$")
 async def sp_download(spdl):
-  reply_message = await yt.get_reply_message()
+  reply_message = await spdl.get_reply_message()
   global song
   global artist
 
