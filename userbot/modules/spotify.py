@@ -31,7 +31,7 @@ artist = str
 song = str
 
 BIOPREFIX = BIO_PREFIX
-
+link = ""
 SPOTIFYCHECK = False
 RUNNING = False
 OLDEXCEPT = False
@@ -279,6 +279,7 @@ async def show_song(song_info):
         global artist
         global song
         global isGetted
+        global link
         await find_song()
         str_song = "Now playing: "
         if isGetted:
@@ -319,6 +320,7 @@ async def sp_download(spdl):
   reply_message = await yt.get_reply_message()
   global song
   global artist
+
   await find_song()
   if isGetted:
     str_song_artist = artist + " - " + song
@@ -345,6 +347,7 @@ async def sp_download(spdl):
                               caption=f"{video.title}",
                               reply_to=reply_message)
 async def find_song():
+        global link
         global isArtist
         global artist
         global song
@@ -378,6 +381,7 @@ async def find_song():
           else:
               artist = data['item']['album']['artists'][0]['name']
               song = data['item']['name']
+              link = data['item']['external_urls']['spotify']
               isGetted = True
         else:
           isGetted = False
