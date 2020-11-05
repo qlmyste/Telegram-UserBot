@@ -17,7 +17,7 @@ async def gsearch(q_event):
     gsearch = GoogleSearch()
 
     query = query or reply_message.text
-    gresults = gsearch.search(query, page)
+    gresults = gsearch.search(query, 1)
 
     msg = ""
     limit = opts.get('limit', 5)
