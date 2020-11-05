@@ -79,7 +79,7 @@ async def update_spotify_info():
     
     
     while SPOTIFYCHECK:
-        print("start sp: " + str(SPOTIFYCHECK))
+        #print("start sp: " + str(SPOTIFYCHECK))
         isGetted = False
         
         if isDefault == True:
