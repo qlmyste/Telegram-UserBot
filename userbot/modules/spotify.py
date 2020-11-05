@@ -288,7 +288,7 @@ async def show_song(song_info):
           else:
             str_song += '`' + song + '`'
           if link != '':
-            str_song += f"\n**Spotify link:** {link}"
+            str_song += f"\n[Spotify link]({link})"
           await song_info.edit(str_song)
         else:
           await song_info.edit("Can't find current song in spotify")
@@ -311,7 +311,8 @@ async def show_song(song_info):
             return
           finally:
             str_song += "\n\nFound yt song link for: `" + data['videos'][0]['title'] + '`'
-            str_song += "\n**Youtube link**: https://youtube.com" + data['videos'][0]['url_suffix']
+            url_yt = "https://youtube.com" + data['videos'][0]['url_suffix']
+            str_song += f"\n[Youtube link]({url_yt})
             await song_info.edit(str_song)
             return
 
@@ -344,7 +345,7 @@ async def sp_download(spdl):
       await spdl.edit("**Sending mp3...**")
       await spdl.client.send_file(spdl.chat.id,
                               f'{safe_filename(video.title)}.mp3',
-                              caption=f"[Spotify]{link} | [Youtube]{link_yt}",
+                              caption=f"[Spotify]({link}) | [YouTube]({link_yt})",
                               reply_to=reply_message)
 async def find_song():
         global link
