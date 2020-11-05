@@ -320,7 +320,7 @@ async def sp_download(spdl):
   reply_message = await spdl.get_reply_message()
   global song
   global artist
-
+  global link
   await find_song()
   if isGetted:
     str_song_artist = artist + " - " + song
@@ -332,9 +332,9 @@ async def sp_download(spdl):
     except:
       await spdl.edit("Something went wrong. :(")
     finally:
-      link = "https://youtube.com" + data['videos'][0]['url_suffix']
+      link_yt = "https://youtube.com" + data['videos'][0]['url_suffix'] #yt link
       await spdl.edit("**Processing...**")
-      video = YouTube(link)
+      video = YouTube(link_yt)
       stream = video.streams.filter(progressive=True, subtype="mp4").first()
       await spdl.edit("**Downloading video...**")
       stream.download(filename='video')
@@ -344,7 +344,7 @@ async def sp_download(spdl):
       await spdl.edit("**Sending mp3...**")
       await spdl.client.send_file(spdl.chat.id,
                               f'{safe_filename(video.title)}.mp3',
-                              caption=f"{video.title}",
+                              caption=f"[Spotify]{link} | [Youtube]{link_yt}",
                               reply_to=reply_message)
 async def find_song():
         global link
