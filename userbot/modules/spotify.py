@@ -389,9 +389,11 @@ async def find_song():
 @register(outgoing=True, pattern="^.spoton$")
 async def set_biostgraph(setstbio):
     setrecursionlimit(700000)
+    global mustDisable
     if not SPOTIFYCHECK:
         environ["errorcheck"] = "0"
         await setstbio.edit(SPO_BIO_ENABLED)
+        mustDisable = False
         await get_spotify_token()
         await dirtyfix()
     else:
