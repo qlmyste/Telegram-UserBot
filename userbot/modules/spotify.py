@@ -101,6 +101,7 @@ async def update_spotify_info():
                 elif response.status_code == 401: #No token provided
                   #print("SP: 401: " + response.reason)
                   await get_spotify_token()
+                  print("dirty, 104 string")
                   await dirtyfix()
                 else:
                   if isDefault == False:
@@ -178,6 +179,7 @@ async def update_spotify_info():
         except KeyError:   #long pause
                 #print("keyerror: " + date)
                 if errorcheck == 0:
+                  print("182 update_token")
                   await update_token()
                 elif errorcheck == 1:
                   if OLDEXCEPT == False:
@@ -190,6 +192,7 @@ async def update_spotify_info():
                       await dirtyfix()
                   except errors.FloodWaitError as e:
                     await sleep(e.seconds)
+                    print("195 dirty")
                     await dirtyfix()
         except JSONDecodeError:   #NO INFO ABOUT, user closed spotify client
             #print("JSONDecodeError")
@@ -200,36 +203,43 @@ async def update_spotify_info():
             OLDEXCEPT = True
             try:
                 await sleep(10) #no need to ddos a spotify servers
+                print("206 dirty")
                 await dirtyfix()
             except errors.FloodWaitError as e:
                 await sleep(e.seconds)
+                print("210 dirty")
                 await dirtyfix()
         except TypeError:
             #print("TypeError")
             await sleep(5)
             await bot(UpdateProfileRequest(about=DEFAULT_BIO))
             isDefault = True
+            print("217 dirty")
             await dirtyfix()
         except IndexError:
             #print("IndexError")
             await sleep(5)
             await bot(UpdateProfileRequest(about=DEFAULT_BIO))
             isDefault = True
+            print("224 dirty")
             await dirtyfix()
         except errors.FloodWaitError as e:
             #print("Telegram anti-flood: Need to wait " + str(e.seconds) + " seconds")
             await sleep(e.seconds)
             await bot(UpdateProfileRequest(about=DEFAULT_BIO))
             isDefault = True
+            print("231 dirty")
             await dirtyfix()
         except HTTPError:
             #print("HTTPErr")
             await bot(UpdateProfileRequest(about=DEFAULT_BIO))
             isDefault = True
+            print("237 dirty")
             await dirtyfix()
 
         SPOTIFYCHECK = False
         await sleep(5)
+        print("242 dirty")
         await dirtyfix()
     RUNNING = False
 
@@ -239,12 +249,14 @@ async def update_token():
       sptoken = st.start_session(SPOTIFY_DC, SPOTIFY_KEY)
     except HTTPError:
       await sleep(1)
+      print("253 update_token")
       await update_token()
     except:
       print("Can't get sp token. The token is likely expired")
     access_token = sptoken[0]
     environ["spftoken"] = access_token
     errorcheck = 1
+    print("259 updta_sp_info")
     await update_spotify_info()
 
 
