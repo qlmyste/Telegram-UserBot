@@ -295,7 +295,7 @@ async def show_song(song_info):
           return
         
         #yt link
-        song_author_str = author + ' - ' + song
+        song_author_str = artist + ' - ' + song
         if isGetted:
           results = YoutubeSearch(song_author_str, max_results=1).to_json()
           try:
