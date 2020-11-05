@@ -79,6 +79,7 @@ async def update_spotify_info():
       return
     
     while SPOTIFYCHECK:
+        print("start sp: "str(SPOTIFYCHECK))
         isGetted = False
         
         if isDefault == True:
@@ -385,8 +386,10 @@ async def set_biostgraph(setstbio):
 @register(outgoing=True, pattern="^.spotoff$")
 async def set_biodgraph(setdbio):
     global SPOTIFYCHECK
+    print("start spotoff: " + str(SPOTIFYCHECK))
     global RUNNING
     SPOTIFYCHECK = False
+    print("changed spotoff: " + str(SPOTIFYCHECK))
     RUNNING = False
     await bot(UpdateProfileRequest(about=DEFAULT_BIO))
     await setdbio.edit(SPO_BIO_DISABLED)
