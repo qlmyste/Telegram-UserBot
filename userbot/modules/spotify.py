@@ -324,7 +324,7 @@ async def sp_download(spdl):
   await find_song()
   if isGetted:
     str_song_artist = artist + " - " + song
-    results = YoutubeSearch(song_author_str, max_results=1).to_json()
+    results = YoutubeSearch(str_song_artist, max_results=1).to_json()
     try:
       data = loads(results)
     except JSONDecodeError:
