@@ -287,7 +287,7 @@ async def show_song(song_info):
             str_song += '`' + artist + " - " + song + '`'
           else:
             str_song += '`' + song + '`'
-          if ((link != '') && (isLocal == False)):
+          if ((link != '') and (isLocal == False)):
             str_song += f"\n[Spotify link]({link})"
           await song_info.edit(str_song)
         else:
