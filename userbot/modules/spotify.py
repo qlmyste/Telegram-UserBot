@@ -287,7 +287,7 @@ async def show_song(song_info):
             str_song += '`' + artist + " - " + song + '`'
           else:
             str_song += '`' + song + '`'
-          if link != '':
+          if link != '' && isLocal == False:
             str_song += f"\n[Spotify link]({link})"
           await song_info.edit(str_song)
         else:
@@ -354,6 +354,7 @@ async def find_song():
         global artist
         global song
         global isGetted
+        global isLocal
         isGetted = False
         await get_spotify_token()
         spftoken = environ.get("spftoken", None)
