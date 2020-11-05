@@ -11,6 +11,10 @@ import telethon
 from telethon.errors import AboutTooLongError, FloodWaitError
 from telethon import errors
 from telethon.tl.functions.account import UpdateProfileRequest
+from youtube_search import YoutubeSearch
+from moviepy import editor as mp
+from pytube import YouTube
+from pytube.helpers import safe_filename
 
 from userbot import (BIO_PREFIX, BOTLOG, BOTLOG_CHATID, CMD_HELP, DEFAULT_BIO,
                      SPOTIFY_KEY, SPOTIFY_DC, bot)
@@ -38,6 +42,7 @@ isWritedPause = False
 isWritedPlay = False
 isGetted = False
 isDefault = True
+isArtist = True
 # ================================================
 async def get_spotify_token():
     try:
@@ -270,14 +275,84 @@ async def set_biodgraph(setdbio):
     
 @register(outgoing=True, pattern="^.song")
 async def show_song(song_info):
-        getted = False
+        global isArtist
+        global artist
+        global song
+        global isGetted
+        str_song = "Now playing: "
+        if isGetted:
+          if isArtist:
+            str_song += '`' + artist + " - " + song + '`'
+          else:
+            str_song += '`' + song + '`'
+          if link != '':
+            str_song += f"\n**Spotify link:** {link}"
+          await song_info.edit(str_song)
+        else:
+          await song_info.edit("Can't find current song in spotify")
+          return
+        
+        #yt link
+        song_author_str = author + ' - ' + song
+        if isGetted:
+          results = YoutubeSearch(song_author_str, max_results=1).to_json()
+          try:
+            data = loads(results)
+          except JSONDecodeError:
+            print("JSONDecode Error. Can't get yt link.")
+            str_song += "\n\n Youtube: `JSONDecode Error. Can't found.`"
+            await song_info.edit(str_song)
+            return
+          except:
+            str_song += "\n\n Youtube: `Unexcepted Error. Can't found.`"
+            await song_info.edit(str_song)
+            return
+          finally:
+            str_song += "\n\nFound song link for: " + data['videos'][0]['title']
+            str_song += "\nYoutube: https://youtube.com" + data['videos'][0]['url_suffix']
+            await song_info.edit(str_song)
+            return
+
+@register(outgoing=True, pattern="^.spdl$")
+async def sp_download(spdl):
+  reply_message = await yt.get_reply_message()
+  global song
+  global artist
+  await find_song()
+  if isGetted:
+    str_song_artist = artist + " - " + song
+    results = YoutubeSearch(song_author_str, max_results=1).to_json()
+    try:
+      data = loads(results)
+    except JSONDecodeError:
+      await spdl.edit("JSONDecodeError. Can't found in yt.")
+    except:
+      await spdl.edit("Something went wrong. :(")
+    finally:
+      link = "https://youtube.com" + data['videos'][0]['url_suffix']
+      spdl.edit("**Processing...**")
+      video = YouTube(url)
+      stream = video.streams.filter(progressive=True, subtype="mp4").first()
+      await spdl.edit("**Downloading video...**")
+      stream.download(filename='video')
+      await spdl.edit("**Converting video...**")
+      clip = mp.VideoFileClip('video.mp4')
+      clip.audio.write_audiofile(f'{safe_filename(video.title)}.mp3')
+      await spdl.edit("**Sending mp3...**")
+      await spdl.client.send_file(spdl.chat.id,
+                              f'{safe_filename(video.title)}.mp3',
+                              caption=f"{video.title}",
+                              reply_to=reply_message)
+async def find_song():
+        global isArtist
+        global artist
+        global song
+        global isGetted
+        isGetted = False
         await get_spotify_token()
         spftoken = environ.get("spftoken", None)
         hed = {'Authorization': 'Bearer ' + spftoken}
         url = 'https://api.spotify.com/v1/me/player/currently-playing'
-        str_song = "Now playing: "
-        link = ""
-        isArtist = True
         try:
           response = get(url,headers=hed)
         except:
@@ -298,27 +373,17 @@ async def show_song(song_info):
           if isLocal:
             artist = data['item']['artists'][0]['name']
             song = data['item']['name']
-            getted = True
+            isGetted = True
           else:
               artist = data['item']['album']['artists'][0]['name']
               song = data['item']['name']
-              link = data['item']['external_urls']['spotify']
-              getted = True
+              isGetted = True
         else:
-          getted = False
-        if getted:
-          if isArtist:
-            str_song += '`' + artist + " - " + song + '`'
-          else:
-            str_song += '`' + song + '`'
-          if link != '':
-            str_song += f"\n**Link:** {link}"
-          await song_info.edit(str_song)
-        else:
-          await song_info.edit("Can't find current song in spotify")
-            
+          isGetted = False
+
 CMD_HELP.update({"spotify": ['Spotify',
     " - `.spoton`: Enable Spotify bio updating.\n"
     " - `.spotoff`: Disable Spotify bio updating.\n"
+    " - `.spdl`: Find current spotify song in youtube and download it!.\n"
     " - `.song:`: Show current playing song.\n"]
 })
