@@ -58,7 +58,7 @@ async def update_spotify_info():
     global artist
     global song
     global PARSE
-    #global SPOTIFYCHECK
+    global SPOTIFYCHECK
     global RUNNING
     global OLDEXCEPT
     global isPlaying
@@ -249,6 +249,7 @@ async def update_token():
 
 
 async def dirtyfix():
+    print("dirtyfix")
     global SPOTIFYCHECK
     SPOTIFYCHECK = True
     await sleep(5)
@@ -385,7 +386,7 @@ async def set_biostgraph(setstbio):
 
 @register(outgoing=True, pattern="^.spotoff$")
 async def set_biodgraph(setdbio):
-   # global SPOTIFYCHECK
+    global SPOTIFYCHECK
     print("start spotoff: " + str(SPOTIFYCHECK))
     global RUNNING
     SPOTIFYCHECK = False
