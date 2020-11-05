@@ -27,8 +27,8 @@ SPO_BIO_DISABLED += "`Bio reverted to default.`"
 SPO_BIO_RUNNING = "`Spotify current music to bio is already running.`"
 ERROR_MSG = "`Spotify module halted, got an unexpected error.`"
 
-ARTIST = 0
-SONG = 0
+artist = str
+song = str
 
 BIOPREFIX = BIO_PREFIX
 
@@ -55,8 +55,8 @@ async def get_spotify_token():
 
 
 async def update_spotify_info():
-    global ARTIST
-    global SONG
+    global artist
+    global song
     global PARSE
     global SPOTIFYCHECK
     global RUNNING
@@ -279,6 +279,7 @@ async def show_song(song_info):
         global artist
         global song
         global isGetted
+        await find_song()
         str_song = "Now playing: "
         if isGetted:
           if isArtist:
