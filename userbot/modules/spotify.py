@@ -343,6 +343,7 @@ async def sp_download(spdl):
       clip = mp.VideoFileClip('video.mp4')
       clip.audio.write_audiofile(f'{safe_filename(video.title)}.mp3')
       await spdl.edit("**Sending mp3...**")
+      await spdl.delete()
       await spdl.client.send_file(spdl.chat.id,
                               f'{safe_filename(video.title)}.mp3',
                               caption=f"[Spotify]({link}) | [YouTube]({link_yt})",
