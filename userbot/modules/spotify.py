@@ -239,8 +239,9 @@ async def update_spotify_info():
 
         SPOTIFYCHECK = False
         await sleep(5)
-        print("242 dirty")
-        await dirtyfix()
+        if SPOTIFYCHECK:
+          print("243 dirty")
+          await dirtyfix()
     RUNNING = False
 
 
