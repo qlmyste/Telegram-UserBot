@@ -51,3 +51,4 @@ lyricsgenius
 convertapi
 pdf2image
 cairocffi
+grpcio
