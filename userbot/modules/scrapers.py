@@ -29,6 +29,7 @@ from userbot.events import register
 from gtts import gTTS, gTTSError #tts
 from bs4 import BeautifulSoup #imdb
 import asyncurban #ud
+import speech
 
 LANG = "en"
 
@@ -373,8 +374,83 @@ async def imdb(e):
         except IndexError:
             await e.edit("Plox enter **Valid movie name** kthx")
             
-            
-            
+#voice note
+@register(outgoing=True, pattern="^.a (.*)")
+async def voice_note(event):
+    try:
+        chat = await event.get_chat()
+        await event.delete()
+        async with client.action(chat, 'record-voice'):
+            origin_text = event.message.text.replace('!a ', '')
+            voicename, _duration = speech.syntese(origin_text, background = True)
+
+            chat = await event.get_chat()
+            wafe_form = speech.get_waveform(0, 31, 100)
+            await client.send_file(chat, voicename, reply_to = event.message.reply_to_msg_id, attributes=[types.DocumentAttributeAudio(duration=_duration, voice=True, waveform=utils.encode_waveform(bytes(wafe_form)))]) # 2**5 because 5-bit
+
+            speech.try_delete(voicename)
+
+    except Exception as e:
+        print(e)
+
+#video note
+@register(outgoing=True, pattern="^.v (.*)")
+async def video_note(event):
+    try:
+        chat = await event.get_chat()
+        await event.delete()
+        async with client.action(chat, 'record-round'):
+            # make sound
+            origin_text = event.message.text.replace('!v ', '')
+            voicename, _duration = speech.syntese(origin_text, gender=1)
+            # voicename, _duration = speech.syntese(origin_text, frequency=0.6, gender=1)
+
+            # mount to video
+            video_file = speech.mount_video(voicename)
+
+            chat = await event.get_chat()
+            await client.send_file(chat, video_file, reply_to = event.message.reply_to_msg_id, video_note=True)
+
+            speech.try_delete(voicename)
+            speech.try_delete(video_file)
+
+    except Exception as e:
+        print(e)
+
+#demon voice note
+@register(outgoing=True, pattern="^.d (.*)")
+async def demon_voice(event):
+    try:
+        chat = await event.get_chat()
+        await event.delete()
+        async with client.action(chat, 'record-voice'):
+            origin_text = event.message.text.replace('!d ', '')
+            voicename, _duration = speech.demon(origin_text)
+
+            chat = await event.get_chat()
+            wafe_form = speech.get_waveform(0, 31, 100)
+            await client.send_file(chat, voicename, reply_to = event.message.reply_to_msg_id, attributes=[types.DocumentAttributeAudio(duration=_duration, voice=True, waveform=utils.encode_waveform(bytes(wafe_form)))]) # 2**5 because 5-bit
+
+            speech.try_delete(voicename)
+
+    except Exception as e:
+        print(e)
+
+#background voice note
+@register(incoming=True, outgoing=True, disable_edited=True, disable_errors=True)
+async def voice(event):
+    if event.voice:
+        chat = await event.get_chat()
+        await event.delete()
+        async with client.action(chat, 'record-voice'):
+            path_to_voice = await event.download_media()
+            voicename, _duration = speech.megre_sounds(path_to_voice)
+
+            chat = await event.get_chat()
+            wafe_form = speech.get_waveform(0, 31, 100)
+            await client.send_file(chat, voicename, reply_to = event.message.reply_to_msg_id, attributes=[types.DocumentAttributeAudio(duration=_duration, voice=True, waveform=utils.encode_waveform(bytes(wafe_form)))]) # 2**5 because 5-bit
+
+            speech.try_delete(voicename)
             
             
             
