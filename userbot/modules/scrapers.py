@@ -380,7 +380,7 @@ async def voice_note(event):
     try:
         chat = await event.get_chat()
         await event.delete()
-        async with client.action(chat, 'record-voice'):
+        async with event.client.action(chat, 'record-voice'):
             origin_text = event.message.text.replace('!a ', '')
             voicename, _duration = speech.syntese(origin_text, background = True)
 
@@ -423,7 +423,7 @@ async def demon_voice(event):
     try:
         chat = await event.get_chat()
         await event.delete()
-        async with client.action(chat, 'record-voice'):
+        async with event.client.action(chat, 'record-voice'):
             origin_text = event.message.text.replace('!d ', '')
             voicename, _duration = speech.demon(origin_text)
 
@@ -442,7 +442,7 @@ async def voice(event):
     if event.voice:
         chat = await event.get_chat()
         await event.delete()
-        async with client.action(chat, 'record-voice'):
+        async with event.client.action(chat, 'record-voice'):
             path_to_voice = await event.download_media()
             voicename, _duration = speech.megre_sounds(path_to_voice)
 
