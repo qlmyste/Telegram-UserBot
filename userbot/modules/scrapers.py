@@ -29,7 +29,7 @@ from userbot.events import register
 from gtts import gTTS, gTTSError #tts
 from bs4 import BeautifulSoup #imdb
 import asyncurban #ud
-import userbot.speech
+from userbot import speech
 
 LANG = "en"
 
