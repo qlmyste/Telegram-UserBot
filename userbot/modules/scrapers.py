@@ -9,7 +9,7 @@ import os
 from html import unescape
 import re
 from shutil import rmtree
-from telethon import types
+from telethon import types, utils
 from urllib.error import HTTPError
 #from subprocess import call
 from emoji import get_emoji_regexp
