@@ -399,7 +399,7 @@ async def video_note(event):
     try:
         chat = await event.get_chat()
         await event.delete()
-        async with client.action(chat, 'record-round'):
+        async with event.client.action(chat, 'record-round'):
             # make sound
             origin_text = event.message.text.replace('!v ', '')
             voicename, _duration = speech.syntese(origin_text, gender=1)
