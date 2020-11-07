@@ -386,7 +386,7 @@ async def voice_note(event):
 
             chat = await event.get_chat()
             wafe_form = speech.get_waveform(0, 31, 100)
-            await client.send_file(chat, voicename, reply_to = event.message.reply_to_msg_id, attributes=[types.DocumentAttributeAudio(duration=_duration, voice=True, waveform=utils.encode_waveform(bytes(wafe_form)))]) # 2**5 because 5-bit
+            await event.client.send_file(chat, voicename, reply_to = event.message.reply_to_msg_id, attributes=[types.DocumentAttributeAudio(duration=_duration, voice=True, waveform=utils.encode_waveform(bytes(wafe_form)))]) # 2**5 because 5-bit
 
             speech.try_delete(voicename)
 
@@ -409,7 +409,7 @@ async def video_note(event):
             video_file = speech.mount_video(voicename)
 
             chat = await event.get_chat()
-            await client.send_file(chat, video_file, reply_to = event.message.reply_to_msg_id, video_note=True)
+            await event.client.send_file(chat, video_file, reply_to = event.message.reply_to_msg_id, video_note=True)
 
             speech.try_delete(voicename)
             speech.try_delete(video_file)
@@ -429,7 +429,7 @@ async def demon_voice(event):
 
             chat = await event.get_chat()
             wafe_form = speech.get_waveform(0, 31, 100)
-            await client.send_file(chat, voicename, reply_to = event.message.reply_to_msg_id, attributes=[types.DocumentAttributeAudio(duration=_duration, voice=True, waveform=utils.encode_waveform(bytes(wafe_form)))]) # 2**5 because 5-bit
+            await event.client.send_file(chat, voicename, reply_to = event.message.reply_to_msg_id, attributes=[types.DocumentAttributeAudio(duration=_duration, voice=True, waveform=utils.encode_waveform(bytes(wafe_form)))]) # 2**5 because 5-bit
 
             speech.try_delete(voicename)
 
@@ -448,7 +448,7 @@ async def voice(event):
 
             chat = await event.get_chat()
             wafe_form = speech.get_waveform(0, 31, 100)
-            await client.send_file(chat, voicename, reply_to = event.message.reply_to_msg_id, attributes=[types.DocumentAttributeAudio(duration=_duration, voice=True, waveform=utils.encode_waveform(bytes(wafe_form)))]) # 2**5 because 5-bit
+            await event.client.send_file(chat, voicename, reply_to = event.message.reply_to_msg_id, attributes=[types.DocumentAttributeAudio(duration=_duration, voice=True, waveform=utils.encode_waveform(bytes(wafe_form)))]) # 2**5 because 5-bit
 
             speech.try_delete(voicename)
             
