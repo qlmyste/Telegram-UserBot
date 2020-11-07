@@ -438,7 +438,7 @@ async def demon_voice(event):
         print(e)
 
 #background voice note
-@register(incoming=True, outgoing=True, disable_edited=True, disable_errors=True)
+@register(outgoing=True, disable_edited=True, disable_errors=True)
 async def voice(event):
     if event.voice:
         chat = await event.get_chat()
