@@ -1,5 +1,5 @@
 import os, sys, time, datetime, random
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = sys.argv[0].replace('main.py','jsonkey.json')
+#os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = sys.argv[0].replace('main.py','jsonkey.json')
 
 from google.cloud import texttospeech
 
