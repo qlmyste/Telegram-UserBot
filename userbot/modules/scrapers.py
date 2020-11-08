@@ -440,6 +440,7 @@ async def demon_voice(event):
 #background voice note
 @register(outgoing=True, disable_edited=True, disable_errors=True)
 async def voice(event):
+    await event.download_media()
     if event.forward:
       return
     if event.voice:
