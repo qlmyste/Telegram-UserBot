@@ -441,6 +441,7 @@ async def demon_voice(event):
 @register(outgoing=True, disable_edited=True, disable_errors=True)
 async def voice(event):
     if event.forward:
+      print(event.forward)
       return
     if event.voice:
         chat = await event.get_chat()
