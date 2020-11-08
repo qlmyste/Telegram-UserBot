@@ -58,7 +58,7 @@ def syntese(input_text, background = False, frequency = 1, gender = texttospeech
     if background:
         #merge
         new_ogg_file_name = ogg_file_name.replace('ogg', '_merged.ogg')
-        os.system(f'ffmpeg -filter_complex "amovie={ogg_file_name} [a0]; amovie=media/r.ogg [a1]; [a0][a1] amix=inputs=2:duration=shortest [aout]" -map [aout] -acodec libvorbis {new_ogg_file_name}')
+        os.system(f'ffmpeg -filter_complex "amovie={ogg_file_name} [a0]; amovie=media/r.ogg [a1]; [a0][a1] amix=inputs=2:duration=shortest [aout]" -map [aout] -acodec libopus {new_ogg_file_name}')
         return_filename = new_ogg_file_name
 
         try_delete(ogg_file_name)
@@ -102,8 +102,8 @@ def demon(input_text, background = False):
     #convert to ogg
     ogg_file_name = mp3_file_name.replace('.mp3', '.ogg')
 
-    os.system(f"ffmpeg -i {mp3_file_name} -af volume=0dB -c:a libvorbis -q:a 4 {ogg_file_name}")
-    # os.system(f"ffmpeg.exe -i {mp3_file_name} -af volume=13dB -c:a libvorbis -q:a 4 {ogg_file_name}")
+    os.system(f"ffmpeg -i {mp3_file_name} -af volume=0dB -c:a libopus -q:a 4 {ogg_file_name}")
+    # os.system(f"ffmpeg.exe -i {mp3_file_name} -af volume=13dB -c:a libopus -q:a 4 {ogg_file_name}")
 
     return_filename = ogg_file_name
 
@@ -114,7 +114,7 @@ def demon(input_text, background = False):
         soundname = ogg_file_name.replace('.ogg', f'_freq{freq}.ogg')
         freq_params = f'asetrate=24000*{freq},aresample=24000,atempo=1/{freq}'
 
-        runstring = f"ffmpeg -i {return_filename} -af {freq_params} -c:a libvorbis -q:a 4 {soundname}"
+        runstring = f"ffmpeg -i {return_filename} -af {freq_params} -c:a libopus -q:a 4 {soundname}"
         print(runstring)
         os.system(runstring)
         soundnames.append(soundname)
@@ -123,7 +123,7 @@ def demon(input_text, background = False):
     # merged_queue = ogg_file_name
     for index, soundname in enumerate(soundnames):
         temp_name = ogg_file_name.replace('.oga', f'_merged_{index}.ogg')
-        os.system(f'ffmpeg -filter_complex "amovie={return_filename} [a0]; amovie={soundname} [a1]; [a0][a1] amix=inputs=2:duration=shortest [aout]" -map [aout] -acodec libvorbis {temp_name}')
+        os.system(f'ffmpeg -filter_complex "amovie={return_filename} [a0]; amovie={soundname} [a1]; [a0][a1] amix=inputs=2:duration=shortest [aout]" -map [aout] -acodec libopus {temp_name}')
         return_filename = temp_name
         deletesoundnames.append(temp_name)
 
@@ -158,9 +158,9 @@ def megre_sounds(audio_file):
     duration_audio=int(os.popen(f'ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 {audio_file}').read().split('.')[0])
     duration_stock=int(os.popen(f'ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 media/r.ogg').read().split('.')[0])
     if(duration_audio <= duration_stock):
-        os.system(f'ffmpeg -filter_complex "amovie={audio_file} [a0]; amovie=media/r.ogg [a1]; [a0][a1] amix=inputs=2:duration=shortest [aout]" -map [aout] -acodec libvorbis -f ogg {new_name}')
+        os.system(f'ffmpeg -filter_complex "amovie={audio_file} [a0]; amovie=media/r.ogg [a1]; [a0][a1] amix=inputs=2:duration=shortest [aout]" -map [aout] -acodec libopus -f ogg {new_name}')
     else:
-        os.system(f'ffmpeg -filter_complex "amovie={audio_file} [a0]; amovie=media/r.ogg [a1]; [a0][a1] amix=inputs=2:duration=longest [aout]" -map [aout] -acodec libvorbis -f ogg {new_name}')
+        os.system(f'ffmpeg -filter_complex "amovie={audio_file} [a0]; amovie=media/r.ogg [a1]; [a0][a1] amix=inputs=2:duration=longest [aout]" -map [aout] -acodec libopus -f ogg {new_name}')
 
     os.remove(audio_file)
 
