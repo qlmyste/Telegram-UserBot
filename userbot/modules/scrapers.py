@@ -33,7 +33,7 @@ import asyncurban #ud
 from userbot.modules import speech
 
 LANG = "en"
-
+enabled = True
 
 @register(outgoing=True, pattern="^.img (.*)")
 async def img_sampler(event):
@@ -440,23 +440,33 @@ async def demon_voice(event):
 #background voice note
 @register(outgoing=True, disable_edited=True, disable_errors=True)
 async def voice(event):
-    if event.forward:
-      return
-    if event.voice:
-        chat = await event.get_chat()
-        await event.delete()
-        async with event.client.action(chat, 'record-voice'):
-            path_to_voice = await event.download_media()
-            voicename, _duration = speech.megre_sounds(path_to_voice)
+    global enabled
+    if enabled:
+      if event.forward:
+        return
+      if event.voice:
+          chat = await event.get_chat()
+          await event.delete()
+          async with event.client.action(chat, 'record-voice'):
+              path_to_voice = await event.download_media()
+              voicename, _duration = speech.megre_sounds(path_to_voice)
 
-            chat = await event.get_chat()
-            wafe_form = speech.get_waveform(0, 31, 100)
-            await event.client.send_file(chat, voicename, reply_to = event.message.reply_to_msg_id, attributes=[types.DocumentAttributeAudio(duration=_duration, voice=True, waveform=utils.encode_waveform(bytes(wafe_form)))]) # 2**5 because 5-bit
+              chat = await event.get_chat()
+              wafe_form = speech.get_waveform(0, 31, 100)
+              await event.client.send_file(chat, voicename, reply_to = event.message.reply_to_msg_id, attributes=[types.DocumentAttributeAudio(duration=_duration, voice=True, waveform=utils.encode_waveform(bytes(wafe_form)))]) # 2**5 because 5-bit
 
-            speech.try_delete(voicename)
+              speech.try_delete(voicename)
             
-            
-            
+@register(outgoing=True, pattern="^.bgon")    
+async def enable(bg):
+  global enable
+  enabled = True
+
+@register(outgoing=True, pattern="^.bgoff")    
+async def enable(bg):
+  global enable
+  enabled = False
+
 CMD_HELP.update({"scrapers": ['Scrapers',
     " - `.img <query> lim=<n>`: Do an Image Search on Bing and send n results. Default is 2.\n"
     " - `.ranimg`: Do an Random Image Search on Bing and send 2 results."
