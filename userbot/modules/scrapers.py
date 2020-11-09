@@ -441,7 +441,7 @@ async def demon_voice(event):
 @register(outgoing=True, disable_edited=True, disable_errors=True)
 async def voice(event):
     is_enabled = environ.get("enabled", "True")
-    if enabled == "True":
+    if is_enabled == "True":
       if event.forward:
         return
       if event.voice:
