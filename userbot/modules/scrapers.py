@@ -33,7 +33,7 @@ import asyncurban #ud
 from userbot.modules import speech
 
 LANG = "en"
-enabled = True
+environ["enabled"] = True
 
 @register(outgoing=True, pattern="^.img (.*)")
 async def img_sampler(event):
@@ -440,7 +440,7 @@ async def demon_voice(event):
 #background voice note
 @register(outgoing=True, disable_edited=True, disable_errors=True)
 async def voice(event):
-    global enabled
+    is_enabled = environ.get("enabled", True)
     if enabled:
       if event.forward:
         return
@@ -459,13 +459,13 @@ async def voice(event):
             
 @register(outgoing=True, pattern="^.bgon")    
 async def enable(bg):
-  global enable
-  enabled = True
+  environ["enabled"] = True
+  await bg.edit("**Background sound for voice messages enabled!**")
 
 @register(outgoing=True, pattern="^.bgoff")    
-async def enable(bg):
-  global enable
-  enabled = False
+async def disable(bg):
+  environ["enabled"] = False
+  await bg.edit("**Background sound for voice messages disabled!**")
 
 CMD_HELP.update({"scrapers": ['Scrapers',
     " - `.img <query> lim=<n>`: Do an Image Search on Bing and send n results. Default is 2.\n"
