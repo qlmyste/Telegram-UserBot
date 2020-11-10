@@ -377,11 +377,13 @@ async def find_song():
             artist = data['item']['artists'][0]['name']
             song = data['item']['name']
             isGetted = True
+            isArtist = True
           else:
               artist = data['item']['album']['artists'][0]['name']
               song = data['item']['name']
               link = data['item']['external_urls']['spotify']
               isGetted = True
+              isArtist = True
         else:
           isGetted = False
           
