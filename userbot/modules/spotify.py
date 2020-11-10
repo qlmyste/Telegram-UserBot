@@ -171,6 +171,12 @@ async def update_spotify_info():
                           short_bio += '...'
                         await bot(UpdateProfileRequest(about=short_bio))
                         isDefault = False
+                        except errors.FloodWaitError as e:
+                          await sleep(e.seconds)
+                          await dirtyfix()
+                  except errors.FloodWaitError as e:
+                    await sleep(e.seconds)
+                    await dirtyfix()
                   errorcheck = 0
                   OLDEXCEPT = False
             else: #means no new data. NO need to update. Trying to get again by new loop 
@@ -184,7 +190,11 @@ async def update_spotify_info():
                 elif errorcheck == 1:
                   if OLDEXCEPT == False:
                     await sleep(5) #anti flood
-                    await bot(UpdateProfileRequest(about=DEFAULT_BIO))
+                    try:
+                      await bot(UpdateProfileRequest(about=DEFAULT_BIO))
+                    except errors.FloodWaitError as e:
+                      await sleep(e.seconds)
+                      await dirtyfix()
                     isDefault = True
                   OLDEXCEPT = True
                   try:
@@ -198,7 +208,11 @@ async def update_spotify_info():
             #print("JSONDecodeError")
             if OLDEXCEPT == False:
               await sleep(5) #anti flood
-              await bot(UpdateProfileRequest(about=DEFAULT_BIO))
+              try:
+                await bot(UpdateProfileRequest(about=DEFAULT_BIO))
+              except errors.FloodWaitError as e:
+                await sleep(e.seconds)
+                await dirtyfix()
               isDefault = True
             OLDEXCEPT = True
             try:
@@ -212,27 +226,43 @@ async def update_spotify_info():
         except TypeError:
             #print("TypeError")
             await sleep(5)
-            await bot(UpdateProfileRequest(about=DEFAULT_BIO))
+            try:
+              await bot(UpdateProfileRequest(about=DEFAULT_BIO))
+            except errors.FloodWaitError as e:
+              await sleep(e.seconds)
+              await dirtyfix()
             isDefault = True
             #print("217 dirty")
             await dirtyfix()
         except IndexError:
             #print("IndexError")
             await sleep(5)
-            await bot(UpdateProfileRequest(about=DEFAULT_BIO))
+            try:
+              await bot(UpdateProfileRequest(about=DEFAULT_BIO))
+            except errors.FloodWaitError as e:
+              await sleep(e.seconds)
+              await dirtyfix()
             isDefault = True
             #print("224 dirty")
             await dirtyfix()
         except errors.FloodWaitError as e:
             #print("Telegram anti-flood: Need to wait " + str(e.seconds) + " seconds")
             await sleep(e.seconds)
-            await bot(UpdateProfileRequest(about=DEFAULT_BIO))
+            try:
+              await bot(UpdateProfileRequest(about=DEFAULT_BIO))
+            except errors.FloodWaitError as e:
+              await sleep(e.seconds)
+              await dirtyfix()
             isDefault = True
             #print("231 dirty")
             await dirtyfix()
         except HTTPError:
             #print("HTTPErr")
-            await bot(UpdateProfileRequest(about=DEFAULT_BIO))
+            try:
+              await bot(UpdateProfileRequest(about=DEFAULT_BIO))
+            except errors.FloodWaitError as e:
+              await sleep(e.seconds)
+              await dirtyfix()
             isDefault = True
             #print("237 dirty")
             await dirtyfix()
