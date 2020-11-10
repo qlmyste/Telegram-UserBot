@@ -171,9 +171,9 @@ async def update_spotify_info():
                           short_bio += '...'
                         await bot(UpdateProfileRequest(about=short_bio))
                         isDefault = False
-                        except errors.FloodWaitError as e:
-                          await sleep(e.seconds)
-                          await dirtyfix()
+                      except errors.FloodWaitError as e:
+                        await sleep(e.seconds)
+                        await dirtyfix()
                   except errors.FloodWaitError as e:
                     await sleep(e.seconds)
                     await dirtyfix()
