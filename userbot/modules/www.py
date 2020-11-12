@@ -51,7 +51,7 @@ def speed_convert(size):
     while size > power:
         size /= power
         zero += 1
-    return f"{round(size, 2)} {units[zero]}"
+    return f"{round(size, 2)/8} {units[zero]}"
 
 
 @register(outgoing=True, pattern="^.nearestdc$")
