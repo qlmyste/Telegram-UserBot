@@ -5,10 +5,14 @@ from userbot.events import register
 from userbot.utils import parse_arguments
 import string, random
 import re
+from password_generator import PasswordGenerator
 
 @register(outgoing=True, pattern="^.password(?: |$)(.*)")
 async def password(e):
-  chars = string.ascii_uppercase + string.ascii_lowercase + string.digits
   query = e.pattern_match.group(1)
   size = re.findall(r'\d+', query)
-  print(size[0])
+  pwo = PasswordGenerator()
+  pwo.minlen = size
+  pwo.maxlen = size
+  passw = pwo.generate()
+  await e.edit(f"'{passw}'")
