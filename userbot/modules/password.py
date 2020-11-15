@@ -8,5 +8,5 @@ import string, random
 @register(outgoing=True, pattern="^.password(?: |$)(.*)")
 async def password(e):
   chars = string.ascii_uppercase + string.ascii_lowercase + string.digits
-  query = await e.pattern_match.group(1)
+  query = e.pattern_match.group(1)
   print(query)
