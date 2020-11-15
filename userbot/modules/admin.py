@@ -62,9 +62,43 @@ UNBAN_RIGHTS = ChatBannedRights(
     embed_links=None,
 )
 
+KICK_RIGHTS = ChatBannedRights(until_date=None, view_messages=True)
+
 MUTE_RIGHTS = ChatBannedRights(until_date=None, send_messages=True)
 
 UNMUTE_RIGHTS = ChatBannedRights(until_date=None, send_messages=False)
+
+CHATLOCK_RIGHTS = ChatBannedRights(
+    until_date=None,
+    view_messages=None,
+    send_messages=True,
+    send_media=True,
+    send_stickers=True,
+    send_gifs=True,
+    send_games=True,
+    send_inline=True,
+    send_polls=True,
+    invite_users=True,
+    change_info=True,
+    pin_messages=True
+)
+
+CHATUNLOCK_RIGHTS = ChatBannedRights(
+    until_date=None,
+    view_messages=None,
+    send_messages=None,
+    send_media=None,
+    send_stickers=None,
+    send_gifs=None,
+    send_games=None,
+    send_inline=None,
+    send_polls=None,
+    invite_users=True,
+    change_info=True,
+    pin_messages=True
+)
+
+# ================================================
 # ================================================
 
 
