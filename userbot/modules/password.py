@@ -15,4 +15,4 @@ async def password(e):
   pwo.minlen = int(size[0])
   pwo.maxlen = int(size[0])
   passw = pwo.generate()
-  await e.edit(f"'{passw}'")
+  await e.edit(f"`{passw}`")
