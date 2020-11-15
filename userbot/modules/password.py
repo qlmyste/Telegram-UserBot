@@ -6,7 +6,7 @@ from userbot.utils import parse_arguments
 import string, random
 
 @register(outgoing=True, pattern="^.password(?: |$)(.*)")
-async def pass(e):
+async def password(e):
   chars = string.ascii_uppercase + string.ascii_lowercase + string.digits
   query = await e.pattern_match.group(1)
   print(query)
