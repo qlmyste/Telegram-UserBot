@@ -16,3 +16,7 @@ async def password(e):
   pwo.maxlen = int(size[0])
   passw = pwo.generate()
   await e.edit(f"`{passw}`")
+
+CMD_HELP.update({"password": ["Password",
+    " - `.password (size)`: Generate random password with specified size.\n"
+                        ]})
