@@ -12,7 +12,7 @@ async def password(e):
   query = e.pattern_match.group(1)
   size = re.findall(r'\d+', query)
   pwo = PasswordGenerator()
-  pwo.minlen = size
-  pwo.maxlen = size
+  pwo.minlen = int(size)
+  pwo.maxlen = int(size)
   passw = pwo.generate()
   await e.edit(f"'{passw}'")
