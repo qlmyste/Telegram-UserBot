@@ -1142,7 +1142,8 @@ async def handler(event):
 async def bruh(event):
   await event.delete()
   wafe_form = speech.get_waveform(0, 31, 100)
-  await event.client.send_file(event.chat_id, 'media/bruh.ogg', reply_to = event.message.reply_to_msg_id, attributes=[types.DocumentAttributeAudio(duration=_duration, voice=True, waveform=utils.encode_waveform(bytes(wafe_form)))]) # 2**5 because 5-bit
+  await event.client.send_file(event.chat_id, 'media/bruh.ogg', reply_to = event.message.reply_to_msg_id, attributes=[types.DocumentAttributeAudio(voice=True, waveform=utils.encode_waveform(bytes(wafe_form)))]) # 2**5 because 5-bit
+                      
 CMD_HELP.update({"memes": ["Memes",
     " - `.cowsay`: cow which says things.\n"
     " - `:/`: Check yourself :)\n"
