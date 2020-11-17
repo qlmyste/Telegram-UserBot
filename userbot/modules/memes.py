@@ -1142,7 +1142,8 @@ async def handler(event):
 async def bruh(event):
   await event.delete()
   wafe_form = speech.get_waveform(0, 31, 100)
-  await event.client.send_file(event.chat_id, 'media/bruh.ogg', reply_to = event.message.reply_to_msg_id, attributes=[types.DocumentAttributeAudio(voice=True, waveform=utils.encode_waveform(bytes(wafe_form)))]) # 2**5 because 5-bit
+  duration_ = int(os.popen(f'ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 ''media/bruh.ogg'').read().split('.')[0])
+  await event.client.send_file(event.chat_id, 'media/bruh.ogg', reply_to = event.message.reply_to_msg_id, attributes=[types.DocumentAttributeAudio(duration=duration_, voice=True, waveform=utils.encode_waveform(bytes(wafe_form)))]) # 2**5 because 5-bit
                       
 CMD_HELP.update({"memes": ["Memes",
     " - `.cowsay`: cow which says things.\n"
