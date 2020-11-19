@@ -483,9 +483,9 @@ async def default_song(bg):
   environ["song"] = "r"
   await bg.edit("**Background sound for voice messages has been set `default`!**")
 
-@register(outgoing=True, pattern="^.sssr")    
+@register(outgoing=True, pattern="^.ussr")    
 async def triage_song(bg):
-  environ["song"] = "triage"
+  environ["song"] = "ussr"
   await bg.edit("**Background sound for voice messages has been set `Soviet Union`!**")
   
 CMD_HELP.update({"scrapers": ['Scrapers',
