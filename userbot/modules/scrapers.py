@@ -499,8 +499,8 @@ CMD_HELP.update({"scrapers": ['Scrapers',
     " - `.lang <lang>`: Changes the default language of trt and TTS modules.\n"
     " -  `.imdb <movie-name>`: Shows movie info and other stuffs\n"
     " -  `.cow`: Changes deafult background music to Cow Polish song\n"
-    " -  `.default`: Changes deafult background music to default\n"
-    " -  `.ussr`: Changes deafult background music to Soviet Union anthem\n"
-    " -  `.triage`: Changes deafult background music to Triage at Dawn\n"
+    " -  `.default`: Changes default background music to default\n"
+    " -  `.ussr`: Changes default background music to Soviet Union anthem\n"
+    " -  `.triage`: Changes default background music to Triage at Dawn\n"
     " - `.wolfram <query>: Get answers to questions using WolframAlpha Spoken Results API."]
 })
