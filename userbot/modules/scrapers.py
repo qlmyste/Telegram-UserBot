@@ -475,12 +475,12 @@ async def cow_song(bg):
   
 @register(outgoing=True, pattern="^.triage")    
 async def triage_song(bg):
-  environ["enabled"] = "triage"
+  environ["song"] = "triage"
   await bg.edit("**Background sound for voice messages setted `Triage at Dawn`!**")
   
 @register(outgoing=True, pattern="^.default")    
 async def default_song(bg):
-  environ["enabled"] = "r"
+  environ["song"] = "r"
   await bg.edit("**Background sound for voice messages setted `default`!**")
 
 CMD_HELP.update({"scrapers": ['Scrapers',
