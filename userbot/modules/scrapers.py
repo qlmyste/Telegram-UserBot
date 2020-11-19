@@ -471,18 +471,23 @@ async def disable(bg):
 @register(outgoing=True, pattern="^.cow")    
 async def cow_song(bg):
   environ["song"] = "cow"
-  await bg.edit("**Background sound for voice messages setted `Polish cow`!**")
+  await bg.edit("**Background sound for voice messages has been set `Polish cow`!**")
   
 @register(outgoing=True, pattern="^.triage")    
 async def triage_song(bg):
   environ["song"] = "triage"
-  await bg.edit("**Background sound for voice messages setted `Triage at Dawn`!**")
+  await bg.edit("**Background sound for voice messages has been set `Triage at Dawn`!**")
   
 @register(outgoing=True, pattern="^.default")    
 async def default_song(bg):
   environ["song"] = "r"
-  await bg.edit("**Background sound for voice messages setted `default`!**")
+  await bg.edit("**Background sound for voice messages has been set `default`!**")
 
+@register(outgoing=True, pattern="^.sssr")    
+async def triage_song(bg):
+  environ["song"] = "triage"
+  await bg.edit("**Background sound for voice messages has been set `Soviet Union`!**")
+  
 CMD_HELP.update({"scrapers": ['Scrapers',
     " - `.img <query> lim=<n>`: Do an Image Search on Bing and send n results. Default is 2.\n"
     " - `.ranimg`: Do an Random Image Search on Bing and send 2 results."
