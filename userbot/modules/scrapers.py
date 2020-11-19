@@ -498,5 +498,9 @@ CMD_HELP.update({"scrapers": ['Scrapers',
     " - `.trt <query>`: Translate the query (argument or reply) to the saved language.\n"
     " - `.lang <lang>`: Changes the default language of trt and TTS modules.\n"
     " -  `.imdb <movie-name>`: Shows movie info and other stuffs\n"
+    " -  `.cow`: Changes deafult background music to Cow Polish song\n"
+    " -  `.default`: Changes deafult background music to default\n"
+    " -  `.ussr`: Changes deafult background music to Soviet Union anthem\n"
+    " -  `.triage`: Changes deafult background music to Triage at Dawn\n"
     " - `.wolfram <query>: Get answers to questions using WolframAlpha Spoken Results API."]
 })
