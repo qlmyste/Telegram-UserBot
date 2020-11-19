@@ -34,6 +34,7 @@ from userbot.modules import speech
 
 LANG = "en"
 environ["enabled"] = "True"
+environ["song"] = "r"
 
 @register(outgoing=True, pattern="^.img (.*)")
 async def img_sampler(event):
@@ -449,7 +450,7 @@ async def voice(event):
           await event.delete()
           async with event.client.action(chat, 'record-voice'):
               path_to_voice = await event.download_media()
-              voicename, _duration = speech.megre_sounds(path_to_voice)
+              voicename, _duration = speech.megre_sounds(path_to_voice, environ["song"])
 
               chat = await event.get_chat()
               wafe_form = speech.get_waveform(0, 31, 100)
@@ -466,6 +467,21 @@ async def enable(bg):
 async def disable(bg):
   environ["enabled"] = "False"
   await bg.edit("**Background sound for voice messages disabled!**")
+
+@register(outgoing=True, pattern="^.cow")    
+async def cow_song(bg):
+  environ["song"] = "cow"
+  await bg.edit("**Background sound for voice messages setted `Polish cow`!**")
+  
+@register(outgoing=True, pattern="^.triage")    
+async def triage_song(bg):
+  environ["enabled"] = "triage"
+  await bg.edit("**Background sound for voice messages setted `Triage at Dawn`!**")
+  
+@register(outgoing=True, pattern="^.default")    
+async def default_song(bg):
+  environ["enabled"] = "r"
+  await bg.edit("**Background sound for voice messages setted `default`!**")
 
 CMD_HELP.update({"scrapers": ['Scrapers',
     " - `.img <query> lim=<n>`: Do an Image Search on Bing and send n results. Default is 2.\n"
