@@ -150,7 +150,7 @@ def mount_video(sound_file):
 
     return new_video_file
 
-def megre_sounds(audio_file, second_file):
+def megre_sounds(audio_file, second_file = "r"):
     # testing
     new_name = "new_" + audio_file
 
