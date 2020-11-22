@@ -369,11 +369,18 @@ async def sp_download(spdl):
       clip = mp.VideoFileClip('video.mp4')
       clip.audio.write_audiofile(f'{safe_filename(video.title)}.mp3')
       await spdl.edit("**Sending mp3...**")
-      await spdl.delete()
-      await spdl.client.send_file(spdl.chat.id,
+      
+      if link != "":
+        await spdl.client.send_file(spdl.chat.id,
                               f'{safe_filename(video.title)}.mp3',
                               caption=f"[Spotify]({link}) | [YouTube]({link_yt})",
                               reply_to=reply_message)
+      else:
+        await spdl.client.send_file(spdl.chat.id,
+                              f'{safe_filename(video.title)}.mp3',
+                              caption=f"[YouTube]({link_yt})",
+                              reply_to=reply_message)
+      await spdl.delete()
 async def find_song():
         global link
         global isArtist
@@ -408,6 +415,7 @@ async def find_song():
             song = data['item']['name']
             isGetted = True
             isArtist = True
+            link = ""
           else:
               artist = data['item']['album']['artists'][0]['name']
               song = data['item']['name']
