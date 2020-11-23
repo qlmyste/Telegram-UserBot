@@ -6,6 +6,7 @@
 """ Userbot module containing various scrapers. """
 
 from os import environ
+import os
 from html import unescape
 import re
 from shutil import rmtree
