@@ -39,6 +39,7 @@ OLDEXCEPT = False
 PARSE = False
 oldartist = ""
 oldsong = ""
+preview_url = ""
 isWritedPause = False
 isWritedPlay = False
 isGetted = False
@@ -349,6 +350,7 @@ async def sp_download(spdl):
   global song
   global artist
   global link
+  global preview_url
   await find_song()
   if isGetted:
     str_song_artist = artist + " - " + song
@@ -364,12 +366,15 @@ async def sp_download(spdl):
       await spdl.edit("**Processing...**")
       video = YouTube(link_yt)
       stream = video.streams.filter(only_audio=True, mime_type="audio/webm").last()
-      system(f"wget -q -O 'picture.jpg' {video.thumbnail_url}")
       await spdl.edit("**Downloading audio...**")
       stream.download(filename=f'{safe_filename(video.title)}')
       await spdl.edit("**Converting to mp3...**")
       system(f"ffmpeg -loglevel panic -i '{safe_filename(video.title)}.webm' -vn -ab 128k -ar 44100 -y '{safe_filename(video.title)}.mp3'")
       remove(f'{safe_filename(video.title)}.webm')
+            if(preview_url != ""):
+        system(f"wget -q -O 'picture.jpg' {preview_url}")
+      else: #fetching from yt
+        system(f"wget -q -O 'picture.jpg' {video.thumbnail_url}")
       audio = MP3(f"{safe_filename(video.title)}.mp3", ID3=ID3)
       try:
           audio.add_tags()
@@ -398,6 +403,7 @@ async def find_song():
         global song
         global isGetted
         global isLocal
+        global preview_url
         isGetted = False
         await get_spotify_token()
         spftoken = environ.get("spftoken", None)
@@ -426,10 +432,12 @@ async def find_song():
             isGetted = True
             isArtist = True
             link = ""
+            preview_url = ""
           else:
               artist = data['item']['album']['artists'][0]['name']
               song = data['item']['name']
               link = data['item']['external_urls']['spotify']
+              preview_url = data['item']['album']['images'][1]['url']
               isGetted = True
               isArtist = True
         else:
