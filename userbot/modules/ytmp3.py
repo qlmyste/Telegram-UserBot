@@ -37,7 +37,8 @@ async def youtube_mp3(yt):
 
     await yt.delete()
     os.remove(f'{safe_filename(video.title)}.mp3')
-
+    os.remove('picture.jpg')
+    
 CMD_HELP.update({"ytmp3": ["YtMP3",
     " - `.ytmp3 (url)`: Convert a YouTube video to a mp3 and send it.\n"
                         ]})
