@@ -382,12 +382,12 @@ async def sp_download(spdl):
         await spdl.client.send_file(spdl.chat.id,
                               f'{safe_filename(video.title)}.mp3',
                               caption=f"[Spotify]({link}) | [YouTube]({link_yt})",
-                              reply_to=reply_message)
+                              reply_to=reply_message, thumb='picture.jpg')
       else:
         await spdl.client.send_file(spdl.chat.id,
                               f'{safe_filename(video.title)}.mp3',
                               caption=f"[YouTube]({link_yt})",
-                              reply_to=reply_message)
+                              reply_to=reply_message, thumb='picture.jpg')
       await spdl.delete()
 async def find_song():
         global link
