@@ -19,6 +19,8 @@ from pytube.helpers import safe_filename
 from userbot import (BIO_PREFIX, BOTLOG, BOTLOG_CHATID, CMD_HELP, DEFAULT_BIO,
                      SPOTIFY_KEY, SPOTIFY_DC, bot)
 from userbot.events import register
+from mutagen.mp3 import MP3
+from mutagen.id3 import ID3, APIC, error
 
 # =================== CONSTANT ===================
 SPO_BIO_ENABLED = "`Spotify current music to bio has been successfully enabled.`"
@@ -362,14 +364,20 @@ async def sp_download(spdl):
       link_yt = "https://youtube.com" + data['videos'][0]['url_suffix'] #yt link
       await spdl.edit("**Processing...**")
       video = YouTube(link_yt)
-      stream = video.streams.filter(progressive=True, subtype="mp4").first()
-      await spdl.edit("**Downloading video...**")
-      stream.download(filename='video')
-      await spdl.edit("**Converting video...**")
-      clip = mp.VideoFileClip('video.mp4')
-      clip.audio.write_audiofile(f'{safe_filename(video.title)}.mp3')
+      stream = video.streams.filter(only_audio=True, mime_type="audio/webm").last()
+      os.system(f"wget -q -O 'picture.jpg' {video.thumbnail_url}")
+      await spdl.edit("**Downloading audio...**")
+      stream.download(filename=f'{safe_filename(video.title)}')
+      await spdl.edit("**Converting to mp3...**")
+      os.system(f"ffmpeg -loglevel panic -i '{safe_filename(video.title)}.webm' -vn -ab 128k -ar 44100 -y '{safe_filename(video.title)}.mp3'")
+      audio = MP3(f"{safe_filename(video.title)}.mp3", ID3=ID3)
+      try:
+          audio.add_tags()
+      except error:
+          pass
+      audio.tags.add(APIC(mime='image/jpeg',type=3,desc=u'Cover',data=open('picture.jpg','rb').read()))
+      audio.save()
       await spdl.edit("**Sending mp3...**")
-      
       if link != "":
         await spdl.client.send_file(spdl.chat.id,
                               f'{safe_filename(video.title)}.mp3',
