@@ -1,7 +1,7 @@
 from asyncio import sleep
 from json import loads
 from json.decoder import JSONDecodeError
-from os import environ, system
+from os import environ, system, remove
 from sys import setrecursionlimit
 import spotify_token as st
 from time import gmtime, strftime
@@ -370,6 +370,7 @@ async def sp_download(spdl):
       stream.download(filename=f'{safe_filename(video.title)}')
       await spdl.edit("**Converting to mp3...**")
       system(f"ffmpeg -loglevel panic -i '{safe_filename(video.title)}.webm' -vn -ab 128k -ar 44100 -y '{safe_filename(video.title)}.mp3'")
+      remove(f'{safe_filename(video.title)}.webm')
       audio = MP3(f"{safe_filename(video.title)}.mp3", ID3=ID3)
       try:
           audio.add_tags()
@@ -389,6 +390,8 @@ async def sp_download(spdl):
                               caption=f"[YouTube]({link_yt})",
                               reply_to=reply_message, thumb='picture.jpg')
       await spdl.delete()
+      remove('picture.jpg')
+      remove(f'{safe_filename(video.title)}.mp3}')
 async def find_song():
         global link
         global isArtist
