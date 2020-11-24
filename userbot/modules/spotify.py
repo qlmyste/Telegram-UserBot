@@ -1,7 +1,7 @@
 from asyncio import sleep
 from json import loads
 from json.decoder import JSONDecodeError
-from os import environ
+from os import environ, system
 from sys import setrecursionlimit
 import spotify_token as st
 from time import gmtime, strftime
@@ -365,11 +365,11 @@ async def sp_download(spdl):
       await spdl.edit("**Processing...**")
       video = YouTube(link_yt)
       stream = video.streams.filter(only_audio=True, mime_type="audio/webm").last()
-      os.system(f"wget -q -O 'picture.jpg' {video.thumbnail_url}")
+      system(f"wget -q -O 'picture.jpg' {video.thumbnail_url}")
       await spdl.edit("**Downloading audio...**")
       stream.download(filename=f'{safe_filename(video.title)}')
       await spdl.edit("**Converting to mp3...**")
-      os.system(f"ffmpeg -loglevel panic -i '{safe_filename(video.title)}.webm' -vn -ab 128k -ar 44100 -y '{safe_filename(video.title)}.mp3'")
+      system(f"ffmpeg -loglevel panic -i '{safe_filename(video.title)}.webm' -vn -ab 128k -ar 44100 -y '{safe_filename(video.title)}.mp3'")
       audio = MP3(f"{safe_filename(video.title)}.mp3", ID3=ID3)
       try:
           audio.add_tags()
