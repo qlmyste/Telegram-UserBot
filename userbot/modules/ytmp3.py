@@ -16,21 +16,24 @@ async def youtube_mp3(yt):
     await yt.edit("**Processing...**")
 
     video = YouTube(url)
-    stream = video.streams.filter(progressive=True,
-                                  subtype="mp4").first()
-
-    await yt.edit("**Downloading video...**")
-    stream.download(filename='video')
-
-    await yt.edit("**Converting video...**")
-    clip = mp.VideoFileClip('video.mp4')
-    clip.audio.write_audiofile(f'{safe_filename(video.title)}.mp3')
-
+    stream = video.streams.filter(only_audio=True, mime_type="audio/webm").last()
+    system(f"wget -q -O 'picture.jpg' {video.thumbnail_url}")
+    await yt.edit("**Downloading audio...**")
+    stream.download(filename=f'{safe_filename(video.title)}')
+    await yt.edit("**Converting to mp3...**")
+    system(f"ffmpeg -loglevel panic -i '{safe_filename(video.title)}.webm' -vn -ab 128k -ar 44100 -y '{safe_filename(video.title)}.mp3'")
+    audio = MP3(f"{safe_filename(video.title)}.mp3", ID3=ID3)
+    try:
+        audio.add_tags()
+    except error:
+        pass
+    audio.tags.add(APIC(mime='image/jpeg',type=3,desc=u'Cover',data=open('picture.jpg','rb').read()))
+    audio.save()
     await yt.edit("**Sending mp3...**")
     await yt.client.send_file(yt.chat.id,
                               f'{safe_filename(video.title)}.mp3',
                               caption=f"{video.title}",
-                              reply_to=reply_message)
+                              reply_to=reply_message, thumb='picture.jpg')
 
     await yt.delete()
     os.remove(f'{safe_filename(video.title)}.mp3')
