@@ -1,12 +1,12 @@
 import os
 
-from moviepy import editor as mp
 from pytube import YouTube
 from pytube.helpers import safe_filename
 
 from userbot import CMD_HELP
 from userbot.events import register
-
+from mutagen.mp3 import MP3
+from mutagen.id3 import ID3, APIC, error
 
 @register(outgoing=True, pattern=r"^\.ytmp3 (\S*)")
 async def youtube_mp3(yt):
