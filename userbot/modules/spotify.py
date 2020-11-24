@@ -12,7 +12,6 @@ from telethon.errors import AboutTooLongError, FloodWaitError
 from telethon import errors
 from telethon.tl.functions.account import UpdateProfileRequest
 from youtube_search import YoutubeSearch
-from moviepy import editor as mp
 from pytube import YouTube
 from pytube.helpers import safe_filename
 
