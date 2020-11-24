@@ -371,7 +371,7 @@ async def sp_download(spdl):
       await spdl.edit("**Converting to mp3...**")
       system(f"ffmpeg -loglevel panic -i '{safe_filename(video.title)}.webm' -vn -ab 128k -ar 44100 -y '{safe_filename(video.title)}.mp3'")
       remove(f'{safe_filename(video.title)}.webm')
-            if(preview_url != ""):
+      if preview_url != "":
         system(f"wget -q -O 'picture.jpg' {preview_url}")
       else: #fetching from yt
         system(f"wget -q -O 'picture.jpg' {video.thumbnail_url}")
