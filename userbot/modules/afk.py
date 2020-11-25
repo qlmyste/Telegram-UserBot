@@ -46,8 +46,6 @@ AFKSTR = [
 @register(incoming=True, disable_edited=True)
 async def mention_afk(mention):
     """ This function takes care of notifying the people who mention you that you are AFK."""
-    if environ["isSuspended"] == "True":
-        return
     global COUNT_MSG
     global USERS
     global ISAFK
