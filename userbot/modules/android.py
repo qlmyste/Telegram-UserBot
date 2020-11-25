@@ -22,7 +22,7 @@ DEVICES_DATA = 'https://raw.githubusercontent.com/androidtrackers/' \
 @register(outgoing=True, pattern="^.magisk$")
 async def magisk(request):
     """ magisk latest releases """
-    if os.environ.get("isSuspended") == "True":
+    if environ.get("isSuspended") == "True":
         return
     url = 'https://raw.githubusercontent.com/topjohnwu/magisk_files/master/'
     releases = 'Latest Magisk Releases:\n'
