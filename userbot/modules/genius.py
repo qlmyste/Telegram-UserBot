@@ -12,6 +12,8 @@ from json import loads
 
 @register(outgoing=True, pattern=r"^\.lyrics(.*)")
 async def gen(e):
+      if environ.get("isSuspended") == "True":
+        return
       if GENIUS_API is None:
         await e.edit("**We don't support magic! No Genius API!**")
         return
