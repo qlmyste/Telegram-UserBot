@@ -9,7 +9,7 @@
 
 import re
 from sre_constants import error as sre_err
-
+from os import environ
 from userbot import CMD_HELP
 from userbot.events import register
 
@@ -60,6 +60,8 @@ def separate_sed(sed_string):
 
 @register(outgoing=True, pattern="^sed", ignore_unsafe=True)
 async def sed(command):
+    if environ.get("isSuspended") == "True":
+        return
     """ For sed command, use sed on Telegram. """
     sed_result = separate_sed(command.text)
     textx = await command.get_reply_message()
