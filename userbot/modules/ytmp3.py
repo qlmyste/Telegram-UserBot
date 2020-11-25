@@ -7,9 +7,11 @@ from userbot import CMD_HELP
 from userbot.events import register
 from mutagen.mp3 import MP3
 from mutagen.id3 import ID3, APIC, error
-
+from os import environ
 @register(outgoing=True, pattern=r"^\.ytmp3 (\S*)")
 async def youtube_mp3(yt):
+    if environ.get("isSuspended") == "True":
+        return
     reply_message = await yt.get_reply_message()
     url = yt.pattern_match.group(1)
 
