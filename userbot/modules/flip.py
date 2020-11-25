@@ -3,7 +3,7 @@ import string
 
 from userbot import CMD_HELP
 from userbot.events import register
-
+from os import environ
 
 # Define dual character. Make sure that mapping is bijective.
 FLIP_RANGES = [
@@ -69,6 +69,8 @@ def transform(text, transliterations=None):
 
 @register(outgoing=True, pattern=r"^\.flip(\s+[\S\s]+|$)")
 async def flip_message(e):
+    if environ.get("isSuspended") == "True":
+        return
     reply_message = await e.get_reply_message()
     text = e.pattern_match.group(1) or reply_message.text
     flipped = transform(text)
