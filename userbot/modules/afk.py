@@ -76,8 +76,6 @@ async def mention_afk(mention):
 @register(incoming=True, disable_errors=True)
 async def afk_on_pm(sender):
     """ Function which informs people that you are AFK in PM """
-    if environ["isSuspended"] == "True":
-        return
     global ISAFK
     global USERS
     global COUNT_MSG
@@ -109,8 +107,6 @@ async def afk_on_pm(sender):
 @register(outgoing=True, pattern="^.afk(?: |$)(.*)", disable_errors=True)
 async def set_afk(afk_e):
     """ For .afk command, allows you to inform people that you are afk when they message you """
-    if environ["isSuspended"] == "True":
-        return
     message = afk_e.text
     string = afk_e.pattern_match.group(1)
     global ISAFK
@@ -130,8 +126,6 @@ async def set_afk(afk_e):
 @register(outgoing=True)
 async def type_afk_is_not_true(notafk):
     """ This sets your status as not afk automatically when you write something while being afk """
-    if environ["isSuspended"] == "True":
-        return
     global ISAFK
     global COUNT_MSG
     global USERS
