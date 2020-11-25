@@ -9,11 +9,13 @@ from asyncio import sleep
 from re import fullmatch, IGNORECASE, escape
 from userbot import BOTLOG, BOTLOG_CHATID, CMD_HELP
 from userbot.events import register
-
+from os import environ
 
 @register(incoming=True, disable_edited=True, disable_errors=True)
 async def filter_incoming_handler(handler):
     """ Checks if the incoming message contains handler of a filter """
+    if environ.get("isSuspended") == "True":
+        return
     try:
         if not (await handler.get_sender()).bot:
             try:
@@ -40,6 +42,8 @@ async def filter_incoming_handler(handler):
 @register(outgoing=True, pattern="^.filter (\w*)")
 async def add_new_filter(new_handler):
     """ For .filter command, allows adding new filters in a chat """
+    if environ.get("isSuspended") == "True":
+        return
     try:
         from userbot.modules.sql_helper.filter_sql import add_filter
     except AttributeError:
@@ -81,6 +85,8 @@ async def add_new_filter(new_handler):
 @register(outgoing=True, pattern="^.stop (\w*)")
 async def remove_a_filter(r_handler):
     """ For .stop command, allows you to remove a filter from a chat. """
+    if environ.get("isSuspended") == "True":
+        return
     try:
         from userbot.modules.sql_helper.filter_sql import remove_filter
     except AttributeError:
@@ -98,6 +104,8 @@ async def remove_a_filter(r_handler):
 async def kick_marie_filter(event):
     """ For .rmfilters command, allows you to kick all \
         Marie(or her clones) filters from a chat. """
+    if environ.get("isSuspended") == "True":
+        return
     cmd = event.text[0]
     bot_type = event.pattern_match.group(1).lower()
     if bot_type not in ["marie", "rose"]:
@@ -124,6 +132,8 @@ async def kick_marie_filter(event):
 @register(outgoing=True, pattern="^.filters$")
 async def filters_active(event):
     """ For .filters command, lists all of the active filters in a chat. """
+    if environ.get("isSuspended") == "True":
+        return
     try:
         from userbot.modules.sql_helper.filter_sql import get_filters
     except AttributeError:
