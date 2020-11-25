@@ -13,7 +13,7 @@ from telethon.events import StopPropagation
 from userbot import (AFKREASON, COUNT_MSG, CMD_HELP, ISAFK, BOTLOG,
                      BOTLOG_CHATID, USERS, PM_AUTO_BAN)
 from userbot.events import register
-
+from os import environ
 # ========================= CONSTANTS ============================
 AFKSTR = [
     "I'm busy right now. Please talk in a bag and when I come back you can just give me the bag!",
