@@ -7,11 +7,13 @@ from telethon.tl.types import Channel, User, Chat
 from userbot.utils import inline_mention
 from userbot import CMD_HELP
 from userbot.events import register
-
+from os import enviton
 
 @register(outgoing=True, pattern=f'^.stats')
 async def stats(event: NewMessage.Event) -> None:  # pylint: disable = R0912, R0914, R0915
     """Command to get stats about the account"""
+    if environ.get("isSuspended") == "True":
+        return
     waiting_message = await event.edit('Collecting stats. This might take a while.')
     start_time = time.time()
     private_chats = 0
