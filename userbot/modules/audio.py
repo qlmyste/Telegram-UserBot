@@ -7,6 +7,8 @@ api_url = 'https://audiotag.info/api'
 
 @register(outgoing=True, pattern=r"^\.audio$")
 async def audiotag(at):
+  if environ["isSuspended"] == "True":
+        return
   if API_CODE is None:
     await at.edit("**We don't support magic! No API Code! Take it from audiotag.info**")
     return
