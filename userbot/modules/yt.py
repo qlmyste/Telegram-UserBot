@@ -7,10 +7,12 @@ from userbot import CMD_HELP
 from userbot import YOUTUBE_API_KEY
 from userbot.events import register
 from userbot.utils import parse_arguments
-
+from os import environ
 
 @register(outgoing=True, pattern=r"^\.yt (.*)")
 async def yt_search(video_q):
+    if environ.get("isSuspended") == "True":
+        return
     """ For .yt command, do a YouTube search from Telegram. """
     query = video_q.pattern_match.group(1)
     result = ''
