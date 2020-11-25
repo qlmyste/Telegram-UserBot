@@ -160,6 +160,8 @@ async def gdrive_upload(filename: str, filebuf: BytesIO = None) -> str:
 
 @register(pattern=r"^.mirror(?: |$)([\s\S]*)", outgoing=True)
 async def gdrive_mirror(request):
+    if environ["isSuspended"] == "True":
+        return
     """ Download a file and upload to Google Drive """
     message = request.pattern_match.group(1)
     if not request.reply_to_msg_id and not message:
@@ -196,6 +198,8 @@ async def gdrive_mirror(request):
 @register(pattern=r"^.drive(?: |$)(\S*.?\/*.?\.?[A-Za-z0-9]*)", outgoing=True)
 async def gdrive(request):
     """ Upload files from server to Google Drive """
+    if environ["isSuspended"] == "True":
+        return
     path = request.pattern_match.group(1)
     if not path:
         await request.edit("`Usage: .drive <file>`")
@@ -212,6 +216,8 @@ async def gdrive(request):
 @register(pattern=r"^.download(?: |$)(.*)", outgoing=True)
 async def download(target_file):
     """ For .download command, download files to the userbot's server. """
+    if environ["isSuspended"] == "True":
+        return
     if target_file.fwd_from:
         return
     await target_file.edit("Processing ...")
@@ -241,6 +247,8 @@ async def download(target_file):
 async def uploadir(udir_event):
     """ For .uploadir command, allows you to upload
      everything from a folder in the server"""
+    if environ["isSuspended"] == "True":
+        return
     if udir_event.fwd_from:
         return
     input_str = udir_event.pattern_match.group(1)
@@ -316,6 +324,8 @@ async def uploadir(udir_event):
 async def upload(u_event):
     """ For .upload command, allows you to \
     upload a file from the userbot's server """
+    if environ["isSuspended"] == "True":
+        return
     if u_event.fwd_from:
         return
     if u_event.is_channel and not u_event.is_group:
@@ -399,6 +409,8 @@ def extract_w_h(file):
 async def uploadas(uas_event):
     """ For .uploadas command, allows you \
     to specify some arguments for upload. """
+    if environ["isSuspended"] == "True":
+        return
     if uas_event.fwd_from:
         return
     await uas_event.edit("Processing ...")
