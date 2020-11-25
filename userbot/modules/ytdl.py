@@ -8,10 +8,12 @@ from userbot import CMD_HELP
 from userbot import bot
 from userbot.events import register
 from userbot.utils import parse_arguments
-
+from os import environ
 
 @register(outgoing=True, pattern=r"^\.ytdl (.*)")
 async def download_video(v_url):
+    if environ.get("isSuspended") == "True":
+        return
     """ For .ytdl command, download videos from YouTube. """
     query = v_url.pattern_match.group(1)
     opts, url = parse_arguments(query, ['res'])
