@@ -303,6 +303,8 @@ async def dirtyfix():
 
 @register(outgoing=True, pattern="^.song")
 async def show_song(song_info):
+        if environ.get("isSuspended") == "True":
+          return
         global isArtist
         global artist
         global song
@@ -346,6 +348,8 @@ async def show_song(song_info):
 
 @register(outgoing=True, pattern="^.spdl$")
 async def sp_download(spdl):
+  if environ.get("isSuspended") == "True":
+        return
   reply_message = await spdl.get_reply_message()
   global song
   global artist
@@ -446,6 +450,8 @@ async def find_song():
 
 @register(outgoing=True, pattern="^.spoton$")
 async def set_biostgraph(setstbio):
+    if environ.get("isSuspended") == "True":
+        return
     setrecursionlimit(700000)
     global mustDisable
     if not SPOTIFYCHECK:
@@ -460,6 +466,8 @@ async def set_biostgraph(setstbio):
 
 @register(outgoing=True, pattern="^.spotoff$")
 async def set_biodgraph(setdbio):
+    if environ.get("isSuspended") == "True":
+        return
     global SPOTIFYCHECK
     global mustDisable
     #print("start spotoff: " + str(SPOTIFYCHECK))
