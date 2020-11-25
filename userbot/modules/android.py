@@ -38,7 +38,7 @@ async def magisk(request):
 @register(outgoing=True, pattern=r"^.device(?: |$)(\S*)")
 async def device_info(request):
     """ get android device basic info from its codename """
-    if environ["isSuspended"] == "True":
+    if environ.get("isSuspended") == "True":
         return
     textx = await request.get_reply_message()
     device = request.pattern_match.group(1)
@@ -71,7 +71,7 @@ async def device_info(request):
 @register(outgoing=True, pattern=r"^.codename(?: |)([\S]*)(?: |)([\s\S]*)")
 async def codename_info(request):
     """ search for android codename """
-    if environ["isSuspended"] == "True":
+    if environ.get("isSuspended") == "True":
         return
     textx = await request.get_reply_message()
     brand = request.pattern_match.group(1).lower()
@@ -108,7 +108,7 @@ async def codename_info(request):
 @register(outgoing=True, pattern=r"^.specs(?: |)([\S]*)(?: |)([\s\S]*)")
 async def devices_specifications(request):
     """ Mobile devices specifications """
-    if environ["isSuspended"] == "True":
+    if environ.get("isSuspended") == "True":
         return
     textx = await request.get_reply_message()
     brand = request.pattern_match.group(1).lower()
@@ -163,7 +163,7 @@ async def devices_specifications(request):
 @register(outgoing=True, pattern=r"^.twrp(?: |$)(\S*)")
 async def twrp(request):
     """ get android device twrp """
-    if environ["isSuspended"] == "True":
+    if environ.get("isSuspended") == "True":
         return
     textx = await request.get_reply_message()
     device = request.pattern_match.group(1)
