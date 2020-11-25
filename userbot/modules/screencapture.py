@@ -13,11 +13,13 @@ from requests import get
 
 from userbot import CMD_HELP, SCREENSHOT_LAYER_ACCESS_KEY
 from userbot.events import register
-
+from os import environ
 
 @register(pattern=r"^.screencapture (.*)", outgoing=True)
 async def capture(url):
     """ For .screencapture command, capture a website and send the photo. """
+    if environ.get("isSuspended") == "True":
+        return
     if SCREENSHOT_LAYER_ACCESS_KEY is None:
         await url.edit(
             "Need to get an API key from https://screenshotlayer.com\
