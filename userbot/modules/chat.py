@@ -10,12 +10,12 @@ from telethon.tl.functions.channels import LeaveChannelRequest
 
 from userbot import BOTLOG, BOTLOG_CHATID, CMD_HELP, bot
 from userbot.events import register
-
+from os import environ
 
 @register(outgoing=True, pattern="^.userid$")
 async def useridgetter(target):
     """ For .userid command, returns the ID of the target user. """
-    if environ["isSuspended"] == "True":
+    if environ.get("isSuspended") == "True":
         return
     message = await target.get_reply_message()
     if message:
@@ -39,7 +39,7 @@ async def useridgetter(target):
 @register(outgoing=True, pattern="^.chatid$")
 async def chatidgetter(chat):
     """ For .chatid, returns the ID of the chat you are in at that moment. """
-    if environ["isSuspended"] == "True":
+    if environ.get("isSuspended") == "True":
         return
     await chat.edit("Chat ID: `" + str(chat.chat_id) + "`")
 
@@ -48,7 +48,7 @@ async def chatidgetter(chat):
 async def log(log_text):
     """ For .log command, forwards a message
      or the command argument to the bot logs group """
-    if environ["isSuspended"] == "True":
+    if environ.get("isSuspended") == "True":
         return
     if BOTLOG:
         if log_text.reply_to_msg_id:
@@ -71,7 +71,7 @@ async def log(log_text):
 @register(outgoing=True, pattern="^.kickme$")
 async def kickme(leave):
     """ Basically it's .kickme command """
-    if environ["isSuspended"] == "True":
+    if environ.get("isSuspended") == "True":
         return
     await leave.edit("`Nope, no, no, I go away`")
     await bot(LeaveChannelRequest(leave.chat_id))
