@@ -17,7 +17,7 @@ from os import environ
 @register(outgoing=True, pattern="^.random")
 async def randomise(items):
     """ For .random command, get a random item from the list of items. """
-    if environ["isSuspended"] == "True":
+    if environ.get("isSuspended") == "True":
         return
     itemo = (items.text[8:]).split()
     if len(itemo) == 1:
@@ -38,7 +38,7 @@ async def randomise(items):
 @register(outgoing=True, pattern="^.sleep( [0-9]+)?$")
 async def sleepybot(time):
     """ For .sleep command, let the userbot snooze for a few second. """
-    if environ["isSuspended"] == "True":
+    if environ.get("isSuspended") == "True":
         return
     if " " not in time.pattern_match.group(1):
         await time.reply("Syntax: `.sleep [seconds]`")
@@ -81,7 +81,7 @@ async def killdabot(event):
 @register(outgoing=True, pattern="^.support$")
 async def bot_support(wannahelp):
     """ For .support command, just returns the group link. """
-    if environ["isSuspended"] == "True":
+    if environ.get("isSuspended") == "True":
         return
     await wannahelp.edit("Link Portal: @userbot_support")
 
@@ -89,7 +89,7 @@ async def bot_support(wannahelp):
 @register(outgoing=True, pattern="^.repo$")
 async def repo_is_here(wannasee):
     """ For .repo command, just returns the repo URL. """
-    if environ["isSuspended"] == "True":
+    if environ.get("isSuspended") == "True":
         return
     await wannasee.edit("https://github.com/PolisanTheEasyNick/Telegram-UserBot/")
 
