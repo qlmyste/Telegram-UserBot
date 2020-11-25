@@ -1,4 +1,4 @@
-import os, json, requests, time
+import os, json, requests, time, environ
 from userbot import BOTLOG, bot, BOTLOG_CHATID, CMD_HELP
 from userbot.events import register
 from userbot import AUDIOTAG_API as API_CODE
@@ -7,7 +7,7 @@ api_url = 'https://audiotag.info/api'
 
 @register(outgoing=True, pattern=r"^\.audio$")
 async def audiotag(at):
-  if environ["isSuspended"] == "True":
+  if environ.get("isSuspended") == "True":
         return
   if API_CODE is None:
     await at.edit("**We don't support magic! No API Code! Take it from audiotag.info**")
