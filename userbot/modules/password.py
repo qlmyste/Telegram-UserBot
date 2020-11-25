@@ -6,9 +6,11 @@ from userbot.utils import parse_arguments
 import string, random
 import re
 from password_generator import PasswordGenerator
-
+from os import environ
 @register(outgoing=True, pattern="^.password(?: |$)(.*)")
 async def password(e):
+  if environ.get("isSuspended") == "True":
+        return
   query = e.pattern_match.group(1)
   size = re.findall(r'\d+', query)
   pwo = PasswordGenerator()
