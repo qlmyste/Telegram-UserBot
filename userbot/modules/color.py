@@ -11,6 +11,8 @@ from userbot.events import register
 
 @register(outgoing=True, pattern=r"^\.color\s+(.*)")
 async def color_props(e):
+    if environ["isSuspended"] == "True":
+        return
     params = e.pattern_match.group(1) or ""
     args, color = parse_arguments(params, ['format', 'extended'])
     reply_message = await e.get_reply_message()
