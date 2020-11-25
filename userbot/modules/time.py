@@ -15,7 +15,7 @@ from pytz import timezone as tz
 from userbot import CMD_HELP, is_mongo_alive, is_redis_alive
 from userbot.events import register
 from userbot.modules.dbhelper import get_time, set_time
-
+from os import environ
 # ===== CONSTANT =====
 INV_CON = "`Invalid country.`"
 TZ_NOT_FOUND = "`The selected timezone is not found! Try again!`"
@@ -55,6 +55,8 @@ async def time_func(tdata):
         2. The default userbot country(set it by using .settime),
         3. The server where the userbot runs.
     """
+    if environ.get("isSuspended") == "True":
+        return
     con = tdata.pattern_match.group(1).title()
     tz_num = tdata.pattern_match.group(2)
 
@@ -119,6 +121,8 @@ async def time_func(tdata):
 
 @register(outgoing=True, pattern="^.date(?: |$)(.*)(?<![0-9])(?: |$)([0-9]+)?")
 async def date_func(dat):
+    if environ.get("isSuspended") == "True":
+        return
     """ For .date command, return the date of
         1. The country passed as an argument,
         2. The default userbot country(set it by using .settime),
@@ -188,6 +192,8 @@ async def date_func(dat):
 
 @register(outgoing=True, pattern="^.settime (.*)(?<![0-9])(?: |$)([0-9]+)?")
 async def set_time_country(loc):
+    if environ.get("isSuspended") == "True":
+        return
     """ For .settime command, change the default userbot
         country for date and time commands. """
     if not is_mongo_alive() or not is_redis_alive():
