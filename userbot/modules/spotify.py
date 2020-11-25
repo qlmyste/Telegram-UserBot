@@ -82,6 +82,8 @@ async def update_spotify_info():
     
     while SPOTIFYCHECK:
         #print("start sp: " + str(SPOTIFYCHECK))
+        if environ.get("SPOTIFYCHECK") == "False":
+          SPOTIFYCHECK = False
         isGetted = False
         
         if isDefault == True:
