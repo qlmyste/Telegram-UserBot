@@ -9,7 +9,7 @@
     about any user on Telegram(including you!). """
 
 import os
-
+from os import environ
 from telethon.tl.functions.users import GetFullUserRequest
 from telethon.tl.types import MessageEntityMentionName
 
@@ -22,6 +22,8 @@ TMP_DOWNLOAD_DIRECTORY = "./"
 @register(pattern="^.whois(?: |$)(.*)", outgoing=True)
 async def who(event):
     """ For .whois command, get info about a user. """
+    if environ.get("isSuspended") == "True":
+        return
     if event.fwd_from:
         return
 
