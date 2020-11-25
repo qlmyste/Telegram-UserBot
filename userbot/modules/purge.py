@@ -11,11 +11,13 @@ from telethon.errors import rpcbaseerrors
 
 from userbot import BOTLOG, BOTLOG_CHATID, CMD_HELP
 from userbot.events import register
-
+from os import environ
 
 @register(outgoing=True, pattern="^.purge$")
 async def fastpurger(purg):
     """ For .purge command, purge all messages starting from the reply. """
+    if environ.get("isSuspended") == "True":
+        return
     chat = await purg.get_input_chat()
     msgs = []
     itermsg = purg.client.iter_messages(chat, min_id=purg.reply_to_msg_id)
@@ -53,6 +55,8 @@ async def fastpurger(purg):
 @register(outgoing=True, pattern="^.purgeme")
 async def purgeme(delme):
     """ For .purgeme, delete x count of your latest message."""
+    if environ.get("isSuspended") == "True":
+        return
     message = delme.text
     count = int(message[9:])
     i = 1
@@ -82,6 +86,8 @@ async def purgeme(delme):
 @register(outgoing=True, pattern="^.del$")
 async def delete_it(delme):
     """ For .del command, delete the replied message. """
+    if environ.get("isSuspended") == "True":
+        return
     msg_src = await delme.get_reply_message()
     if delme.reply_to_msg_id:
         try:
@@ -99,6 +105,8 @@ async def delete_it(delme):
 @register(outgoing=True, pattern="^.editme")
 async def editer(edit):
     """ For .editme command, edit your last message. """
+    if environ.get("isSuspended") == "True":
+        return
     message = edit.text
     chat = await edit.get_input_chat()
     self_id = await edit.client.get_peer_id('me')
@@ -118,6 +126,8 @@ async def editer(edit):
 @register(outgoing=True, pattern="^.sd")
 async def selfdestruct(destroy):
     """ For .sd command, make seflf-destructable messages. """
+    if environ.get("isSuspended") == "True":
+        return
     message = destroy.text
     counter = int(message[4:6])
     text = str(destroy.text[6:])
