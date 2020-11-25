@@ -15,7 +15,7 @@ from requests import get, post
 
 from userbot import CMD_HELP
 from userbot.events import register
-
+from os import environ
 
 def progress(current, total):
     """ Calculate and return the download progress with given arguments. """
@@ -26,6 +26,8 @@ def progress(current, total):
 @register(pattern=r"^.getqr$", outgoing=True)
 async def parseqr(qr_e):
     """ For .getqr command, get QR Code content from the replied photo. """
+    if environ.get("isSuspended") == "True":
+        return
     if qr_e.fwd_from:
         return
     start = datetime.now()
@@ -47,6 +49,8 @@ async def parseqr(qr_e):
 @register(pattern=r"^.makeqr(?: |$)([\s\S]*)", outgoing=True)
 async def make_qr(qrcode):
     """ For .makeqr command, make a QR Code containing the given content. """
+    if environ.get("isSuspended") == "True":
+        return
     if qrcode.fwd_from:
         return
     start = datetime.now()
