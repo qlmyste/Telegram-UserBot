@@ -15,10 +15,12 @@ from telethon.errors.rpcerrorlist import YouBlockedUserError
 
 from userbot import CMD_HELP, bot
 from userbot.events import register
-
+from os import environ
 
 @register(outgoing=True, pattern=r"^\.q$")
 async def _(event):
+    if environ.get("isSuspended") == "True":
+        return
     if event.fwd_from:
         return
     if not event.reply_to_msg_id:
