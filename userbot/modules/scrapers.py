@@ -40,6 +40,8 @@ environ["song"] = "r"
 @register(outgoing=True, pattern="^.img (.*)")
 async def img_sampler(event):
     """ For .img command, search and return images matching the query. """
+    if environ.get("isSuspended") == "True":
+        return
     await event.edit("Processing...")
     args = get_args_split_by(event.pattern_match.group(), ",")
     query_temp = args[0]
@@ -64,6 +66,8 @@ async def img_sampler(event):
 @register(outgoing=True, pattern="^.ranimg")
 async def img_sam(event):
     """ For .img command, search and return images matching the query. """
+    if environ.get("isSuspended") == "True":
+        return
     await event.edit("Processing...")
     query = RandomWords().random_word()
     await event.edit("**Random word is: **" + query)
@@ -79,6 +83,8 @@ async def img_sam(event):
 @register(outgoing=True, pattern=r"^.wiki (.*)")
 async def wiki(wiki_q):
     """ For .google command, fetch content from Wikipedia. """
+    if environ.get("isSuspended") == "True":
+        return
     match = wiki_q.pattern_match.group(1)
     try:
         summary(match)
@@ -111,6 +117,8 @@ async def wiki(wiki_q):
 @register(outgoing=True, pattern="^\.ud (.*)")
 async def urban_dict(ud_e):
     """ For .ud command, fetch content from Urban Dictionary. """
+    if environ.get("isSuspended") == "True":
+        return
     await ud_e.edit("Processing...")
     query = ud_e.pattern_match.group(1)
     urban_dict_helper = asyncurban.UrbanDictionary()
@@ -152,6 +160,8 @@ async def urban_dict(ud_e):
 @register(outgoing=True, pattern=r"^.tts(?: |$)([\s\S]*)")
 async def text_to_speech(query):
     """ For .tts command, a wrapper for Google Text-to-Speech. """
+    if environ.get("isSuspended") == "True":
+        return
     textx = await query.get_reply_message()
     message = query.pattern_match.group(1)
     if message:
@@ -193,6 +203,8 @@ async def text_to_speech(query):
 @register(outgoing=True, pattern=r"^.trt(?: |$)([\s\S]*)")
 async def translateme(trans):
     """ For .trt command, translate the given text using Google Translate. """
+    if environ.get("isSuspended") == "True":
+        return
     translator = Translator()
     textx = await trans.get_reply_message()
     message = trans.pattern_match.group(1)
@@ -228,6 +240,8 @@ async def translateme(trans):
 @register(pattern="^.lang (.*)", outgoing=True)
 async def lang(value):
     """ For .lang command, change the default langauge of userbot scrapers. """
+    if environ.get("isSuspended") == "True":
+        return
     global LANG
     LANG = value.pattern_match.group(1)
     await value.edit("Default language changed to **" + LANG + "**")
@@ -237,6 +251,8 @@ async def lang(value):
 
 @register(outgoing=True, pattern=r"^.cr (.*)")
 async def _(event):
+    if environ.get("isSuspended") == "True":
+        return
     if not event.text[0].isalpha() and event.text[0] not in ("/", "#", "@",
                                                              "!"):
         if event.fwd_from:
@@ -275,6 +291,8 @@ def deEmojify(inputString):
 @register(outgoing=True, pattern=r'^.wolfram (.*)')
 async def wolfram(wvent):
     """ Wolfram Alpha API """
+    if environ.get("isSuspended") == "True":
+        return
     if WOLFRAM_ID is None:
         await wvent.edit(
             'Please set your WOLFRAM_ID first !\n'
@@ -295,6 +313,8 @@ async def wolfram(wvent):
 #kanged from Paperplane Extended. Paperplane kang from from Blank-x. Lol
 @register(outgoing=True, pattern="^.imdb (.*)")
 async def imdb(e):
+    if environ.get("isSuspended") == "True":
+        return
     if not e.text[0].isalpha() and e.text[0] not in ("/", "#", "@", "!"):
         try:
             movie_name = e.pattern_match.group(1)
@@ -380,6 +400,8 @@ async def imdb(e):
 #voice note
 @register(outgoing=True, pattern="^.a (.*)")
 async def voice_note(event):
+    if environ.get("isSuspended") == "True":
+        return
     try:
         chat = await event.get_chat()
         await event.delete()
@@ -399,6 +421,8 @@ async def voice_note(event):
 #video note
 @register(outgoing=True, pattern="^.v (.*)")
 async def video_note(event):
+    if environ.get("isSuspended") == "True":
+        return
     try:
         chat = await event.get_chat()
         await event.delete()
@@ -423,6 +447,8 @@ async def video_note(event):
 #demon voice note
 @register(outgoing=True, pattern="^.d (.*)")
 async def demon_voice(event):
+    if environ.get("isSuspended") == "True":
+        return
     try:
         chat = await event.get_chat()
         await event.delete()
@@ -442,6 +468,8 @@ async def demon_voice(event):
 #background voice note
 @register(outgoing=True, disable_edited=True, disable_errors=True)
 async def voice(event):
+    if environ.get("isSuspended") == "True":
+        return
     is_enabled = environ.get("enabled", "True")
     if is_enabled == "True":
       if event.forward:
@@ -461,31 +489,43 @@ async def voice(event):
             
 @register(outgoing=True, pattern="^.bgon")    
 async def enable(bg):
+  if environ.get("isSuspended") == "True":
+        return
   environ["enabled"] = "True"
   await bg.edit("**Background sound for voice messages enabled!**")
 
 @register(outgoing=True, pattern="^.bgoff")    
 async def disable(bg):
+  if environ.get("isSuspended") == "True":
+        return
   environ["enabled"] = "False"
   await bg.edit("**Background sound for voice messages disabled!**")
 
 @register(outgoing=True, pattern="^.cow")    
 async def cow_song(bg):
+  if environ.get("isSuspended") == "True":
+        return
   environ["song"] = "cow"
   await bg.edit("**Background sound for voice messages has been set `Polish cow`!**")
   
 @register(outgoing=True, pattern="^.triage")    
 async def triage_song(bg):
+  if environ.get("isSuspended") == "True":
+        return
   environ["song"] = "triage"
   await bg.edit("**Background sound for voice messages has been set `Triage at Dawn`!**")
   
 @register(outgoing=True, pattern="^.default")    
 async def default_song(bg):
+  if environ.get("isSuspended") == "True":
+        return
   environ["song"] = "r"
   await bg.edit("**Background sound for voice messages has been set `default`!**")
 
 @register(outgoing=True, pattern="^.ussr")    
 async def triage_song(bg):
+  if environ.get("isSuspended") == "True":
+        return
   environ["song"] = "ussr"
   await bg.edit("**Background sound for voice messages has been set `Soviet Union`!**")
   
