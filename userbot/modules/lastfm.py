@@ -43,6 +43,8 @@ LastLog = False
 @register(outgoing=True, pattern="^.lastfm$")
 async def last_fm(lastFM):
     """ For .lastfm command, fetch scrobble data from last.fm. """
+    if environ.get("isSuspended") == "True":
+        return
     await lastFM.edit("Processing...")
     preview = None
     playing = User(LASTFM_USERNAME, lastfm).get_now_playing()
@@ -174,6 +176,8 @@ async def get_curr_track(lfmbio):
 
 @register(outgoing=True, pattern=r"^.lastbio (\S*)")
 async def lastbio(lfmbio):
+    if environ.get("isSuspended") == "True":
+        return
     arg = lfmbio.pattern_match.group(1)
     global LASTFMCHECK
     global RUNNING
@@ -198,6 +202,8 @@ async def lastbio(lfmbio):
 
 @register(outgoing=True, pattern=r"^.lastlog (\S*)")
 async def lastlog(lstlog):
+    if environ.get("isSuspended") == "True":
+        return
     arg = lstlog.pattern_match.group(1)
     global LastLog
     LastLog = False
