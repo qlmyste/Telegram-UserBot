@@ -7,7 +7,7 @@
 
 import asyncio
 from getpass import getuser
-from os import remove
+from os import remove, environ
 from sys import executable
 
 from userbot import BOTLOG, BOTLOG_CHATID, CMD_HELP
@@ -17,7 +17,7 @@ from userbot.events import register
 @register(outgoing=True, pattern="^.eval(?: |$)(.*)")
 async def evaluate(query):
     """ For .eval command, evaluates the given Python expression. """
-    if environ["isSuspended"] == "True":
+    if environ.get("isSuspended") == "True":
         return
     if query.is_channel and not query.is_group:
         await query.edit("`Eval isn't permitted on channels`")
@@ -73,7 +73,7 @@ async def evaluate(query):
 @register(outgoing=True, pattern=r"^.exec(?: |$)([\s\S]*)")
 async def run(run_q):
     """ For .exec command, which executes the dynamically created program """
-    if environ["isSuspended"] == "True":
+    if environ.get("isSuspended") == "True":
         return
     code = run_q.pattern_match.group(1)
 
@@ -140,7 +140,7 @@ execute. Use .help exec for an example.```")
 @register(outgoing=True, pattern="^.term(?: |$)(.*)")
 async def terminal_runner(term):
     """ For .term command, runs bash commands and scripts on your server. """
-    if environ["isSuspended"] == "True":
+    if environ.get("isSuspended") == "True":
         return
     curruser = getuser()
     command = term.pattern_match.group(1)
