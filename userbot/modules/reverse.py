@@ -16,6 +16,7 @@ from bs4 import BeautifulSoup
 import re
 from telethon.tl.types import MessageMediaPhoto
 from PIL import Image
+from os import environ
 
 from userbot import bot, CMD_HELP
 from userbot.events import register
@@ -28,6 +29,8 @@ opener.addheaders = [('User-agent', useragent)]
 @register(outgoing=True, pattern=r"^.reverse(?: |$)(\d*)")
 async def okgoogle(img):
     """ For .reverse command, Google search images and stickers. """
+    if environ.get("isSuspended") == "True":
+        return
     if os.path.isfile("okgoogle.png"):
         os.remove("okgoogle.png")
 
@@ -102,6 +105,8 @@ async def okgoogle(img):
 
 async def ParseSauce(googleurl):
     """Parse/Scrape the HTML code for the info we want."""
+    if environ.get("isSuspended") == "True":
+        return
 
     source = opener.open(googleurl).read()
     soup = BeautifulSoup(source, 'html.parser')
