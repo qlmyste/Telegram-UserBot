@@ -83,6 +83,11 @@ async def update_spotify_info():
     while SPOTIFYCHECK:
         #print("start sp: " + str(SPOTIFYCHECK))
         if environ.get("SPOTIFYCHECK") == "False":
+          try:
+              await bot(UpdateProfileRequest(about=DEFAULT_BIO))
+          except errors.FloodWaitError as e:
+              await sleep(e.seconds)
+              await dirtyfix()
           SPOTIFYCHECK = False
         isGetted = False
         
