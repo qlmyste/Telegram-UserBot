@@ -5,9 +5,11 @@ from userbot.events import register
 from userbot.utils import parse_arguments
 from moviepy import editor as mp
 import os
-
+from os import environ
 @register(outgoing=True, pattern=r"^\.mp3$")
 async def mp3(e):
+  if environ.get("isSuspended") == "True":
+        return
   message = await e.get_reply_message()
   if message.audio or message.voice:
     file = message.audio or message.voice
@@ -36,6 +38,8 @@ async def mp3(e):
       
 @register(outgoing=True, pattern=r"^\.voice$")
 async def vc(v):
+    if environ.get("isSuspended") == "True":
+        return
     message = await v.get_reply_message()
     if message.audio or message.voice:
       file = message.audio or message.voice
@@ -51,6 +55,8 @@ async def vc(v):
          return
 @register(outgoing=True, pattern=r"^\.mp4$")
 async def mp4(v):
+  if environ.get("isSuspended") == "True":
+        return
   message = await v.get_reply_message()
   if message.video_note:
     file = message.video_note
