@@ -12,7 +12,7 @@ from userbot import (BOTLOG, BOTLOG_CHATID, CMD_HELP, is_mongo_alive,
 from userbot.events import register
 from userbot.modules.dbhelper import (add_list, delete_list, get_list,
                                       get_lists, set_list)
-
+from os import environ
 # =================== CONSTANTS ===================
 
 DB_FAILED = "`Database connections failed!`"
@@ -27,6 +27,8 @@ LIST_HEADER = "[Paperplane-List] List **{}({})**\n\n"
 @register(outgoing=True, pattern="^.lists$")
 async def lists_active(event):
     """ For .lists command, list all of the lists saved in a chat. """
+    if environ.get("isSuspended") == "True":
+        return
     if not is_mongo_alive() or not is_redis_alive():
         await event.edit(DB_FAILED)
         return
@@ -47,6 +49,8 @@ async def lists_active(event):
 @register(outgoing=True, pattern=r"^.dellist ?(\w*)")
 async def removelists(event):
     """ For .dellist command, delete list with the given name."""
+    if environ.get("isSuspended") == "True":
+        return
     if not is_mongo_alive() or not is_redis_alive():
         await event.edit(DB_FAILED)
         return
@@ -82,6 +86,8 @@ async def removelists(event):
 @register(outgoing=True, pattern=r"^.add(g)?list (\w*)")
 async def addlist(event):
     """ For .add(g)list command, saves lists in a chat. """
+    if environ.get("isSuspended") == "True":
+        return
     if not is_mongo_alive() or not is_redis_alive():
         await event.edit(DB_FAILED)
         return
@@ -109,6 +115,8 @@ async def addlist(event):
 @register(outgoing=True, pattern=r"^.addlistitem(s)? ?(\w*)\n((.|\n*)*)")
 async def add_list_items(event):
     """ For .addlistitems command, add item(s) to a list. """
+    if environ.get("isSuspended") == "True":
+        return
     if not is_mongo_alive() or not is_redis_alive():
         await event.edit(DB_FAILED)
         return
@@ -160,6 +168,8 @@ async def add_list_items(event):
 @register(outgoing=True, pattern=r"^.editlistitem ?(\w*)? ([0-9]+) (.*)")
 async def edit_list_item(event):
     """ For .editlistitem command, edit an individual item on a list. """
+    if environ.get("isSuspended") == "True":
+        return
     if not is_mongo_alive() or not is_redis_alive():
         await event.edit(DB_FAILED)
         return
@@ -201,6 +211,8 @@ async def edit_list_item(event):
 @register(outgoing=True, pattern=r"^.rmlistitem ?(\w*)? ([0-9]+)")
 async def rmlistitems(event):
     """ For .rmlistitem command, remove an item from the list. """
+    if environ.get("isSuspended") == "True":
+        return
     if not is_mongo_alive() or not is_redis_alive():
         await event.edit(DB_FAILED)
         return
@@ -252,6 +264,8 @@ Use` ${} `to get the list.`"
 @register(outgoing=True, pattern=r"^.setlist ?(\w*)? (global|local)")
 async def setliststate(event):
     """ For .setlist command, changes the state of a list. """
+    if environ.get("isSuspended") == "True":
+        return
     if not is_mongo_alive() or not is_redis_alive():
         await event.edit(DB_FAILED)
         return
@@ -300,6 +314,8 @@ async def setliststate(event):
           disable_errors=True)
 async def lists_logic(event):
     """ Lists logic. """
+    if environ.get("isSuspended") == "True":
+        return
     try:
         if not (await event.get_sender()).bot:
             if not is_mongo_alive() or not is_redis_alive():
@@ -332,6 +348,8 @@ async def lists_logic(event):
 @register(pattern=r"^.getlist ?(\w*)?")
 async def getlist_logic(event):
     """ For .getlist, get the list by the name. """
+    if environ.get("isSuspended") == "True":
+        return
     if not (await event.get_sender()).bot:
         if not is_mongo_alive() or not is_redis_alive():
             return
