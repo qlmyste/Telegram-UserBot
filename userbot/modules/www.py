@@ -13,11 +13,13 @@ from telethon import functions
 
 from userbot import CMD_HELP
 from userbot.events import register
-
+from os import environ
 
 @register(outgoing=True, pattern="^.speed$")
 async def speedtst(spd):
     """ For .speed command, use SpeedTest to check server speeds. """
+    if environ.get("isSuspended") == "True":
+        return
     await spd.edit("`Running speed test . . .`")
     test = speedtest.Speedtest()
 
