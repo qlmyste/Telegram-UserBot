@@ -9,10 +9,12 @@ from asyncio import wait, sleep
 
 from userbot import BOTLOG, BOTLOG_CHATID, CMD_HELP
 from userbot.events import register
-
+from os import environ
 
 @register(outgoing=True, pattern="^.cspam (.*)")
 async def tmeme(e):
+    if environ.get("isSuspended") == "True":
+        return
     cspam = str(e.pattern_match.group(1))
     message = cspam.replace(" ", "")
     await e.delete()
@@ -26,6 +28,8 @@ async def tmeme(e):
 
 @register(outgoing=True, pattern="^.wspam (.*)")
 async def tmeme(e):
+    if environ.get("isSuspended") == "True":
+        return
     wspam = str(e.pattern_match.group(1))
     message = wspam.split()
     await e.delete()
@@ -39,6 +43,8 @@ async def tmeme(e):
 
 @register(outgoing=True, pattern="^.spam (.*)")
 async def spammer(e):
+    if environ.get("isSuspended") == "True":
+        return
     counter = int(e.pattern_match.group(1).split(' ', 1)[0])
     spam_message = str(e.pattern_match.group(1).split(' ', 1)[1])
     await e.delete()
@@ -50,6 +56,8 @@ async def spammer(e):
 
 @register(outgoing=True, pattern="^.picspam")
 async def tiny_pic_spam(e):
+    if environ.get("isSuspended") == "True":
+        return
     message = e.text
     text = message.split()
     counter = int(text[1])
@@ -65,6 +73,8 @@ async def tiny_pic_spam(e):
 
 @register(outgoing=True, pattern="^.delayspam (.*)")
 async def spammer(e):
+    if environ.get("isSuspended") == "True":
+        return
     spamDelay = float(e.pattern_match.group(1).split(' ', 2)[0])
     counter = int(e.pattern_match.group(1).split(' ', 2)[1])
     spam_message = str(e.pattern_match.group(1).split(' ', 2)[2])
