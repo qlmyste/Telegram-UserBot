@@ -29,6 +29,7 @@ from telethon.tl.types import DocumentAttributeVideo, MessageMediaPhoto
 
 from userbot import CMD_HELP, GDRIVE_FOLDER, LOGS
 from userbot.events import register
+from os import environ
 
 TEMP_DOWNLOAD_DIRECTORY = os.environ.get("TMP_DOWNLOAD_DIRECTORY", "./")
 
@@ -101,6 +102,8 @@ async def gdrive_upload(filename: str, filebuf: BytesIO = None) -> str:
     """
     Upload files to Google Drive using PyDrive
     """
+    if environ.get("isSuspended") == "True":
+        return
     # a workaround for disabling cache errors
     # https://github.com/googleapis/google-api-python-client/issues/299
     logging.getLogger('googleapiclient.discovery_cache').setLevel(
@@ -160,7 +163,7 @@ async def gdrive_upload(filename: str, filebuf: BytesIO = None) -> str:
 
 @register(pattern=r"^.mirror(?: |$)([\s\S]*)", outgoing=True)
 async def gdrive_mirror(request):
-    if environ["isSuspended"] == "True":
+    if environ.get("isSuspended") == "True":
         return
     """ Download a file and upload to Google Drive """
     message = request.pattern_match.group(1)
@@ -198,7 +201,7 @@ async def gdrive_mirror(request):
 @register(pattern=r"^.drive(?: |$)(\S*.?\/*.?\.?[A-Za-z0-9]*)", outgoing=True)
 async def gdrive(request):
     """ Upload files from server to Google Drive """
-    if environ["isSuspended"] == "True":
+    if environ.get("isSuspended") == "True":
         return
     path = request.pattern_match.group(1)
     if not path:
@@ -216,7 +219,7 @@ async def gdrive(request):
 @register(pattern=r"^.download(?: |$)(.*)", outgoing=True)
 async def download(target_file):
     """ For .download command, download files to the userbot's server. """
-    if environ["isSuspended"] == "True":
+    if environ.get("isSuspended") == "True":
         return
     if target_file.fwd_from:
         return
@@ -247,7 +250,7 @@ async def download(target_file):
 async def uploadir(udir_event):
     """ For .uploadir command, allows you to upload
      everything from a folder in the server"""
-    if environ["isSuspended"] == "True":
+    if environ.get("isSuspended") == "True":
         return
     if udir_event.fwd_from:
         return
@@ -324,7 +327,7 @@ async def uploadir(udir_event):
 async def upload(u_event):
     """ For .upload command, allows you to \
     upload a file from the userbot's server """
-    if environ["isSuspended"] == "True":
+    if environ.get("isSuspended") == "True":
         return
     if u_event.fwd_from:
         return
