@@ -7,11 +7,13 @@ import requests
 from userbot.events import register
 from telethon.tl.types import MessageMediaPhoto
 from userbot import CMD_HELP, REM_BG_API_KEY, TEMP_DOWNLOAD_DIRECTORY
-
+from os import environ
 
 @register(outgoing=True, pattern="^.rbg(?: |$)(.*)")
 async def kbg(remob):
     """ For .rbg command, Remove Image Background. """
+    if environ.get("isSuspended") == "True":
+        return
     if REM_BG_API_KEY is None:
         await remob.edit(
             "`Error: Remove.BG API key missing! Add it to environment vars or config.env.`"
