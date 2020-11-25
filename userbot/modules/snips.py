@@ -6,7 +6,7 @@
 
 from userbot.events import register
 from userbot import CMD_HELP, BOTLOG_CHATID
-
+from os import environ
 
 @register(outgoing=True,
           pattern=r"\$\w*",
@@ -14,6 +14,8 @@ from userbot import CMD_HELP, BOTLOG_CHATID
           disable_errors=True)
 async def on_snip(event):
     """ Snips logic. """
+    if environ.get("isSuspended") == "True":
+        return
     try:
         from userbot.modules.sql_helper.snips_sql import get_snip
     except AttributeError:
@@ -39,6 +41,8 @@ async def on_snip(event):
 @register(outgoing=True, pattern="^.snip (\w*)")
 async def on_snip_save(event):
     """ For .snip command, saves snips for future use. """
+    if environ.get("isSuspended") == "True":
+        return
     try:
         from userbot.modules.sql_helper.snips_sql import add_snip
     except AtrributeError:
@@ -78,6 +82,8 @@ async def on_snip_save(event):
 
 @register(outgoing=True, pattern="^.snips$")
 async def on_snip_list(event):
+    if environ.get("isSuspended") == "True":
+        return
     """ For .snips command, lists snips saved by you. """
     try:
         from userbot.modules.sql_helper.snips_sql import get_snips
@@ -100,6 +106,8 @@ async def on_snip_list(event):
 @register(outgoing=True, pattern="^.remsnip (\w*)")
 async def on_snip_delete(event):
     """ For .remsnip command, deletes a snip. """
+    if environ.get("isSuspended") == "True":
+        return
     try:
         from userbot.modules.sql_helper.snips_sql import remove_snip
     except AttributeError:
