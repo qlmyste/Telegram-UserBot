@@ -12,13 +12,13 @@ from userbot import BOTLOG, BOTLOG_CHATID, CMD_HELP
 from userbot.events import register
 
 DOGBIN_URL = "https://del.dog/"
-
+from os import environ
 
 @register(outgoing=True, pattern=r"^.paste(?: |$)([\s\S]*)")
 async def paste(pstl):
     """ For .paste command, allows using
         dogbin functionality with the command. """
-    if environ["isSuspended"] == "True":
+    if environ.get("isSuspended") == "True":
         return
     dogbin_final_url = ""
 
@@ -65,7 +65,7 @@ async def paste(pstl):
 async def get_dogbin_content(dog_url):
     """ For .get_dogbin_content command,
         fetches the content of a dogbin URL. """
-    if environ["isSuspended"] == "True":
+    if environ.get("isSuspended") == "True":
         return
     textx = await dog_url.get_reply_message()
     message = dog_url.pattern_match.group(1)
