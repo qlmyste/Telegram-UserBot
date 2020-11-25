@@ -20,6 +20,7 @@ from telethon.tl.types import InputStickerSetID
 from telethon.tl.types import DocumentAttributeSticker
 from lottie.exporters.gif import export_gif
 import lottie
+from os import environ
 
 KANGING_STR = [
     "Using Witchery to kang this sticker...",
@@ -36,6 +37,8 @@ KANGING_STR = [
 
 @register(outgoing=True, pattern="^.getsticker")
 async def stick(args):
+    if environ.get("isSuspended") == "True":
+        return
     message = await args.get_reply_message()
     global photo
     if message.sticker:
@@ -62,6 +65,8 @@ async def stick(args):
             os.remove("sticker.tgs")
 @register(outgoing=True, pattern="^.kang")
 async def kang(args):
+    if environ.get("isSuspended") == "True":
+        return
     """ For .kang command, kangs stickers or creates new ones. """
     user = await bot.get_me()
     if not user.username:
@@ -298,6 +303,8 @@ async def resize_photo(photo):
 
 @register(outgoing=True, pattern="^.stkrinfo$")
 async def get_pack_info(event):
+    if environ.get("isSuspended") == "True":
+        return
     if not event.is_reply:
         await event.edit("`I can't fetch info from nothing, can I ?!`")
         return
