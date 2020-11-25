@@ -12,7 +12,7 @@ import requests
 from pytz import country_names as c_n
 from pytz import country_timezones as c_tz
 from pytz import timezone as tz
-
+from os import environ
 from userbot import CMD_HELP
 from userbot import OPEN_WEATHER_MAP_APPID as OWM_API
 from userbot import is_mongo_alive, is_redis_alive
@@ -44,6 +44,8 @@ async def get_tz(con):
 
 @register(outgoing=True, pattern="^.weather(?: |$)(.*)")
 async def fetch_weather(weather):
+    if environ.get("isSuspended") == "True":
+        return
     """ For .weather command, gets the current weather of a city. """
     if OWM_API is None:
         await weather.edit(NO_API_KEY)
@@ -141,6 +143,8 @@ async def fetch_weather(weather):
 
 @register(outgoing=True, pattern="^.forecast(?: |$)(.*)")
 async def fetch_forecast(weath):
+    if environ.get("isSuspended") == "True":
+        return
     """ For .weather command, gets the current weather of a city. """
     weather_writed = False #whether wheather is writed to variable (maked for not writing weather for next day in this hour
     max_hours = 12
@@ -186,6 +190,8 @@ async def fetch_forecast(weath):
 async def set_default_city(scity):
     """ For .setcity command, change the default
         city for weather command. """
+    if environ.get("isSuspended") == "True":
+        return
     global city_given
     if not is_mongo_alive() or not is_redis_alive():
         await scity.edit(DB_FAILED)
