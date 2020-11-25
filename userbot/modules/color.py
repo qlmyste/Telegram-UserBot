@@ -7,11 +7,11 @@ from PIL import Image
 from userbot import CMD_HELP
 from userbot.utils import parse_arguments
 from userbot.events import register
-
+from os import environ
 
 @register(outgoing=True, pattern=r"^\.color\s+(.*)")
 async def color_props(e):
-    if environ["isSuspended"] == "True":
+    if environ.get("isSuspended") == "True":
         return
     params = e.pattern_match.group(1) or ""
     args, color = parse_arguments(params, ['format', 'extended'])
