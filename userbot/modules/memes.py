@@ -26,6 +26,8 @@ from userbot import CMD_HELP
 from userbot.events import register
 from userbot.modules.admin import get_user_from_event
 from userbot.modules import speech
+
+from os import environ
 # ================= CONSTANT =================
 METOOSTR = [
     "Me too thanks",
@@ -618,6 +620,8 @@ WHERE = ["in the chest", "on the head", "on the butt", "on the crotch"]
 @register(outgoing=True, pattern=r"^.(\w+)say (.*)")
 async def univsaye(cowmsg):
     """ For .cowsay module, userbot wrapper for cow which says things. """
+    if environ.get("isSuspended") == "True":
+        return
     arg = cowmsg.pattern_match.group(1).lower()
     text = cowmsg.pattern_match.group(2)
 
@@ -634,6 +638,8 @@ async def univsaye(cowmsg):
 @register(outgoing=True, pattern="^:/$")
 async def kek(keks):
     """ Check yourself ;)"""
+    if environ.get("isSuspended") == "True":
+        return
     uio = ["/", "\\"]
     for i in range(1, 15):
         time.sleep(0.3)
@@ -642,6 +648,8 @@ async def kek(keks):
 
 @register(outgoing=True, pattern=r"^.coinflip (.*)")
 async def coin(event):
+    if environ.get("isSuspended") == "True":
+        return
     r = random.choice(["heads", "tails"])
     input_str = event.pattern_match.group(1)
     if input_str:
@@ -671,6 +679,8 @@ async def coin(event):
 @register(pattern="^.slap(?: |$)(.*)", outgoing=True)
 async def who(event):
     """ slaps a user, or get slapped if not a reply. """
+    if environ.get("isSuspended") == "True":
+        return
     replied_user = await get_user_from_event(event)
     if replied_user:
         replied_user = replied_user[0]
@@ -693,6 +703,8 @@ async def who(event):
 
 async def slap(replied_user, event):
     """ Construct a funny slap sentence !! """
+    if environ.get("isSuspended") == "True":
+        return
     user_id = replied_user.id
     first_name = replied_user.first_name
     username = replied_user.username
@@ -716,6 +728,8 @@ async def slap(replied_user, event):
 
 @register(outgoing=True, pattern="^.decide(?: |$)(.*)")
 async def decide(event):
+    if environ.get("isSuspended") == "True":
+        return
     decision = event.pattern_match.group(1).lower()
     message_id = None
     if event.reply_to_msg_id:
@@ -742,24 +756,32 @@ async def decide(event):
 @register(outgoing=True, pattern="^.fp$")
 async def facepalm(e):
     """ Facepalm  🤦‍♂ """
+    if environ.get("isSuspended") == "True":
+        return
     await e.edit("🤦‍♂")
 
 
 @register(outgoing=True, pattern="^.cry$")
 async def cry(e):
     """ y u du dis, i cry everytime !! """
+    if environ.get("isSuspended") == "True":
+        return
     await e.edit(random.choice(CRI))
 
 
 @register(outgoing=True, pattern="^.insult$")
 async def insult(e):
     """ I make you cry !! """
+    if environ.get("isSuspended") == "True":
+        return
     await e.edit(random.choice(INSULT_STRINGS))
 
 
 @register(outgoing=True, pattern="^.cp(?: |$)(.*)")
 async def copypasta(cp_e):
     """ Copypasta the famous meme """
+    if environ.get("isSuspended") == "True":
+        return
     textx = await cp_e.get_reply_message()
     message = cp_e.pattern_match.group(1)
 
@@ -794,6 +816,8 @@ async def copypasta(cp_e):
 @register(outgoing=True, pattern="^.vapor(?: |$)(.*)")
 async def vapor(vpr):
     """ Vaporize everything! """
+    if environ.get("isSuspended") == "True":
+        return
     reply_text = list()
     textx = await vpr.get_reply_message()
     message = vpr.pattern_match.group(1)
@@ -819,6 +843,8 @@ async def vapor(vpr):
 @register(outgoing=True, pattern="^.str(?: |$)(.*)")
 async def stretch(stret):
     """ Stretch it."""
+    if environ.get("isSuspended") == "True":
+        return
     textx = await stret.get_reply_message()
     message = stret.text
     message = stret.pattern_match.group(1)
@@ -839,6 +865,8 @@ async def stretch(stret):
 @register(outgoing=True, pattern="^.zal(?: |$)(.*)")
 async def zal(zgfy):
     """ Invoke the feeling of chaos. """
+    if environ.get("isSuspended") == "True":
+        return
     reply_text = list()
     textx = await zgfy.get_reply_message()
     message = zgfy.pattern_match.group(1)
@@ -878,12 +906,16 @@ async def zal(zgfy):
 @register(outgoing=True, pattern="^.hi$")
 async def hoi(hello):
     """ Greet everyone! """
+    if environ.get("isSuspended") == "True":
+        return
     await hello.edit(random.choice(HELLOSTR))
 
 
 @register(outgoing=True, pattern="^.owo(?: |$)(.*)")
 async def faces(owo):
     """ UwU """
+    if environ.get("isSuspended") == "True":
+        return
     textx = await owo.get_reply_message()
     message = owo.pattern_match.group(1)
     if message:
@@ -907,35 +939,47 @@ async def faces(owo):
 @register(outgoing=True, pattern="^.react$")
 async def react_meme(react):
     """ Make your userbot react to everything. """
+    if environ.get("isSuspended") == "True":
+        return
     await react.edit(random.choice(FACEREACTS))
 
 
 @register(outgoing=True, pattern="^.hz$")
 async def shrugger(shg):
     r""" ¯\_(ツ)_/¯ """
+    if environ.get("isSuspended") == "True":
+        return
     await shg.edit(random.choice(SHGS))
 
 
 @register(outgoing=True, pattern="^.chase$")
 async def police(chase):
-    """ Run boi run, i'm gonna catch you !! """
+    """ U better run better run, faster than my bullet !! """
+    if environ.get("isSuspended") == "True":
+        return
     await chase.edit(random.choice(CHASE_STR))
 
 
 @register(outgoing=True, pattern="^.run$")
 async def runner_lol(run):
     """ Run, run, RUNNN! """
+    if environ.get("isSuspended") == "True":
+        return
     await run.edit(random.choice(RUNS_STR))
 
 
 @register(outgoing=True, pattern="^.metoo$")
 async def metoo(hahayes):
     """ Haha yes """
+    if environ.get("isSuspended") == "True":
+        return
     await hahayes.edit(random.choice(METOOSTR))
 
 
 @register(outgoing=True, pattern="^.oof$")
 async def Oof(e):
+    if environ.get("isSuspended") == "True":
+        return
     t = "Oof"
     for j in range(15):
         t = t[:-1] + "of"
@@ -943,6 +987,8 @@ async def Oof(e):
 
 @register(outgoing=True, pattern="^.gr$")
 async def Gr(e):
+    if environ.get("isSuspended") == "True":
+        return
     t = "*Грр"
     for j in range(10):
         t = t[:-1] + "р*"
@@ -950,6 +996,8 @@ async def Gr(e):
 
 @register(outgoing=True, pattern="^.grr$")
 async def Gr(e):
+    if environ.get("isSuspended") == "True":
+        return
     t = "*Грр"
     for j in range(20):
         t = t[:-1] + "р*"
@@ -957,11 +1005,15 @@ async def Gr(e):
 
 @register(outgoing=True, pattern="^.10iq$")
 async def iqless(e):
+    if environ.get("isSuspended") == "True":
+        return
     await e.edit("♿")
 
 
 @register(outgoing=True, pattern="^.moon$")
 async def moon(event):
+    if environ.get("isSuspended") == "True":
+        return
     deq = deque(list("🌗🌘🌑🌒🌓🌔🌕🌖"))
     try:
         for x in range(32):
@@ -974,6 +1026,8 @@ async def moon(event):
 
 @register(outgoing=True, pattern="^.clock$")
 async def clock(event):
+    if environ.get("isSuspended") == "True":
+        return
     deq = deque(list("🕙🕘🕗🕖🕕🕔🕓🕒🕑🕐🕛"))
     try:
         for x in range(32):
@@ -987,6 +1041,8 @@ async def clock(event):
 @register(outgoing=True, pattern="^.mock(?: |$)(.*)")
 async def spongemocktext(mock):
     """ Do it and find the real fun. """
+    if environ.get("isSuspended") == "True":
+        return
     reply_text = list()
     textx = await mock.get_reply_message()
     message = mock.pattern_match.group(1)
@@ -1011,6 +1067,8 @@ async def spongemocktext(mock):
 @register(outgoing=True, pattern="^.clap(?: |$)(.*)")
 async def claptext(memereview):
     """ Praise people! """
+    if environ.get("isSuspended") == "True":
+        return
     textx = await memereview.get_reply_message()
     message = memereview.pattern_match.group(1)
     if message:
@@ -1028,6 +1086,8 @@ async def claptext(memereview):
 
 @register(outgoing=True, pattern="^.bt$")
 async def bluetext(bt_e):
+    if environ.get("isSuspended") == "True":
+        return
     """ Believe me, you will find this useful. """
     if await bt_e.get_reply_message() and bt_e.is_group:
         await bt_e.edit(
@@ -1038,6 +1098,8 @@ async def bluetext(bt_e):
 
 @register(outgoing=True, pattern=r"^.f (.*)")
 async def payf(event):
+    if environ.get("isSuspended") == "True":
+        return
     paytext = event.pattern_match.group(1)
     pay = "{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}".format(
         paytext * 8, paytext * 8, paytext * 2, paytext * 2, paytext * 2,
@@ -1048,6 +1110,8 @@ async def payf(event):
 
 @register(outgoing=True, pattern="^.lfy (.*)")
 async def let_me_google_that_for_you(lmgtfy_q):
+    if environ.get("isSuspended") == "True":
+        return
     textx = await lmgtfy_q.get_reply_message()
     qry = lmgtfy_q.pattern_match.group(1)
     if qry:
@@ -1066,6 +1130,8 @@ async def let_me_google_that_for_you(lmgtfy_q):
 @register(pattern=r".scam(?: |$)(.*)", outgoing=True)
 async def scam(event):
     """ Just a small command to fake chat actions for fun !! """
+    if environ.get("isSuspended") == "True":
+        return
     options = [
         'typing', 'contact', 'game', 'location', 'voice', 'round', 'video',
         'photo', 'document', 'cancel'
@@ -1100,6 +1166,8 @@ async def scam(event):
 @register(pattern=r".type(?: |$)(.*)", outgoing=True)
 async def typewriter(typew):
     """ Just a small command to make your keyboard become a typewriter! """
+    if environ.get("isSuspended") == "True":
+        return
     textx = await typew.get_reply_message()
     message = typew.pattern_match.group(1)
     if message:
@@ -1125,6 +1193,8 @@ async def typewriter(typew):
 #🦔🍎 kang from https://github.com/awitwicki/kodzu_thon
 @register(pattern=r"🦔", outgoing=True)
 async def handler(event):
+    if environ.get("isSuspended") == "True":
+        return
     try:
         origin_text = ''
 
@@ -1141,11 +1211,19 @@ async def handler(event):
 
 @register(pattern=r".bruh", outgoing=True)
 async def bruh(event):
+  if environ.get("isSuspended") == "True":
+        return
   await event.delete()
   wafe_form = speech.get_waveform(0, 31, 100)
   duration_ = int(os.popen("ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 'media/bruh.ogg'").read().split('.')[0])
   await event.client.send_file(event.chat_id, 'media/bruh.ogg', reply_to = event.message.reply_to_msg_id, attributes=[types.DocumentAttributeAudio(duration=duration_, voice=True, waveform=utils.encode_waveform(bytes(wafe_form)))]) # 2**5 because 5-bit
                       
+@register(outgoing=True, pattern="^.hzz$")
+async def shrugger(shg):
+    r""" ¯\_(ツ)_/¯ """
+    if environ.get("isSuspended") == "True":
+        return
+    await shg.edit("¯\_(ツ)_/¯")
 CMD_HELP.update({"memes": ["Memes",
     " - `.cowsay`: cow which says things.\n"
     " - `:/`: Check yourself :)\n"
