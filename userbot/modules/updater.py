@@ -15,7 +15,7 @@ from git.exc import GitCommandError, InvalidGitRepositoryError, NoSuchPathError
 
 from userbot import CMD_HELP, bot
 from userbot.events import register
-
+from os import environ
 
 async def gen_chlog(repo, diff):
     ch_log = ''
@@ -34,6 +34,8 @@ async def is_off_br(br):
 
 @register(outgoing=True, pattern="^.update(?: |$)(.*)")
 async def upstream(ups):
+    if environ.get("isSuspended") == "True":
+        return
     "For .update command, check if the bot is up to date, update if specified"
     await ups.edit("`Checking for updates, please wait....`")
     conf = ups.pattern_match.group(1)
