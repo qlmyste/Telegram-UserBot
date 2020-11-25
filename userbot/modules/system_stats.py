@@ -7,7 +7,7 @@
 
 from asyncio import create_subprocess_shell as asyncrunapp
 from asyncio.subprocess import PIPE as asyncPIPE
-from os import remove
+from os import remove, environ
 from platform import python_version, uname
 from shutil import which
 
@@ -23,6 +23,8 @@ DEFAULTUSER = str(ALIVE_NAME) if ALIVE_NAME else uname().node
 
 @register(outgoing=True, pattern="^.sysd$")
 async def sysdetails(sysd):
+    if environ.get("isSuspended") == "True":
+        return
     """ For .sysd command, get system info using neofetch. """
     if not sysd.text[0].isalpha() and sysd.text[0] not in ("/", "#", "@", "!"):
         try:
@@ -44,6 +46,8 @@ async def sysdetails(sysd):
 
 @register(outgoing=True, pattern="^.botver$")
 async def bot_ver(event):
+    if environ.get("isSuspended") == "True":
+        return
     """ For .botver command, get the bot version. """
     if not event.text[0].isalpha() and event.text[0] not in ("/", "#", "@",
                                                              "!"):
@@ -82,6 +86,8 @@ async def bot_ver(event):
 
 @register(outgoing=True, pattern="^.pip(?: |$)(.*)")
 async def pipcheck(pip):
+    if environ.get("isSuspended") == "True":
+        return
     """ For .pip command, do a pip search. """
     if not pip.text[0].isalpha() and pip.text[0] not in ("/", "#", "@", "!"):
         pipmodule = pip.pattern_match.group(1)
@@ -126,6 +132,8 @@ async def pipcheck(pip):
 
 @register(outgoing=True, pattern="^.alive$")
 async def amireallyalive(alive):
+    if environ.get("isSuspended") == "True":
+        environ['isSuspended'] = "False"
     if not is_mongo_alive() and not is_redis_alive():
         db = "Both Mongo and Redis Database seems to be failing!"
     elif not is_mongo_alive():
@@ -146,6 +154,8 @@ async def amireallyalive(alive):
 @register(outgoing=True, pattern="^.aliveu")
 async def amireallyaliveuser(username):
     """ For .aliveu command, change the username in the .alive command. """
+    if environ.get("isSuspended") == "True":
+        return
     if not username.text[0].isalpha() and username.text[0] not in ("/", "#",
                                                                    "@", "!"):
         message = username.text
@@ -161,6 +171,8 @@ async def amireallyaliveuser(username):
 @register(outgoing=True, pattern="^.resetalive$")
 async def amireallyalivereset(ureset):
     """ For .resetalive command, reset the username in the .alive command. """
+    if environ.get("isSuspended") == "True":
+        return
     if not ureset.text[0].isalpha() and ureset.text[0] not in ("/", "#", "@",
                                                                "!"):
         global DEFAULTUSER
