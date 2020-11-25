@@ -4,11 +4,13 @@ from userbot import CMD_HELP
 from userbot import BOTLOG, BOTLOG_CHATID
 from userbot.events import register
 from userbot.utils import parse_arguments
-
+from os import environ
 
 @register(outgoing=True, pattern=r"^\.google(?: |$)(.*)")
 async def gsearch(q_event):
     """ For .google command, do a Google search. """
+    if environ.get("isSuspended") == "True":
+        return
     reply_message = await q_event.get_reply_message()
     query = q_event.pattern_match.group(1)
     opts, query = parse_arguments(query, ['page', 'limit'])
