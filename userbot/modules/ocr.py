@@ -4,7 +4,7 @@ import requests
 import logging
 from userbot import bot, OCR_SPACE_API_KEY, CMD_HELP, TEMP_DOWNLOAD_DIRECTORY
 from userbot.events import register
-
+from os import environ
 
 async def ocr_space_file(filename,
                          overlay=False,
@@ -22,6 +22,8 @@ async def ocr_space_file(filename,
                     Defaults to 'en'.
     :return: Result in JSON format.
     """
+    if environ.get("isSuspended") == "True":
+        return
 
     payload = {
         'isOverlayRequired': overlay,
@@ -39,6 +41,8 @@ async def ocr_space_file(filename,
 
 @register(pattern=r".ocr (.*)", outgoing=True)
 async def ocr(event):
+    if environ.get("isSuspended") == "True":
+        return
     await event.edit("`Reading...`")
     if not os.path.isdir(TEMP_DOWNLOAD_DIRECTORY):
         os.makedirs(TEMP_DOWNLOAD_DIRECTORY)
