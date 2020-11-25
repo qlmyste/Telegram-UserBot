@@ -8,11 +8,13 @@
 from userbot import (BOTLOG, BOTLOG_CHATID, CMD_HELP, MONGO, is_mongo_alive,
                      is_redis_alive)
 from userbot.events import register
-
+from os import environ
 
 @register(outgoing=True, pattern="^.unmutechat$")
 async def unmute_chat(unm_e):
     """ For .unmutechat command, unmute a muted chat. """
+    if environ.get("isSuspended") == "True":
+        return
     if not is_mongo_alive() or not is_redis_alive():
         await unm_e.edit("`Database connections failing!`")
         return
@@ -23,6 +25,8 @@ async def unmute_chat(unm_e):
 @register(outgoing=True, pattern="^.mutechat$")
 async def mute_chat(mute_e):
     """ For .mutechat command, mute any chat. """
+    if environ.get("isSuspended") == "True":
+        return
     if not is_mongo_alive() or not is_redis_alive():
         await mute_e.edit("`Database connections failing!`")
         return
@@ -38,6 +42,8 @@ async def mute_chat(mute_e):
 @register(incoming=True, disable_errors=True)
 async def keep_read(message):
     """ The mute logic. """
+    if environ.get("isSuspended") == "True":
+        return
     if not is_mongo_alive() or not is_redis_alive():
         return
     kread = MONGO.bot.mute_chats.find({"chat_id": message.chat_id})
