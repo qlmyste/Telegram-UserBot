@@ -7,7 +7,7 @@ from telethon.tl.types import Channel, User, Chat
 from userbot.utils import inline_mention
 from userbot import CMD_HELP
 from userbot.events import register
-from os import enviton
+from os import environ
 
 @register(outgoing=True, pattern=f'^.stats')
 async def stats(event: NewMessage.Event) -> None:  # pylint: disable = R0912, R0914, R0915
