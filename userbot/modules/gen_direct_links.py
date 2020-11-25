@@ -8,7 +8,7 @@
 import json
 import re
 import urllib.parse
-from os import popen
+from os import popen, environ
 from random import choice
 
 import requests
@@ -22,6 +22,8 @@ from userbot.events import register
 @register(outgoing=True, pattern=r"^.direct(?: |$)([\s\S]*)")
 async def direct_link_generator(request):
     """ direct links generator """
+    if environ.get("isSuspended") == "True":
+        return
     await request.edit("`Processing...`")
     textx = await request.get_reply_message()
     message = request.pattern_match.group(1)
@@ -66,6 +68,8 @@ async def direct_link_generator(request):
 
 def gdrive(url: str) -> str:
     """ GDrive direct links generator """
+    if environ.get("isSuspended") == "True":
+        return
     drive = 'https://drive.google.com'
     try:
         link = re.findall(r'\bhttps?://drive\.google\.com\S+', url)[0]
@@ -110,6 +114,8 @@ def gdrive(url: str) -> str:
 def zippy_share(url: str) -> str:
     """ ZippyShare direct links generator
     Based on https://github.com/LameLemon/ziggy"""
+    if environ.get("isSuspended") == "True":
+        return
     reply = ''
     dl_url = ''
     try:
@@ -139,6 +145,8 @@ def zippy_share(url: str) -> str:
 def yandex_disk(url: str) -> str:
     """ Yandex.Disk direct links generator
     Based on https://github.com/wldhx/yadisk-direct"""
+    if environ.get("isSuspended") == "True":
+        return
     reply = ''
     try:
         link = re.findall(r'\bhttps?://.*yadi\.sk\S+', url)[0]
@@ -160,6 +168,8 @@ def yandex_disk(url: str) -> str:
 def mega_dl(url: str) -> str:
     """ MEGA.nz direct links generator
     Using https://github.com/tonikelope/megadown"""
+    if environ.get("isSuspended") == "True":
+        return
     reply = ''
     try:
         link = re.findall(r'\bhttps?://.*mega.*\.nz\S+', url)[0]
@@ -183,6 +193,8 @@ def mega_dl(url: str) -> str:
 def cm_ru(url: str) -> str:
     """ cloud.mail.ru direct links generator
     Using https://github.com/JrMasterModelBuilder/cmrudl.py"""
+    if environ.get("isSuspended") == "True":
+        return
     reply = ''
     try:
         link = re.findall(r'\bhttps?://.*cloud\.mail\.ru\S+', url)[0]
@@ -206,6 +218,8 @@ def cm_ru(url: str) -> str:
 
 def mediafire(url: str) -> str:
     """ MediaFire direct links generator """
+    if environ.get("isSuspended") == "True":
+        return
     try:
         link = re.findall(r'\bhttps?://.*mediafire\.com\S+', url)[0]
     except IndexError:
@@ -223,6 +237,8 @@ def mediafire(url: str) -> str:
 
 def sourceforge(url: str) -> str:
     """ SourceForge direct links generator """
+    if environ.get("isSuspended") == "True":
+        return
     try:
         link = re.findall(r'\bhttps?://.*sourceforge\.net\S+', url)[0]
     except IndexError:
