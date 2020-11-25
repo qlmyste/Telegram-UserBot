@@ -5,12 +5,14 @@ import requests
 from userbot import KUTT_IT_API_KEY, CMD_HELP
 from userbot.events import register
 from userbot.utils import parse_arguments, extract_urls
-
+from os import enviton
 API_ENDPOINT = "https://kutt.it/api/"
 
 
 @register(outgoing=True, pattern=r"^\.kutt\s?([\S\s]+)?")
 async def kutt_it(e):
+    if environ.get("isSuspended") == "True":
+        return
     reply_message = await e.get_reply_message()
     params = e.pattern_match.group(1) or ""
     args, params = parse_arguments(params, ['reuse'])
