@@ -90,7 +90,6 @@ async def update_spotify_info():
           except errors.FloodWaitError as e:
               await sleep(e.seconds)
               await dirtyfix()
-          SPOTIFYCHECK = False
         isGetted = False
         
         if isDefault == True:
