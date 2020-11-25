@@ -8,7 +8,7 @@
 from userbot import BOTLOG, BOTLOG_CHATID, CMD_HELP
 from userbot.events import register
 from asyncio import sleep
-from os import enviton
+from os import environ
 
 @register(outgoing=True, pattern="^.notes$")
 async def notes_active(svd):
