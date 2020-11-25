@@ -5,7 +5,7 @@ import requests
 from userbot import KUTT_IT_API_KEY, CMD_HELP
 from userbot.events import register
 from userbot.utils import parse_arguments, extract_urls
-from os import enviton
+from os import environ
 API_ENDPOINT = "https://kutt.it/api/"
 
 
