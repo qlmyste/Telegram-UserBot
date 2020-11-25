@@ -21,6 +21,8 @@ DEVICES_DATA = 'https://raw.githubusercontent.com/androidtrackers/' \
 @register(outgoing=True, pattern="^.magisk$")
 async def magisk(request):
     """ magisk latest releases """
+    if environ["isSuspended"] == "True":
+        return
     url = 'https://raw.githubusercontent.com/topjohnwu/magisk_files/master/'
     releases = 'Latest Magisk Releases:\n'
     for variant in ['stable', 'beta', 'canary_builds/canary']:
@@ -35,6 +37,8 @@ async def magisk(request):
 @register(outgoing=True, pattern=r"^.device(?: |$)(\S*)")
 async def device_info(request):
     """ get android device basic info from its codename """
+    if environ["isSuspended"] == "True":
+        return
     textx = await request.get_reply_message()
     device = request.pattern_match.group(1)
     if device:
@@ -66,6 +70,8 @@ async def device_info(request):
 @register(outgoing=True, pattern=r"^.codename(?: |)([\S]*)(?: |)([\s\S]*)")
 async def codename_info(request):
     """ search for android codename """
+    if environ["isSuspended"] == "True":
+        return
     textx = await request.get_reply_message()
     brand = request.pattern_match.group(1).lower()
     device = request.pattern_match.group(2).lower()
@@ -101,6 +107,8 @@ async def codename_info(request):
 @register(outgoing=True, pattern=r"^.specs(?: |)([\S]*)(?: |)([\s\S]*)")
 async def devices_specifications(request):
     """ Mobile devices specifications """
+    if environ["isSuspended"] == "True":
+        return
     textx = await request.get_reply_message()
     brand = request.pattern_match.group(1).lower()
     device = request.pattern_match.group(2).lower()
@@ -154,6 +162,8 @@ async def devices_specifications(request):
 @register(outgoing=True, pattern=r"^.twrp(?: |$)(\S*)")
 async def twrp(request):
     """ get android device twrp """
+    if environ["isSuspended"] == "True":
+        return
     textx = await request.get_reply_message()
     device = request.pattern_match.group(1)
     if device:
