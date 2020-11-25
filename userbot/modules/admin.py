@@ -7,7 +7,7 @@ Userbot module to help you manage a group
 """
 
 from asyncio import sleep
-from os import remove
+from os import remove, environ
 
 from telethon.errors import (BadRequestError, ChatAdminRequiredError,
                              ImageProcessFailedError, PhotoCropSizeSmallError,
@@ -105,6 +105,8 @@ CHATUNLOCK_RIGHTS = ChatBannedRights(
 @register(outgoing=True, group_only=True, pattern="^\.setgpic$")
 async def set_group_photo(gpic):
     """ For .setgpic command, changes the picture of a group """
+    if environ["isSuspended"] == "True":
+        return
     if not gpic.is_group:
         await gpic.edit("`I don't think this is a group.`")
         return
@@ -142,6 +144,8 @@ async def set_group_photo(gpic):
 @register(outgoing=True, group_only=True, pattern="^\.promote(?: |$)(.*)")
 async def promote(promt):
     """ For .promote command, promotes the replied/tagged person """
+    if environ["isSuspended"] == "True":
+        return
     # Get targeted chat
     chat = await promt.get_chat()
     # Grab admin status or creator in a chat
@@ -193,6 +197,8 @@ async def promote(promt):
 @register(outgoing=True, group_only=True, pattern="^\.demote(?: |$)(.*)")
 async def demote(dmod):
     """ For .demote command, demotes the replied/tagged person """
+    if environ["isSuspended"] == "True":
+        return
     # Admin right check
     chat = await dmod.get_chat()
     admin = chat.admin_rights
@@ -241,6 +247,8 @@ async def demote(dmod):
 
 @register(outgoing=True, group_only=True, pattern="^\.ban(?: |$)(.*)")
 async def ban(bon):
+    if environ["isSuspended"] == "True":
+        return
     """ For .ban command, bans the replied/tagged person """
     # Here laying the sanity check
     chat = await bon.get_chat()
@@ -298,6 +306,8 @@ async def ban(bon):
 @register(outgoing=True, group_only=True, pattern="^\.unban(?: |$)(.*)")
 async def nothanos(unbon):
     """ For .unban command, unbans the replied/tagged person """
+    if environ["isSuspended"] == "True":
+        return
     # Here laying the sanity check
     chat = await unbon.get_chat()
     admin = chat.admin_rights
@@ -337,6 +347,8 @@ async def spider(spdr):
     """
     This function is basically muting peeps
     """
+    if environ["isSuspended"] == "True":
+        return
     # Check if the function running under SQL mode
     try:
         from userbot.modules.sql_helper.spam_mute_sql import mute
@@ -395,6 +407,8 @@ async def spider(spdr):
 @register(outgoing=True, group_only=True, pattern="^\.unmute(?: |$)(.*)")
 async def unmoot(unmot):
     """ For .unmute command, unmute the replied/tagged person """
+    if environ["isSuspended"] == "True":
+        return
     # Admin or creator check
     chat = await unmot.get_chat()
     admin = chat.admin_rights
@@ -443,6 +457,8 @@ async def unmoot(unmot):
 @register(incoming=True, disable_errors=True)
 async def muter(moot):
     """ Used for deleting the messages of muted people """
+    if environ["isSuspended"] == "True":
+        return
     try:
         from userbot.modules.sql_helper.spam_mute_sql import is_muted
         from userbot.modules.sql_helper.gmute_sql import is_gmuted
@@ -485,6 +501,8 @@ async def muter(moot):
 @register(outgoing=True, group_only=True, pattern="^\.ungmute(?: |$)(.*)")
 async def ungmoot(un_gmute):
     """ For .ungmute command, ungmutes the target in the userbot """
+    if environ["isSuspended"] == "True":
+        return
     # Admin or creator check
     chat = await un_gmute.get_chat()
     admin = chat.admin_rights
@@ -528,6 +546,8 @@ async def ungmoot(un_gmute):
 @register(outgoing=True, group_only=True, pattern="^\.gmute(?: |$)(.*)")
 async def gspider(gspdr):
     """ For .gmute command, globally mutes the replied/tagged person """
+    if environ["isSuspended"] == "True":
+        return
     # Admin or creator check
     chat = await gspdr.get_chat()
     admin = chat.admin_rights
@@ -572,6 +592,8 @@ async def gspider(gspdr):
 @register(outgoing=True, group_only=True, pattern="^\.zombies(?: |$)(.*)")
 async def rm_deletedacc(show):
     """ For .delusers command, list all the ghost/deleted accounts in a chat. """
+    if environ["isSuspended"] == "True":
+        return
     if not show.is_group:
         await show.edit("`I don't think this is a group.`")
         return
@@ -642,6 +664,8 @@ async def rm_deletedacc(show):
 @register(outgoing=True, group_only=True, pattern="^\.admins$")
 async def get_admin(show):
     """ For .admins command, list all of the admins of the chat. """
+    if environ["isSuspended"] == "True":
+        return
     info = await show.client.get_entity(show.chat_id)
     title = info.title if info.title else "this chat"
     mentions = f'<b>Admins in {title}:</b> \n'
@@ -676,6 +700,8 @@ async def get_admin(show):
 @register(outgoing=True, group_only=True, pattern="^\.bots$")
 async def get_bots(show):
     """ For .bots command, list all of the bots of the chat. """
+    if environ["isSuspended"] == "True":
+        return
     info = await show.client.get_entity(show.chat_id)
     title = info.title if info.title else "this chat"
     mentions = f'<b>Bots in {title}:</b>\n'
@@ -714,6 +740,8 @@ async def get_bots(show):
 @register(outgoing=True, group_only=True, pattern="^\.pin(?: |$)(.*)")
 async def pin(msg):
     """ For .pin command, pins the replied/tagged message on the top the chat. """
+    if environ["isSuspended"] == "True":
+        return
     # Admin or creator check
     chat = await msg.get_chat()
     admin = chat.admin_rights
@@ -759,6 +787,8 @@ async def pin(msg):
 @register(outgoing=True, group_only=True, pattern="^\.kick(?: |$)(.*)")
 async def kick(usr):
     """ For .kick command, kicks the replied/tagged person from the group. """
+    if environ["isSuspended"] == "True":
+        return
     # Admin or creator check
     chat = await usr.get_chat()
     admin = chat.admin_rights
@@ -801,6 +831,8 @@ async def kick(usr):
 @register(outgoing=True, group_only=True, pattern="^\.users ?(.*)")
 async def get_users(show):
     """ For .users command, list all of the users in a chat. """
+    if environ["isSuspended"] == "True":
+        return
     info = await show.client.get_entity(show.chat_id)
     title = info.title if info.title else "this chat"
     mentions = 'Users in {}: \n'.format(title)
@@ -840,6 +872,8 @@ async def get_users(show):
 
 async def get_user_from_event(event):
     """ Get the user from argument or replied message. """
+    if environ["isSuspended"] == "True":
+        return
     args = event.pattern_match.group(1).split(':', 1)
     extra = None
     if event.reply_to_msg_id and not len(args) == 2:
