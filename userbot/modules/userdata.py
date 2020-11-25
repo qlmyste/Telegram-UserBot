@@ -6,7 +6,7 @@
 """ Userbot module for changing your Telegram profile details. """
 
 import os
-
+from os import environ
 from telethon.errors import ImageProcessFailedError, PhotoCropSizeSmallError
 from telethon.errors.rpcerrorlist import (PhotoExtInvalidError,
                                           UsernameOccupiedError)
@@ -37,6 +37,8 @@ USERNAME_TAKEN = "```This username is already taken.```"
 
 @register(outgoing=True, pattern="^.name")
 async def update_name(name):
+    if environ.get("isSuspended") == "True":
+        return
     """ For .name command, change your name in Telegram. """
     newname = name.text[6:]
     if " " not in newname:
@@ -53,6 +55,8 @@ async def update_name(name):
 
 @register(outgoing=True, pattern="^.profilepic$")
 async def set_profilepic(propic):
+    if environ.get("isSuspended") == "True":
+        return
     """ For .profilepic command, change your profile picture in Telegram. """
     replymsg = await propic.get_reply_message()
     photo = None
@@ -79,6 +83,8 @@ async def set_profilepic(propic):
 
 @register(outgoing=True, pattern="^.setbio (.*)")
 async def set_biograph(setbio):
+    if environ.get("isSuspended") == "True":
+        return
     """ For .setbio command, set a new bio for your profile in Telegram. """
     newbio = setbio.pattern_match.group(1)
     await bot(UpdateProfileRequest(about=newbio))
@@ -87,6 +93,8 @@ async def set_biograph(setbio):
 
 @register(outgoing=True, pattern="^.username (.*)")
 async def update_username(username):
+    if environ.get("isSuspended") == "True":
+        return
     """ For .username command, set a new username in Telegram. """
     newusername = username.pattern_match.group(1)
     try:
@@ -98,6 +106,8 @@ async def update_username(username):
 
 @register(outgoing=True, pattern=r"^.delpfp")
 async def remove_profilepic(delpfp):
+    if environ.get("isSuspended") == "True":
+        return
     """ For .delpfp command, delete your current
         profile picture in Telegram. """
     group = delpfp.text[8:]
