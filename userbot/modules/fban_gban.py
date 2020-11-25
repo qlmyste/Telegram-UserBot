@@ -14,9 +14,12 @@ from userbot.modules.dbhelper import (add_chat_fban, add_chat_gban, get_fban,
                                       get_gban, remove_chat_fban,
                                       remove_chat_gban)
 
+from os import environ
 
 @register(outgoing=True, pattern="^.gban")
 async def gban_all(msg):
+    if environ.get("isSuspended") == "True":
+        return
     if not is_mongo_alive() or not is_redis_alive():
         await msg.edit("`Database connections failing!`")
         return
@@ -76,6 +79,8 @@ async def gban_all(msg):
 
 @register(outgoing=True, pattern="^.fban")
 async def fedban_all(msg):
+    if environ.get("isSuspended") == "True":
+        return
     if not is_mongo_alive() or not is_redis_alive():
         await msg.edit("`Database connections failing!`")
         return
@@ -158,6 +163,8 @@ async def fedban_all(msg):
 
 @register(outgoing=True, pattern="^.addfban")
 async def add_to_fban(chat):
+    if environ.get("isSuspended") == "True":
+        return
     if not is_mongo_alive() or not is_redis_alive():
         await chat.edit("`Database connections failing!`")
         return
@@ -167,6 +174,8 @@ async def add_to_fban(chat):
 
 @register(outgoing=True, pattern="^.addgban")
 async def add_to_gban(chat):
+    if environ.get("isSuspended") == "True":
+        return
     if not is_mongo_alive() or not is_redis_alive():
         await chat.edit("`Database connections failing!`")
         return
@@ -177,6 +186,8 @@ async def add_to_gban(chat):
 
 @register(outgoing=True, pattern="^.removefban")
 async def remove_from_fban(chat):
+    if environ.get("isSuspended") == "True":
+        return
     if not is_mongo_alive() or not is_redis_alive():
         await chat.edit("`Database connections failing!`")
         return
@@ -186,6 +197,8 @@ async def remove_from_fban(chat):
 
 @register(outgoing=True, pattern="^.removegban")
 async def remove_from_gban(chat):
+    if environ.get("isSuspended") == "True":
+        return
     if not is_mongo_alive() or not is_redis_alive():
         await chat.edit("`Database connections failing!`")
         return
