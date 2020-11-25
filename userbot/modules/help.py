@@ -7,11 +7,13 @@
 
 from userbot import CMD_HELP
 from userbot.events import register
-
+from os import environ
 
 @register(outgoing=True, pattern="^.help(?: |$)(.*)")
 async def help(event):
     """ For .help command"""
+    if environ.get("isSuspended") == "True":
+        return
     args = event.pattern_match.group(1).lower()
 
     if args:
