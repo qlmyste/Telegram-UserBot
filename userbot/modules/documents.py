@@ -11,6 +11,8 @@ from shutil import rmtree
 
 @register(outgoing=True, pattern=r"^\.pdf2img$")
 async def pdf(e):
+  if environ["isSuspended"] == "True":
+        return
   message = await e.get_reply_message()
   if message.file.mime_type == "application/pdf":
     file = message.document
@@ -34,6 +36,8 @@ async def pdf(e):
   
 @register(outgoing=True, pattern=r"^\.doc2pdf$")
 async def doc(e):
+  if environ["isSuspended"] == "True":
+        return
   if CONVERT_TOKEN == False:
     await e.edit("**No converter API defined. Fill it in config.env file. Aborting...**")
     return
@@ -63,6 +67,8 @@ async def doc(e):
     return
 @register(outgoing=True, pattern=r"^\.doc2img$")
 async def doc_png(e):
+  if environ["isSuspended"] == "True":
+        return
   message = await e.get_reply_message()
   if CONVERT_TOKEN == False:
     await e.edit("**No converter API defined. Fill it in config.env file. Aborting...**")
@@ -101,6 +107,8 @@ async def doc_png(e):
   
 @register(outgoing=True, pattern=r"^\.xls2img$")
 async def xls_png(e):
+  if environ["isSuspended"] == "True":
+        return
   message = await e.get_reply_message()
   if CONVERT_TOKEN == False:
     await e.edit("**No converter API defined. Fill it in config.env file. Aborting...**")
@@ -138,6 +146,8 @@ async def xls_png(e):
     return
 @register(outgoing=True, pattern=r"^\.xls2pdf$")
 async def xls_png(e):
+  if environ["isSuspended"] == "True":
+        return
   message = await e.get_reply_message()
   if CONVERT_TOKEN == False:
     await e.edit("**No converter API defined. Fill it in config.env file. Aborting...**")
@@ -166,6 +176,8 @@ async def xls_png(e):
 
 @register(outgoing=True, pattern=r"^\.ppt2img$")
 async def ppt_png(e):
+  if environ["isSuspended"] == "True":
+        return
   message = await e.get_reply_message()
   if CONVERT_TOKEN == False:
     await e.edit("**No converter API defined. Fill it in config.env file. Aborting...**")
@@ -200,6 +212,8 @@ async def ppt_png(e):
     return
 @register(outgoing=True, pattern=r"^\.ppt2pdf$")
 async def ppt_pdf(e):
+  if environ["isSuspended"] == "True":
+        return
   message = await e.get_reply_message()
   if CONVERT_TOKEN == False:
     await e.edit("**No converter API defined. Fill it in config.env file. Aborting...**")
