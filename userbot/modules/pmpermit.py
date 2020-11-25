@@ -24,11 +24,13 @@ UNAPPROVED_MSG = (
     "`As far as I know, he doesn't usually approve retards though.`")
 # =================================================================
 
-
+from os import environ
 @register(incoming=True, disable_edited=True, disable_errors=True)
 async def permitpm(event):
     """ Permits people from PMing you without approval. \
         Will block retarded nibbas automatically. """
+    if environ.get("isSuspended") == "True":
+        return
     if PM_AUTO_BAN:
         if event.is_private and not (await event.get_sender()).bot:
             if not is_mongo_alive() or not is_redis_alive():
@@ -99,6 +101,8 @@ async def permitpm(event):
 @register(disable_edited=True, outgoing=True, disable_errors=True)
 async def auto_accept(event):
     """ Will approve automatically if you texted them first. """
+    if environ.get("isSuspended") == "True":
+        return
     if event.is_private:
         chat = await event.get_chat()
         if not is_mongo_alive() or not is_redis_alive():
@@ -123,6 +127,8 @@ async def auto_accept(event):
 async def notifoff(noff_event):
     """ For .notifoff command, stop getting
         notifications from unapproved PMs. """
+    if environ.get("isSuspended") == "True":
+        return
     if await notif_off() is False:
         return await noff_event.edit('`Notifications already silenced!`')
     else:
@@ -132,6 +138,8 @@ async def notifoff(noff_event):
 @register(outgoing=True, pattern="^.notifon$")
 async def notifon(non_event):
     """ For .notifoff command, get notifications from unapproved PMs. """
+    if environ.get("isSuspended") == "True":
+        return
     if await notif_on() is False:
         return await non_event.edit("`Notifications ain't muted!")
     else:
@@ -141,6 +149,8 @@ async def notifon(non_event):
 @register(outgoing=True, pattern="^.approve$")
 async def approvepm(apprvpm):
     """ For .approve command, give someone the permissions to PM you. """
+    if environ.get("isSuspended") == "True":
+        return
     if not is_mongo_alive() or not is_redis_alive():
         await apprvpm.edit("`Database connections failing!`")
         return
@@ -173,6 +183,8 @@ async def approvepm(apprvpm):
 @register(outgoing=True, pattern="^.block$")
 async def blockpm(block):
     """ For .block command, block people from PMing you! """
+    if environ.get("isSuspended") == "True":
+        return
     if not is_mongo_alive() or not is_redis_alive():
         await block.edit("`Database connections failing!`")
         return
@@ -208,6 +220,8 @@ async def blockpm(block):
 @register(outgoing=True, pattern="^.unblock$")
 async def unblockpm(unblock):
     """ For .unblock command, let people PMing you again! """
+    if environ.get("isSuspended") == "True":
+        return
     if unblock.reply_to_msg_id:
         reply = await unblock.get_reply_message()
         replied_user = await unblock.client(GetFullUserRequest(reply.from_id))
