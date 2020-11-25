@@ -96,8 +96,7 @@ async def repo_is_here(wannasee):
 @register(outgoing=True, pattern="^.suspend")
 async def sus(susp):
     environ["isSuspended"] = "True"
-    environ["SPOTIFYCHECK"] = "False"
-    await susp.edit("Bot has been suspended...")
+    await susp.edit("**Bot has been suspended...**")
 
 CMD_HELP.update({"misc": ["Misc",
     " - `.random <item1> <item2> ... <itemN>`: Get a random item from the list of items.\n"
