@@ -161,14 +161,14 @@ async def fetch_forecast(weath):
         city_given = weath.pattern_match.group(1)
     url_city = f'https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates?f=pjson&outFields=Addr_type&maxLocations=1&forStorage=false&SingleLine={city_given}'
     request_city = requests.get(url_city)
-    result_city = loads(request_city.text)
+    result_city = loads(request_city.content)
     city = result_city['candidates'][0]['address']
     forecast = f"Forecast for **{city}**:\n"
     lat = result_city['candidates'][0]['location']['y']
     lng = result_city['candidates'][0]['location']['x']
     url_weather = f'https://api.met.no/weatherapi/locationforecast/2.0/compact?lat={lat}&lon={lng}'
     request_city = requests.get(url_weather)
-    result_weather = loads(request_city.text)
+    result_weather = loads(request_city.content)
     timeser = result_weather['properties']['timeseries']
     time_now = datetime.now().strftime("%H")
     for weather in timeser:
