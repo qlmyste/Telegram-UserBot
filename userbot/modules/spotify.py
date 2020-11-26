@@ -82,7 +82,12 @@ async def update_spotify_info():
     
     while SPOTIFYCHECK:
         isGetted = False
-        
+        try:
+          await bot(UpdateProfileRequest(about=DEFAULT_BIO))
+        except errors.FloodWaitError as e:
+          await sleep(e.seconds)
+          await dirtyfix()
+          
         if isDefault == True:
           oldsong = ""
           oldartist = ""
