@@ -81,11 +81,6 @@ async def update_spotify_info():
     
     
     while SPOTIFYCHECK:
-          except errors.FloodWaitError as e:
-              await sleep(e.seconds)
-              if isDefault == False:
-                await bot(UpdateProfileRequest(about=DEFAULT_BIO))
-                isDefault = True
         isGetted = False
         
         if isDefault == True:
