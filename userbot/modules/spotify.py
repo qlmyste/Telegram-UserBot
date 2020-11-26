@@ -84,16 +84,16 @@ async def update_spotify_info():
         #print("start sp: " + str(SPOTIFYCHECK))
         if environ.get("isSuspended") == "True":
           try:
-              print("isSuspended: " + environ.get("isSuspended"))
+              #print("isSuspended: " + environ.get("isSuspended"))
               await bot(UpdateProfileRequest(about=DEFAULT_BIO))
-              print("setted default")
+              #print("setted default")
               isDefault = True
-              break
+              continue
           except errors.FloodWaitError as e:
               await sleep(e.seconds)
               await bot(UpdateProfileRequest(about=DEFAULT_BIO))
               isDefault = True
-              break
+              continue
         isGetted = False
         
         if isDefault == True:
