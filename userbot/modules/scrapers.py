@@ -26,7 +26,7 @@ from wikipedia.exceptions import DisambiguationError, PageError
 from random_words import RandomWords
 from userbot.utils import get_args_split_by
 from userbot import (BOTLOG, BOTLOG_CHATID, CMD_HELP, CURRENCY_API,
-                     YOUTUBE_API_KEY, bot, WOLFRAM_ID)
+                     YOUTUBE_API_KEY, bot, WOLFRAM_ID, BG_DEFAULT)
 from userbot.events import register
 from gtts import gTTS, gTTSError #tts
 from bs4 import BeautifulSoup #imdb
@@ -505,28 +505,28 @@ async def disable(bg):
 async def cow_song(bg):
   if environ.get("isSuspended") == "True":
         return
-  environ["song"] = "cow"
+  environ["BG_DEFAULT"] = "cow"
   await bg.edit("**Background sound for voice messages has been set `Polish cow`!**")
   
 @register(outgoing=True, pattern="^.triage")    
 async def triage_song(bg):
   if environ.get("isSuspended") == "True":
         return
-  environ["song"] = "triage"
+  environ["BG_DEFAULT"] = "triage"
   await bg.edit("**Background sound for voice messages has been set `Triage at Dawn`!**")
   
 @register(outgoing=True, pattern="^.default")    
 async def default_song(bg):
   if environ.get("isSuspended") == "True":
         return
-  environ["song"] = "r"
+  environ["BG_DEFAULT"] = "r"
   await bg.edit("**Background sound for voice messages has been set `default`!**")
 
 @register(outgoing=True, pattern="^.ussr")    
 async def triage_song(bg):
   if environ.get("isSuspended") == "True":
         return
-  environ["song"] = "ussr"
+  environ["BG_DEFAULT"] = "ussr"
   await bg.edit("**Background sound for voice messages has been set `Soviet Union`!**")
   
 CMD_HELP.update({"scrapers": ['Scrapers',
