@@ -146,6 +146,10 @@ async def fetch_forecast(weath):
     if environ.get("isSuspended") == "True":
         return
     """ For .weather command, gets the current weather of a city. """
+    
+    USER_AGENT = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_2) \
+AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.36"
+    head = {'user-agent': USER_AGENT}
     weather_writed = False #whether wheather is writed to variable (maked for not writing weather for next day in this hour
     max_hours = 12
     iterator = 0 #for forecast loop
@@ -160,14 +164,14 @@ async def fetch_forecast(weath):
     else:
         city_given = weath.pattern_match.group(1)
     url_city = f'https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates?f=pjson&outFields=Addr_type&maxLocations=1&forStorage=false&SingleLine={city_given}'
-    request_city = requests.get(url_city)
+    request_city = requests.get(url_city, headers=head)
     result_city = loads(request_city.content)
     city = result_city['candidates'][0]['address']
     forecast = f"Forecast for **{city}**:\n"
     lat = result_city['candidates'][0]['location']['y']
     lng = result_city['candidates'][0]['location']['x']
     url_weather = f'https://api.met.no/weatherapi/locationforecast/2.0/compact?lat={lat}&lon={lng}'
-    request_city = requests.get(url_weather)
+    request_city = requests.get(url_weather, headers=head)
     result_weather = loads(request_city.content)
     timeser = result_weather['properties']['timeseries']
     time_now = datetime.now().strftime("%H")
