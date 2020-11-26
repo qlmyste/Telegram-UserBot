@@ -85,7 +85,7 @@ async def update_spotify_info():
               await sleep(e.seconds)
               if isDefault == False:
                 await bot(UpdateProfileRequest(about=DEFAULT_BIO))
-                isDefault = Tr
+                isDefault = True
         isGetted = False
         
         if isDefault == True:
