@@ -479,7 +479,7 @@ async def voice(event):
           await event.delete()
           async with event.client.action(chat, 'record-voice'):
               path_to_voice = await event.download_media()
-              voicename, _duration = speech.megre_sounds(path_to_voice, environ["song"])
+              voicename, _duration = speech.megre_sounds(path_to_voice, environ["BG_DEFAULT"])
 
               chat = await event.get_chat()
               wafe_form = speech.get_waveform(0, 31, 100)
