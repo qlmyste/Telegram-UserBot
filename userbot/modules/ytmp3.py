@@ -8,6 +8,7 @@ from userbot.events import register
 from mutagen.mp3 import MP3
 from mutagen.id3 import ID3, APIC, error
 from os import environ
+from PIL import Image
 @register(outgoing=True, pattern=r"^\.ytmp3 (\S*)")
 async def youtube_mp3(yt):
     if environ.get("isSuspended") == "True":
@@ -20,6 +21,19 @@ async def youtube_mp3(yt):
     video = YouTube(url)
     stream = video.streams.filter(only_audio=True, mime_type="audio/webm").last()
     os.system(f"wget -q -O 'picture.jpg' {video.thumbnail_url}")
+    
+    im = Image.open("picture.jpg")
+    width, height = im.size   # Get dimensions
+
+    left = (width - 500)/2
+    top = (height - 500)/2
+    right = (width + 500)/2
+    bottom = (height + 500)/2
+
+    # Crop the center of the image
+    im = im.crop((left, top, right, bottom))
+    #save resized image
+    im.save('picture.jpg')
     await yt.edit("**Downloading audio...**")
     stream.download(filename=f'{safe_filename(video.title)}')
     await yt.edit("**Converting to mp3...**")
