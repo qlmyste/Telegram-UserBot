@@ -10,12 +10,12 @@ Originaly developed by RaphielGang. Forked and modificated by me. Also there are
 - install python 3.7
 Ubuntu Based:
 ```
-$ sudo apt install python3.7
+$ sudo apt install python3.7 ffmpeg libopus-dev 
 ```
 Debian Based:
 ```
 $ sudo apt update
-$ sudo apt install build-essential zlib1g-dev libncurses5-dev libgdbm-dev libnss3-dev libssl-dev libsqlite3-dev libreadline-dev libffi-dev curl libbz2-dev
+$ sudo apt install build-essential ffmpeg libopus-dev zlib1g-dev libncurses5-dev libgdbm-dev libnss3-dev libssl-dev libsqlite3-dev libreadline-dev libffi-dev curl libbz2-dev
 $ curl -O https://www.python.org/ftp/python/3.7.9/Python-3.7.9.tar.xz
 $ tar -xf Python-3.7.9.tar.xz
 $ cd Python-3.7.9.tar.xz
