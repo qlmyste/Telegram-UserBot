@@ -10,6 +10,9 @@ pip download grpcio -d grpcio
 cd grpcio
 tar -xf  grpcio*
 cd $(ls -d */|head -n 1)
-sed -i 's:-std=c++11 -std=gnu99: ' ./setup.py
+sed -i 's/-std=gnu99/ /g' ./setup.py
+python setup.py install
+cd ..
+rm -rf grpcio*
 echo "Now you must edit your config.env file and start it via ./init/start.sh"
 
