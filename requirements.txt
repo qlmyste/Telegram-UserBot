@@ -52,7 +52,7 @@ convertapi
 pdf2image
 cairocffi
 random-password-generator
-
+youtube_search
 
 
 grpcio
