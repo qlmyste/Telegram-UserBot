@@ -1,5 +1,5 @@
 pkg update
-pkg install -y libxml2 libxslt libjpeg* libjpeg-turbo redis postgresql libwebp poppler ffmpeg git python resolv-conf clang
+pkg install -y libxml2 libxslt libjpeg* libjpeg-turbo redis postgresql libwebp poppler ffmpeg git python resolv-conf clang build-essential
 pip install cffi
 pip install -r requirements.txt
 pip install --upgrade --force-reinstall dnspython
