@@ -37,8 +37,8 @@ async def youtube_mp3(yt):
     await yt.edit("**Downloading audio...**")
     stream.download(filename=f'{safe_filename(video.title)}')
     await yt.edit("**Converting to mp3...**")
-    #os.system(f"ffmpeg -loglevel panic -i '{safe_filename(video.title)}.webm' -vn -ab 128k -ar 44100 -y '{safe_filename(video.title)}.mp3'")
-    os.system(f"ffmpeg -i '{safe_filename(video.title)}.webm' -vn -ab 128k -ar 44100 -y '{safe_filename(video.title)}.mp3'")
+    os.system(f"ffmpeg -loglevel panic -i '{safe_filename(video.title)}.webm' -vn -ab 128k -ar 44100 -y '{safe_filename(video.title)}.mp3'")
+    #os.system(f"ffmpeg -i '{safe_filename(video.title)}.webm' -vn -ab 128k -ar 44100 -y '{safe_filename(video.title)}.mp3'")
     audio = MP3(f"{safe_filename(video.title)}.mp3", ID3=ID3)
     try:
         audio.add_tags()
