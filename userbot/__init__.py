@@ -124,7 +124,7 @@ CONVERT_TOKEN = os.environ.get("CONVERT_API", None)
 WOLFRAM_ID= os.environ.get("WOLFRAM_ID", None)
 
 # wolframalpha.com
-BG_DEFAULT= os.environ.get("BG_DEFAULT", None)
+BG_DEFAULT= os.environ.get("BG_DEFAULT", 'r')
 
 STRING_SESSION = os.environ.get("STRING_SESSION") or None #means heroku
 
