@@ -82,18 +82,8 @@ async def update_spotify_info():
     
     while SPOTIFYCHECK:
         isGetted = False
-        try: #for case if now bio is some song from previous session and there are no data from spotify
-          await bot(UpdateProfileRequest(about=DEFAULT_BIO))
-        except errors.FloodWaitError as e:
-          await sleep(e.seconds)
-          await dirtyfix()
           
         if isDefault == True:
-          try: #for case if now bio is some song from previous session and there are no data from spotify
-            await bot(UpdateProfileRequest(about=DEFAULT_BIO))
-          except errors.FloodWaitError as e:
-            await sleep(e.seconds)
-            await dirtyfix()
           oldsong = ""
           oldartist = ""
         try:
