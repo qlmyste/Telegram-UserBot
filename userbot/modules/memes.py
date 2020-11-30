@@ -1208,6 +1208,25 @@ async def handler(event):
 
     except Exception as e:
         print(e)
+#🦔🍺 kang from https://github.com/awitwicki/kodzu_thon
+@register(pattern=r"🍺", outgoing=True)
+async def handler(event):
+    if environ.get("isSuspended") == "True":
+        return
+    try:
+        origin_text = ''
+
+        for i in range(19, -1, -1):
+            edit_text = origin_text
+            for r in range(i):
+                edit_text += '🍺'
+            edit_text += '🦔'
+            await event.edit(edit_text)
+            time.sleep(0.5)
+
+    except Exception as e:
+        print(e)
+
 
 @register(pattern=r".bruh", outgoing=True)
 async def bruh(event):
