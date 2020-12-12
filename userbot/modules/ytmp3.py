@@ -21,25 +21,31 @@ async def youtube_mp3(yt):
     video = YouTube(url)
     stream = video.streams.filter(only_audio=True, mime_type="audio/webm").last()
     os.system(f"wget -q -O 'picture.jpg' {video.thumbnail_url}")
-    
-    im = Image.open("picture.jpg")
-    width, height = im.size   # Get dimensions
-
-    left = (width - 500)/2
-    top = (height - 500)/2
-    right = (width + 500)/2
-    bottom = (height + 500)/2
-
-    # Crop the center of the image
-    im = im.crop((left, top, right, bottom))
-    #save resized image
-    im.save('picture.jpg')
     await yt.edit("**Downloading audio...**")
     stream.download(filename=f'{safe_filename(video.title)}')
     await yt.edit("**Converting to mp3...**")
     os.system(f"ffmpeg -loglevel panic -i '{safe_filename(video.title)}.webm' -vn -ab 128k -ar 44100 -y '{safe_filename(video.title)}.mp3'")
     #os.system(f"ffmpeg -i '{safe_filename(video.title)}.webm' -vn -ab 128k -ar 44100 -y '{safe_filename(video.title)}.mp3'")
-    audio = MP3(f"{safe_filename(video.title)}.mp3", ID3=ID3)
+    try:
+        im = Image.open("picture.jpg")
+        width, height = im.size   # Get dimensions
+        left = (width - 500)/2
+        top = (height - 500)/2
+        right = (width + 500)/2
+        bottom = (height + 500)/2
+
+        # Crop the center of the image
+        im = im.crop((left, top, right, bottom))
+        #save resized image
+        im.save('picture.jpg')
+        audio = MP3(f"{safe_filename(video.title)}.mp3", ID3=ID3)
+    except:
+        await yt.edit("**Sending mp3...**")
+        await yt.client.send_file(yt.chat.id,
+                              f'{safe_filename(video.title)}.mp3',
+                              caption=f"{video.title}",
+                              reply_to=reply_message, thumb='picture.jpg')
+        return
     try:
         audio.add_tags()
     except error:
