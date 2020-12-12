@@ -516,7 +516,14 @@ async def change(bg):
     await bg.edit(f"**There's no this file: {name_ogg}**")
     return
   
-
+@register(outgoing=True, pattern="^.bgs")    
+async def change(bg):
+  if environ.get("isSuspended") == "True":
+        return
+  
+  files = os.listdir('media/')
+  await bg.edit(f"**Files in folder /media:** `{files}`")
+    return
   
 CMD_HELP.update({"scrapers": ['Scrapers',
     " - `.img <query> lim=<n>`: Do an Image Search on Bing and send n results. Default is 2.\n"
