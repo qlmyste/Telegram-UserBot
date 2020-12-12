@@ -506,7 +506,7 @@ async def disable(bg):
 async def change(bg):
   if environ.get("isSuspended") == "True":
         return
-  sound_name = str(e.pattern_match.group(1).split(' ', 1)[0])
+  sound_name = str(bg.pattern_match.group(1).split(' ', 1)[0])
   name_ogg = sound_name + '.ogg'
   files = os.listdir('media/')
   if name_ogg in files:
