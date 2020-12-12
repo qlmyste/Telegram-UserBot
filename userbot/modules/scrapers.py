@@ -33,6 +33,7 @@ from bs4 import BeautifulSoup #imdb
 import asyncurban #ud
 from userbot.modules import speech
 
+
 LANG = "en"
 environ["enabled"] = "True"
 environ["song"] = "r"
@@ -501,33 +502,20 @@ async def disable(bg):
   environ["enabled"] = "False"
   await bg.edit("**Background sound for voice messages disabled!**")
 
-@register(outgoing=True, pattern="^.cow")    
-async def cow_song(bg):
+@register(outgoing=True, pattern="^.bg (.*)")    
+async def change(bg):
   if environ.get("isSuspended") == "True":
         return
-  environ["BG_DEFAULT"] = "cow"
-  await bg.edit("**Background sound for voice messages has been set `Polish cow`!**")
+  sound_name = str(e.pattern_match.group(1).split(' ', 1)[0])
+  name_ogg = sound_name + '.ogg'
+  files = os.listdir('media/')
+  if name_ogg in files:
+    environ["BG_DEFAULT"] = sound_name
+  else:
+    await bg.edit(f"**There's no this file: {name_ogg}**")
+    return
   
-@register(outgoing=True, pattern="^.triage")    
-async def triage_song(bg):
-  if environ.get("isSuspended") == "True":
-        return
-  environ["BG_DEFAULT"] = "triage"
-  await bg.edit("**Background sound for voice messages has been set `Triage at Dawn`!**")
-  
-@register(outgoing=True, pattern="^.default")    
-async def default_song(bg):
-  if environ.get("isSuspended") == "True":
-        return
-  environ["BG_DEFAULT"] = "r"
-  await bg.edit("**Background sound for voice messages has been set `default`!**")
 
-@register(outgoing=True, pattern="^.ussr")    
-async def triage_song(bg):
-  if environ.get("isSuspended") == "True":
-        return
-  environ["BG_DEFAULT"] = "ussr"
-  await bg.edit("**Background sound for voice messages has been set `Soviet Union`!**")
   
 CMD_HELP.update({"scrapers": ['Scrapers',
     " - `.img <query> lim=<n>`: Do an Image Search on Bing and send n results. Default is 2.\n"
