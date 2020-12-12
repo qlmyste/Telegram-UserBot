@@ -511,6 +511,7 @@ async def change(bg):
   files = os.listdir('media/')
   if name_ogg in files:
     environ["BG_DEFAULT"] = sound_name
+    await bg.edit(f"Background sound has been setted as {name_ogg}")
   else:
     await bg.edit(f"**There's no this file: {name_ogg}**")
     return
