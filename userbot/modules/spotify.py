@@ -77,7 +77,9 @@ async def update_spotify_info():
     global isDefault
     global mustDisable
     spobio = ""
-    
+    if mustDisable:
+      SPOTIFYCHECK = False
+      mustDisable = False #means disabled?
     
     
     while SPOTIFYCHECK:
@@ -296,7 +298,12 @@ async def update_token():
 async def dirtyfix():
     #print("dirtyfix")
     global SPOTIFYCHECK
-    SPOTIFYCHECK = True
+    global mustDisable
+    if mustDisable == False:
+      SPOTIFYCHECK = True
+    else:
+      SPOTIFYCHECK = False
+      mustDisable = False #means disabled?
     await sleep(5)
     await update_spotify_info()
 
