@@ -77,9 +77,9 @@ async def update_spotify_info():
     global isDefault
     global mustDisable
     spobio = ""
-    if mustDisable:
-      SPOTIFYCHECK = False
-      mustDisable = False #means disabled?
+    #if mustDisable:
+    # SPOTIFYCHECK = False
+    #  mustDisable = False #means disabled?
     
     
     while SPOTIFYCHECK:
