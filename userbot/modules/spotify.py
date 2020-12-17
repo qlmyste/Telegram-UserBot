@@ -33,7 +33,7 @@ song = str
 
 BIOPREFIX = BIO_PREFIX
 link = ""
-SPOTIFYCHECK = Falsea
+SPOTIFYCHECK = False
 RUNNING = False
 OLDEXCEPT = False
 PARSE = False
