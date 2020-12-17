@@ -346,7 +346,7 @@ async def show_song(song_info):
           except JSONDecodeError:
             print("JSONDecode Error. Can't get yt link.")
             str_song += "\n\n Youtube: `JSONDecode Error. Can't found.`"
-            await msg.edit(str_song)
+            await song_info.edit(str_song)
             return
           except:
             str_song += "\n\n Youtube: `Unexcepted Error. Can't found.`"
@@ -357,7 +357,7 @@ async def show_song(song_info):
             url_yt = "https://youtube.com" + data['videos'][0]['url_suffix']
             str_song += f"\n[YouTube link]({url_yt})"
             
-            await song_info.edit(str_song)
+            await song_info.edit(str_song, message = msg)
             return
 
 @register(outgoing=True, pattern="^.spdl$")
