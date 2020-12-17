@@ -319,7 +319,7 @@ async def show_song(song_info):
         global preview_url
         await find_song()
         if preview_url != "":
-          ystem(f"wget -q -O 'preview.jpg' {preview_url}")
+          system(f"wget -q -O 'preview.jpg' {preview_url}")
         str_song = "Now playing: "
         if isGetted:
           if isArtist:
