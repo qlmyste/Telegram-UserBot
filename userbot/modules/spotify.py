@@ -358,7 +358,7 @@ async def show_song(song_info):
             str_song += f"\n[YouTube link]({url_yt})"
             if preview_url !="":
               await msg.edit(str_song)
-            else
+            else:
               await song_info.edit(str_song)
             return
 
