@@ -322,6 +322,8 @@ async def show_song(song_info):
           system(f"wget -q -O 'preview.jpg' {preview_url}")
         str_song = "Now playing: "
         if isGetted:
+          if artist == "" || artist == '' || artist == ' ' || artist == " ":
+            isArtist = False
           if isArtist:
             str_song += '`' + artist + " - " + song + '`'
           else:
