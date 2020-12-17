@@ -328,7 +328,11 @@ async def show_song(song_info):
             str_song += '`' + song + '`'
           if ((link != '') and (isLocal == False)):
             str_song += f"\n[Spotify link]({link})"
-          await song_info.edit(str_song, file = 'preview.jpg')
+          if preview_url == "":
+            await song_info.edit(str_song, file = 'preview.jpg')
+          else:
+            await song_info.delete()
+            await song_info.client.send_file(song_info.chat_id, 'preview.jpg', caption=str_song)
         else:
           await song_info.edit("Can't find current song in spotify")
           return
