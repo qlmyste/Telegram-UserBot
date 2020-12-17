@@ -332,7 +332,7 @@ async def show_song(song_info):
             await song_info.edit(str_song, file = 'preview.jpg')
           else:
             await song_info.delete()
-            await song_info.client.send_file(song_info.chat_id, 'preview.jpg', caption=str_song)
+            msg = await song_info.client.send_file(song_info.chat_id, 'preview.jpg', caption=str_song)
         else:
           await song_info.edit("Can't find current song in spotify")
           return
@@ -346,7 +346,7 @@ async def show_song(song_info):
           except JSONDecodeError:
             print("JSONDecode Error. Can't get yt link.")
             str_song += "\n\n Youtube: `JSONDecode Error. Can't found.`"
-            await song_info.edit(str_song)
+            await song_info.edit(str_song, message=msg)
             return
           except:
             str_song += "\n\n Youtube: `Unexcepted Error. Can't found.`"
