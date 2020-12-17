@@ -357,7 +357,7 @@ async def show_song(song_info):
             url_yt = "https://youtube.com" + data['videos'][0]['url_suffix']
             str_song += f"\n[YouTube link]({url_yt})"
             
-            await song_info.edit(str_song, message = msg)
+            await msg.edit(str_song)
             return
 
 @register(outgoing=True, pattern="^.spdl$")
