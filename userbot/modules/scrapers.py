@@ -469,7 +469,7 @@ async def demon_voice(event):
 #background voice note
 @register(outgoing=True, disable_edited=True, disable_errors=True)
 async def voice(event):
-    if environ.get("isSuspended") == "True" or environ.get("BG_DEFAULT") == 0:
+    if environ.get("isSuspended") == "True" or environ.get("BG_DEFAULT") == 0 or environ.get("BG_DEFAULT") == '0' or environ.get("BG_DEFAULT") == None:
         return
     is_enabled = environ.get("enabled", "True")
     if is_enabled == "True":
