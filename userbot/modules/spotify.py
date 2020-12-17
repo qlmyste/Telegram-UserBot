@@ -33,7 +33,7 @@ song = str
 
 BIOPREFIX = BIO_PREFIX
 link = ""
-SPOTIFYCHECK = False
+SPOTIFYCHECK = Falsea
 RUNNING = False
 OLDEXCEPT = False
 PARSE = False
@@ -322,7 +322,7 @@ async def show_song(song_info):
           system(f"wget -q -O 'preview.jpg' {preview_url}")
         str_song = "Now playing: "
         if isGetted:
-          if (artist == "" and artist == '' and artist == ' ' and artist == " "):
+          if (artist == "" or artist == '' or artist == ' ' or artist == " "):
             isArtist = False
           if isArtist:
             str_song += '`' + artist + " - " + song + '`'
