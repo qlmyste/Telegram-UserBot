@@ -316,7 +316,10 @@ async def show_song(song_info):
         global song
         global isGetted
         global link
+        global preview_url
         await find_song()
+        if preview_url != "":
+          ystem(f"wget -q -O 'preview.jpg' {preview_url}")
         str_song = "Now playing: "
         if isGetted:
           if isArtist:
@@ -325,7 +328,7 @@ async def show_song(song_info):
             str_song += '`' + song + '`'
           if ((link != '') and (isLocal == False)):
             str_song += f"\n[Spotify link]({link})"
-          await song_info.edit(str_song)
+          await song_info.edit(str_song, file = 'preview.jpg')
         else:
           await song_info.edit("Can't find current song in spotify")
           return
@@ -349,6 +352,7 @@ async def show_song(song_info):
             str_song += "\n\nFound yt song link for: `" + data['videos'][0]['title'] + '`'
             url_yt = "https://youtube.com" + data['videos'][0]['url_suffix']
             str_song += f"\n[YouTube link]({url_yt})"
+            
             await song_info.edit(str_song)
             return
 
@@ -406,6 +410,7 @@ async def sp_download(spdl):
       await spdl.delete()
       remove('picture.jpg')
       remove(f'{safe_filename(video.title)}.mp3')
+      
 async def find_song():
         global link
         global isArtist
@@ -447,7 +452,7 @@ async def find_song():
               artist = data['item']['album']['artists'][0]['name']
               song = data['item']['name']
               link = data['item']['external_urls']['spotify']
-              preview_url = data['item']['album']['images'][1]['url']
+              preview_url = data['item']['album']['images'][0]['url']
               isGetted = True
               isArtist = True
         else:
