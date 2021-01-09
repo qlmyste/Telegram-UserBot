@@ -404,7 +404,7 @@ async def sp_download(spdl):
           pass
       audio.tags.add(APIC(mime='image/jpeg',type=3,desc=u'Cover',data=open('picture.jpg','rb').read()))
       audio.tags.add(TIT2(title=song))
-      audio.tags.add(TPE2(text=artist)
+      audio.tags.add(TPE2(text=artist))
       audio.save()
       await spdl.edit("**Sending mp3...**")
       if link != "":
