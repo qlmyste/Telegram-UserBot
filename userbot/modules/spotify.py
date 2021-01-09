@@ -391,30 +391,30 @@ async def sp_download(spdl):
       await spdl.edit("**Downloading audio...**")
       stream.download(filename=f'{safe_filename(video.title)}')
       await spdl.edit("**Converting to mp3...**")
-      system(f"ffmpeg -loglevel panic -i '{safe_filename(video.title)}.webm' -vn -ab 128k -ar 44100 -y '{safe_filename(video.title)}.mp3'")
+      system(f"ffmpeg -loglevel panic -i '{safe_filename(video.title)}.webm' -vn -ab 128k -ar 44100 -y '{song}.mp3'")
       remove(f'{safe_filename(video.title)}.webm')
       if preview_url != "":
         system(f"wget -q -O 'picture.jpg' {preview_url}")
       else: #fetching from yt
         system(f"wget -q -O 'picture.jpg' {video.thumbnail_url}")
-      audio = MP3(f"{safe_filename(video.title)}.mp3", ID3=ID3)
+      audio = MP3(f"{song}.mp3", ID3=ID3)
       try:
           audio.add_tags()
       except error:
           pass
       audio.tags.add(APIC(mime='image/jpeg',type=3,desc=u'Cover',data=open('picture.jpg','rb').read()))
-      audio.tags.add(TIT2(title=song))
+      audio.tags.add(TIT2(text=song))
       audio.tags.add(TPE2(text=artist))
       audio.save()
       await spdl.edit("**Sending mp3...**")
       if link != "":
         await spdl.client.send_file(spdl.chat.id,
-                              f'{safe_filename(video.title)}.mp3',
+                              f'{song}.mp3',
                               caption=f"[Spotify]({link}) | [YouTube]({link_yt})",
                               reply_to=reply_message, thumb='picture.jpg')
       else:
         await spdl.client.send_file(spdl.chat.id,
-                              f'{safe_filename(video.title)}.mp3',
+                              f'{song}.mp3',
                               caption=f"[YouTube]({link_yt})",
                               reply_to=reply_message, thumb='picture.jpg')
       await spdl.delete()
