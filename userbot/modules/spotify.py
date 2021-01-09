@@ -419,7 +419,7 @@ async def sp_download(spdl):
                               reply_to=reply_message, thumb='picture.jpg')
       await spdl.delete()
       remove('picture.jpg')
-      remove(f'{safe_filename(video.title)}.mp3')
+      remove(f'{song}.mp3')
       
 async def find_song():
         global link
