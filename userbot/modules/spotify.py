@@ -19,7 +19,7 @@ from userbot import (BIO_PREFIX, BOTLOG, BOTLOG_CHATID, CMD_HELP, DEFAULT_BIO,
                      SPOTIFY_KEY, SPOTIFY_DC, bot)
 from userbot.events import register
 from mutagen.mp3 import MP3
-from mutagen.id3 import ID3, APIC, error
+from mutagen.id3 import ID3, APIC, error, TIT2, TPE2
 
 # =================== CONSTANT ===================
 SPO_BIO_ENABLED = "`Spotify current music to bio has been successfully enabled.`"
@@ -403,6 +403,8 @@ async def sp_download(spdl):
       except error:
           pass
       audio.tags.add(APIC(mime='image/jpeg',type=3,desc=u'Cover',data=open('picture.jpg','rb').read()))
+      audio.tags.add(TIT2(title=song))
+      audio.tags.add(TPE2(text=artist)
       audio.save()
       await spdl.edit("**Sending mp3...**")
       if link != "":
