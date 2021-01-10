@@ -2,18 +2,19 @@ import os
 
 from pytube import YouTube
 from pytube.helpers import safe_filename
-
+from telethon import types
 from userbot import CMD_HELP
 from userbot.events import register
 from mutagen.mp3 import MP3
 from mutagen.id3 import ID3, APIC, error
 from os import environ
 from PIL import Image
-global msg_for_percantage
+msg_for_percantage = types.Message
 @register(outgoing=True, pattern=r"^\.ytmp3 (\S*)")
 async def youtube_mp3(ytmp3):
     if environ.get("isSuspended") == "True":
         return
+    global msg_for_percentage
     reply_message = await ytmp3.get_reply_message()
     url = ytmp3.pattern_match.group(1)
 
@@ -65,6 +66,7 @@ async def youtube_mp3(ytmp3):
     os.remove('picture.jpg')
     
 async def callback(current, total):
+    global msg_for_percentage
     percent = round(current/total * 100, 2)
     await msg_for_percentage.edit(f"**Sending mp3...**\nUploaded `{current}` out of `{total}` bytes: `{percent}%`")
 
