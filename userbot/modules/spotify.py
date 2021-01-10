@@ -317,6 +317,7 @@ async def show_song(song_info):
         global isGetted
         global link
         global preview_url
+        global msg_to_edit
         await find_song()
         if preview_url != "":
           system(f"wget -q -O 'preview.jpg' {preview_url}")
@@ -348,17 +349,18 @@ async def show_song(song_info):
           except JSONDecodeError:
             print(".song: JSONDecode Error. Can't get yt link.")
             str_song += "\n\n Youtube: `JSONDecode Error. Can't found.`"
-            await msg.edit(str_song)
+            await msg_to_edit.edit(str_song)
             return
           except:
             str_song += "\n\n Youtube: `Unexcepted Error. Can't found.`"
-            await msg.edit(str_song)
+            await msg_to_edit.edit(str_song)
             return
           finally:
             print("in finally")
             str_song += "\n\nFound yt song link for: `" + data['videos'][0]['title'] + '`'
             url_yt = "https://youtube.com" + data['videos'][0]['url_suffix']
             str_song += f"\n[YouTube link]({url_yt})"
+            print(str_song)
             if preview_url !="": #means NOT LOCAL song in spotify and means that there are preview
               await msg_to_edit.edit(str_song)
               print("must be edited.")
