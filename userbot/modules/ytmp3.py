@@ -17,7 +17,7 @@ async def youtube_mp3(ytmp3):
     reply_message = await ytmp3.get_reply_message()
     url = ytmp3.pattern_match.group(1)
 
-    await yt.edit("**Processing...**")
+    await ytmp3.edit("**Processing...**")
 
     video = YouTube(url)
     stream = video.streams.filter(only_audio=True, mime_type="audio/webm").last()
@@ -53,7 +53,7 @@ async def youtube_mp3(ytmp3):
         pass
     audio.tags.add(APIC(mime='image/jpeg',type=3,desc=u'Cover',data=open('picture.jpg','rb').read()))
     audio.save()
-    await yt.edit("**Sending mp3...**")
+    await ytmp3.edit("**Sending mp3...**")
     msg_for_percentage = ytmp3
     await ytmp3.client.send_file(ytmp3.chat.id,
                               f'{safe_filename(video.title)}.mp3',
