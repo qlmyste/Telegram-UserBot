@@ -6,10 +6,13 @@ from userbot.utils import parse_arguments
 from moviepy import editor as mp
 import os
 from os import environ
+from telethon import types
+msg_for_percentage = types.Message
 @register(outgoing=True, pattern=r"^\.mp3$")
 async def mp3(e):
   if environ.get("isSuspended") == "True":
         return
+  global msg_for_percentage
   msg_for_percentage = e
   message = await e.get_reply_message()
   if message.audio or message.voice:
@@ -41,6 +44,7 @@ async def mp3(e):
 async def vc(v):
     if environ.get("isSuspended") == "True":
         return
+    global msg_for_percentage
     msg_for_percentage = v
     message = await v.get_reply_message()
     if message.audio or message.voice:
@@ -59,6 +63,7 @@ async def vc(v):
 async def mp4(v):
   if environ.get("isSuspended") == "True":
         return
+  global msg_for_percentage
   msg_for_percentage = v
   message = await v.get_reply_message()
   if message.video_note:
@@ -76,6 +81,7 @@ async def mp4(v):
          return
       
 async def callback(current, total):
+    global msg_for_percentage
     percent = round(current/total * 100, 2)
     await msg_for_percentage.edit(f"**Sending mp3...**\nUploaded `{current}` out of `{total}` bytes: `{percent}%`")
 
