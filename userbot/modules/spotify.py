@@ -397,7 +397,7 @@ async def sp_download(spdl):
     except:
       await spdl.edit("Something went wrong. :(")
     finally:
-      
+      link_yt = "https://youtube.com" + data['videos'][0]['url_suffix'] #yt link
       await spdl.edit("**Processing...**")
       video = YouTube(link_yt)
       stream = video.streams.filter(only_audio=True, mime_type="audio/webm").last()
