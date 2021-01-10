@@ -333,7 +333,7 @@ async def show_song(song_info):
           if ((link != '') and (isLocal == False)):
             str_song += f"\n[Spotify link]({link})"
           if preview_url == "": #LOCAL SONG
-            await song_info.edit(str_song, file = 'preview.jpg')
+            await song_info.edit(str_song)
           else:
             await song_info.delete()
             msg_to_edit = await song_info.client.send_file(song_info.chat_id, 'preview.jpg', caption=str_song)
