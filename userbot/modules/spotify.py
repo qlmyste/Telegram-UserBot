@@ -334,7 +334,7 @@ async def show_song(song_info):
             await song_info.edit(str_song)
           else:
             await song_info.delete()
-            msg = await song_info.client.send_file(song_info.chat_id, 'preview.jpg', caption=str_song)
+            msg_to_edit = await song_info.client.send_file(song_info.chat_id, 'preview.jpg', caption=str_song)
         else:
           await song_info.edit("Can't find current song in spotify")
           return
@@ -360,14 +360,14 @@ async def show_song(song_info):
             url_yt = "https://youtube.com" + data['videos'][0]['url_suffix']
             str_song += f"\n[YouTube link]({url_yt})"
             if preview_url !="": #means NOT LOCAL song in spotify and means that there are preview
-              await msg.edit(str_song)
+              await msg_to_edit.edit(str_song)
               print("must be edited.")
             else: #fetching preview from yt
               print("fetching preview from yt")
               await song_info.delete()
               video = YouTube(url_yt)
               system(f"wget -q -O 'picture.jpg' {video.thumbnail_url}")
-              msg = await song_info.client.send_file(song_info.chat_id, 'picture.jpg', caption=str_song)
+              await song_info.client.send_file(song_info.chat_id, 'picture.jpg', caption=str_song)
             try:
               remove('picture.jpg')
             except:
