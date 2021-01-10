@@ -501,7 +501,8 @@ async def set_biodgraph(setdbio):
     await setdbio.edit(SPO_BIO_DISABLED)
     
 def callback(current, total):
-    await spdl.edit("**Sending mp3...**/nUploaded " + current + " out of " + total + " bytes: " + {:.2%}.format(current / total))
+    percent = round(current/total * 100, 2)
+    await spdl.edit("**Sending mp3...**/nUploaded {current} out of {total} bytes: {percent}%")
 
 
 
