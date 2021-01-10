@@ -389,7 +389,7 @@ async def sp_download(spdl):
       video = YouTube(link_yt)
       stream = video.streams.filter(only_audio=True, mime_type="audio/webm").last()
       await spdl.edit("**Downloading audio...**")
-      stream.download(filename=video)
+      stream.download(filename="video")
       await spdl.edit("**Converting to mp3...**")
       system(f"ffmpeg -loglevel panic -i 'video.webm' -vn -ab 128k -ar 44100 -y 'song.mp3'")
       remove(video.webm)
