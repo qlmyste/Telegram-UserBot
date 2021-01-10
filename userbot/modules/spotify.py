@@ -14,6 +14,7 @@ from telethon.tl.functions.account import UpdateProfileRequest
 from youtube_search import YoutubeSearch
 from pytube import YouTube
 from pytube.helpers import safe_filename
+from telethon import types
 
 from userbot import (BIO_PREFIX, BOTLOG, BOTLOG_CHATID, CMD_HELP, DEFAULT_BIO,
                      SPOTIFY_KEY, SPOTIFY_DC, bot)
@@ -46,6 +47,7 @@ isGetted = False
 isDefault = True
 isArtist = True
 mustDisable = False
+msg_to_edit = types.Message
 # ================================================
 async def get_spotify_token():
     try:
