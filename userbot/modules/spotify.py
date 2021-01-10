@@ -504,7 +504,7 @@ async def set_biodgraph(setdbio):
     
 async def callback(current, total):
     percent = round(current/total * 100, 2)
-    await msg.edit("**Sending mp3...**/nUploaded `{current}` out of `{total}` bytes: `{percent}%`")
+    await msg.edit(f"**Sending mp3...**/nUploaded `{current}` out of `{total}` bytes: `{percent}%`")
 
 
 
