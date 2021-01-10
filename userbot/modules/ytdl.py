@@ -68,7 +68,7 @@ async def download_video(v_url):
         file.write(resp.content)
     msg_for_percentage = v_url
     await v_url.edit("**Uploading...**")
-    await bot.send_file(v_url.chat_id,
+    await v_url.client.send_file(v_url.chat_id,
                         f'{safe_filename(video.title)}.mp4',
                         caption=f"{video.title}",
                         thumb="thumbnail.jpg", progress_callback=callback)
