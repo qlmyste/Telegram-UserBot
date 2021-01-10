@@ -357,7 +357,6 @@ async def show_song(song_info):
           finally:
             str_song += "\n\nFound yt song link for: `" + data['videos'][0]['title'] + '`'
             url_yt = "https://youtube.com" + data['videos'][0]['url_suffix']
-            video = YouTube(url_yt)
             str_song += f"\n[YouTube link]({url_yt})"
             if preview_url !="": #means NOT LOCAL song in spotify
               await msg.edit(str_song)
@@ -370,6 +369,7 @@ async def show_song(song_info):
                 await msg.delete()
               except:
                 pass
+              video = YouTube(url_yt)
               system(f"wget -q -O 'picture.jpg' {video.thumbnail_url}")
               msg = await song_info.client.send_file(song_info.chat_id, 'picture.jpg', caption=str_song)
             try:
