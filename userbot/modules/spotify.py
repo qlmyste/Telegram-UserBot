@@ -371,8 +371,9 @@ async def show_song(song_info):
               except:
                 pass
               system(f"wget -q -O 'picture.jpg' {video.thumbnail_url}")
-              msg = await song_info.client.send_file(song_info.chat_id, 'preview.jpg', caption=str_song)
+              msg = await song_info.client.send_file(song_info.chat_id, 'picture.jpg', caption=str_song)
             remove('picture.jpg')
+            remove('preview.jpg')
             return
 
 @register(outgoing=True, pattern="^.spdl$")
