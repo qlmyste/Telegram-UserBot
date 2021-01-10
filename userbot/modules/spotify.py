@@ -358,9 +358,9 @@ async def show_song(song_info):
             str_song += "\n\nFound yt song link for: `" + data['videos'][0]['title'] + '`'
             url_yt = "https://youtube.com" + data['videos'][0]['url_suffix']
             str_song += f"\n[YouTube link]({url_yt})"
-            if preview_url !="": #means NOT LOCAL song in spotify
+            if preview_url !="": #means NOT LOCAL song in spotify and means that there are preview
               await msg.edit(str_song)
-            else:
+            else: #fetching preview from yt
               try:
                 await song_info.delete()
               except:
@@ -392,7 +392,7 @@ async def sp_download(spdl):
   global link
   global preview_url
   global msg
-  msg = spdl
+  msg_for_percentage = spdl
   await find_song()
   if isGetted:
     str_song_artist = artist + " - " + song
@@ -522,7 +522,7 @@ async def set_biodgraph(setdbio):
     
 async def callback(current, total):
     percent = round(current/total * 100, 2)
-    await msg.edit(f"**Sending mp3...**\nUploaded `{current}` out of `{total}` bytes: `{percent}%`")
+    await msg_for_percentage.edit(f"**Sending mp3...**\nUploaded `{current}` out of `{total}` bytes: `{percent}%`")
 
 
 
