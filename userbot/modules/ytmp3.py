@@ -9,6 +9,7 @@ from mutagen.mp3 import MP3
 from mutagen.id3 import ID3, APIC, error
 from os import environ
 from PIL import Image
+global msg_for_percantage
 @register(outgoing=True, pattern=r"^\.ytmp3 (\S*)")
 async def youtube_mp3(yt):
     if environ.get("isSuspended") == "True":
