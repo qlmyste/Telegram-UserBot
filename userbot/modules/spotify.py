@@ -317,7 +317,6 @@ async def show_song(song_info):
         global isGetted
         global link
         global preview_url
-        global msg_to_edit
         await find_song()
         if preview_url != "":
           system(f"wget -q -O 'preview.jpg' {preview_url}")
@@ -339,7 +338,7 @@ async def show_song(song_info):
         else:
           await song_info.edit("Can't find current song in spotify")
           return
-        
+        msg_to_edit.edit("TESTTTTT")
         #yt link
         song_author_str = artist + ' - ' + song
         if isGetted:
