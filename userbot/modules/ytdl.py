@@ -66,17 +66,23 @@ async def download_video(v_url):
     resp = get(url)
     with open('thumbnail.jpg', 'wb') as file:
         file.write(resp.content)
-
+    msg_for_percentage = v_url
     await v_url.edit("**Uploading...**")
     await bot.send_file(v_url.chat_id,
                         f'{safe_filename(video.title)}.mp4',
                         caption=f"{video.title}",
-                        thumb="thumbnail.jpg")
+                        thumb="thumbnail.jpg", progress_callback=callback)
 
     os.remove(f"{safe_filename(video.title)}.mp4")
     os.remove('thumbnail.jpg')
     await v_url.delete()
 
+    
+async def callback(current, total):
+    percent = round(current/total * 100, 2)
+    await msg_for_percentage.edit(f"**Sending mp3...**\nUploaded `{current}` out of `{total}` bytes: `{percent}%`")
+    
+    
 CMD_HELP.update({"ytdl": ["YtDl",
     " - `.ytdl`: Download a video from YouTube.\n"
     " - `ytdl [options] (url)`: .res: Resolution\n"
