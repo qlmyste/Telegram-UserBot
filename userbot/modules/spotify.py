@@ -392,7 +392,7 @@ async def sp_download(spdl):
       stream.download(filename="video")
       await spdl.edit("**Converting to mp3...**")
       system(f"ffmpeg -loglevel panic -i 'video.webm' -vn -ab 128k -ar 44100 -y 'song.mp3'")
-      remove(video.webm)
+      remove("video.webm")
       if preview_url != "":
         system(f"wget -q -O 'picture.jpg' {preview_url}")
       else: #fetching from yt
@@ -419,7 +419,7 @@ async def sp_download(spdl):
                               reply_to=reply_message, thumb='picture.jpg')
       await spdl.delete()
       remove('picture.jpg')
-      remove(song.mp3)
+      remove("song.mp3")
       
 async def find_song():
         global link
