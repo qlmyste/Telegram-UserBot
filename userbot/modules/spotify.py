@@ -346,7 +346,7 @@ async def show_song(song_info):
           try:
             data = loads(results)
           except JSONDecodeError:
-            print("JSONDecode Error. Can't get yt link.")
+            print(".song: JSONDecode Error. Can't get yt link.")
             str_song += "\n\n Youtube: `JSONDecode Error. Can't found.`"
             await msg.edit(str_song)
             return
@@ -355,20 +355,15 @@ async def show_song(song_info):
             await msg.edit(str_song)
             return
           finally:
+            print("in finally")
             str_song += "\n\nFound yt song link for: `" + data['videos'][0]['title'] + '`'
             url_yt = "https://youtube.com" + data['videos'][0]['url_suffix']
             str_song += f"\n[YouTube link]({url_yt})"
             if preview_url !="": #means NOT LOCAL song in spotify and means that there are preview
-              await msg.edit(str_song)
+              await song_info.edit(str_song)
             else: #fetching preview from yt
-              try:
-                await song_info.delete()
-              except:
-                pass
-              try:
-                await msg.delete()
-              except:
-                pass
+              print("fetching preview from yt")
+              await song_info.delete()
               video = YouTube(url_yt)
               system(f"wget -q -O 'picture.jpg' {video.thumbnail_url}")
               msg = await song_info.client.send_file(song_info.chat_id, 'picture.jpg', caption=str_song)
