@@ -10,6 +10,7 @@ from os import environ
 async def mp3(e):
   if environ.get("isSuspended") == "True":
         return
+  msg_for_percentage = e
   message = await e.get_reply_message()
   if message.audio or message.voice:
     file = message.audio or message.voice
@@ -17,7 +18,7 @@ async def mp3(e):
     await e.edit("**Sending...**")
     await e.client.send_file(e.chat_id,
                             f'voice.mp3',
-                            reply_to=message)
+                            reply_to=message, progress_callback = callback)
     os.remove(f'voice.mp3')
     return
   if message.video:
@@ -40,6 +41,7 @@ async def mp3(e):
 async def vc(v):
     if environ.get("isSuspended") == "True":
         return
+    msg_for_percentage = v
     message = await v.get_reply_message()
     if message.audio or message.voice:
       file = message.audio or message.voice
@@ -48,7 +50,7 @@ async def vc(v):
       await v.edit("**Sending...**")
       await v.client.send_file(v.chat_id,
                              f'voice.mp3',
-                             reply_to=message, voice_note=True)
+                             reply_to=message, voice_note=True, progress_callback = callback)
       os.remove(f'voice.mp3')
     else:
          await v.edit("**Bot doesn't support magic! Use audio or voice message!**")
@@ -57,6 +59,7 @@ async def vc(v):
 async def mp4(v):
   if environ.get("isSuspended") == "True":
         return
+  msg_for_percentage = v
   message = await v.get_reply_message()
   if message.video_note:
     file = message.video_note
@@ -65,12 +68,17 @@ async def mp4(v):
     await v.edit("**Sending...**")
     await v.client.send_file(v.chat_id,
                             f'video.mp4',
-                            reply_to=message)
+                            reply_to=message, progress_callback = callback)
     os.remove(f'video.mp4')
     return
   else:
          await v.edit("**Bot doesn't support magic! Use video_note.**")
          return
+      
+async def callback(current, total):
+    percent = round(current/total * 100, 2)
+    await msg_for_percentage.edit(f"**Sending mp3...**\nUploaded `{current}` out of `{total}` bytes: `{percent}%`")
+
 CMD_HELP.update({"mp3": ["Music",
     " - `.mp3`: Convert a voice message to a mp3 and send it.\n"
     " - `.mp4`: Send video note as video..\n"
