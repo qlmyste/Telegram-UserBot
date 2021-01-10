@@ -360,10 +360,8 @@ async def show_song(song_info):
             str_song += "\n\nFound yt song link for: `" + data['videos'][0]['title'] + '`'
             url_yt = "https://youtube.com" + data['videos'][0]['url_suffix']
             str_song += f"\n[YouTube link]({url_yt})"
-            print(str_song)
             if preview_url !="": #means NOT LOCAL song in spotify and means that there are preview
               await msg_to_edit.edit(text = str_song)
-              print("must be edited.")
             else: #fetching preview from yt
               print("fetching preview from yt")
               await song_info.delete()
