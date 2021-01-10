@@ -84,7 +84,7 @@ async def download_video(v_url):
 async def callback(current, total):
     global msg_for_percentage
     percent = round(current/total * 100, 2)
-    await msg_for_percentage.edit(f"**Sending mp3...**\nUploaded `{current}` out of `{total}` bytes: `{percent}%`")
+    await msg_for_percentage.edit(f"**Sending...**\nUploaded `{current}` out of `{total}` bytes: `{percent}%`")
     
     
 CMD_HELP.update({"ytdl": ["YtDl",
