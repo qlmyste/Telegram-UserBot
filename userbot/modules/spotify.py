@@ -334,11 +334,10 @@ async def show_song(song_info):
             await song_info.edit(str_song, file = 'preview.jpg')
           else:
             await song_info.delete()
-            msg_to_edit = await song_info.client.send_file(song_info.chat_id, 'preview.jpg', caption=str_song)
+            await song_info.client.send_file(song_info.chat_id, 'preview.jpg', caption=str_song, action=msg_to_edit)
         else:
           await song_info.edit("Can't find current song in spotify")
           return
-        msg_to_edit.edit("TESTTTTT")
         #yt link
         song_author_str = artist + ' - ' + song
         if isGetted:
