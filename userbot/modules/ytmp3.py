@@ -11,20 +11,20 @@ from os import environ
 from PIL import Image
 global msg_for_percantage
 @register(outgoing=True, pattern=r"^\.ytmp3 (\S*)")
-async def youtube_mp3(yt):
+async def youtube_mp3(ytmp3):
     if environ.get("isSuspended") == "True":
         return
-    reply_message = await yt.get_reply_message()
-    url = yt.pattern_match.group(1)
+    reply_message = await ytmp3.get_reply_message()
+    url = ytmp3.pattern_match.group(1)
 
     await yt.edit("**Processing...**")
 
     video = YouTube(url)
     stream = video.streams.filter(only_audio=True, mime_type="audio/webm").last()
     os.system(f"wget -q -O 'picture.jpg' {video.thumbnail_url}")
-    await yt.edit("**Downloading audio...**")
+    await ytmp3.edit("**Downloading audio...**")
     stream.download(filename=f'{safe_filename(video.title)}')
-    await yt.edit("**Converting to mp3...**")
+    await ytmp3.edit("**Converting to mp3...**")
     os.system(f"ffmpeg -loglevel panic -i '{safe_filename(video.title)}.webm' -vn -ab 128k -ar 44100 -y '{safe_filename(video.title)}.mp3'")
     #os.system(f"ffmpeg -i '{safe_filename(video.title)}.webm' -vn -ab 128k -ar 44100 -y '{safe_filename(video.title)}.mp3'")
     try:
@@ -41,8 +41,8 @@ async def youtube_mp3(yt):
         im.save('picture.jpg')
         audio = MP3(f"{safe_filename(video.title)}.mp3", ID3=ID3)
     except:
-        await yt.edit("**Sending mp3...**")
-        await yt.client.send_file(yt.chat.id,
+        await ytmp3.edit("**Sending mp3...**")
+        await ytmp3.client.send_file(ytmp3.chat.id,
                               f'{safe_filename(video.title)}.mp3',
                               caption=f"{video.title}",
                               reply_to=reply_message, thumb='picture.jpg')
@@ -54,13 +54,13 @@ async def youtube_mp3(yt):
     audio.tags.add(APIC(mime='image/jpeg',type=3,desc=u'Cover',data=open('picture.jpg','rb').read()))
     audio.save()
     await yt.edit("**Sending mp3...**")
-    msg_for_percentage = yt
-    await yt.client.send_file(yt.chat.id,
+    msg_for_percentage = ytmp3
+    await ytmp3.client.send_file(ytmp3.chat.id,
                               f'{safe_filename(video.title)}.mp3',
                               caption=f"{video.title}",
                               reply_to=reply_message, thumb='picture.jpg', progress_callback=callback)
 
-    await yt.delete()
+    await ytmp3.delete()
     os.remove(f'{safe_filename(video.title)}.mp3')
     os.remove('picture.jpg')
     
