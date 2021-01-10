@@ -68,7 +68,7 @@ async def youtube_mp3(ytmp3):
 async def callback(current, total):
     global msg_for_percentage
     percent = round(current/total * 100, 2)
-    await msg_for_percentage.edit(f"**Sending mp3...**\nUploaded `{current}` out of `{total}` bytes: `{percent}%`")
+    await msg_for_percentage.edit(f"**Sending...**\nUploaded `{current}` out of `{total}` bytes: `{percent}%`")
 
 CMD_HELP.update({"ytmp3": ["YtMP3",
     " - `.ytmp3 (url)`: Convert a YouTube video to a mp3 and send it.\n"
