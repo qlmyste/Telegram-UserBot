@@ -357,11 +357,22 @@ async def show_song(song_info):
           finally:
             str_song += "\n\nFound yt song link for: `" + data['videos'][0]['title'] + '`'
             url_yt = "https://youtube.com" + data['videos'][0]['url_suffix']
+            video = YouTube(url_yt)
             str_song += f"\n[YouTube link]({url_yt})"
-            if preview_url !="":
+            if preview_url !="": #means NOT LOCAL song in spotify
               await msg.edit(str_song)
             else:
-              await song_info.edit(str_song)
+              try:
+                await song_info.delete()
+              except:
+                pass
+              try:
+                await msg.delete()
+              except:
+                pass
+              system(f"wget -q -O 'picture.jpg' {video.thumbnail_url}")
+              msg = await song_info.client.send_file(song_info.chat_id, 'preview.jpg', caption=str_song)
+            remove('picture.jpg')
             return
 
 @register(outgoing=True, pattern="^.spdl$")
@@ -386,7 +397,7 @@ async def sp_download(spdl):
     except:
       await spdl.edit("Something went wrong. :(")
     finally:
-      link_yt = "https://youtube.com" + data['videos'][0]['url_suffix'] #yt link
+      
       await spdl.edit("**Processing...**")
       video = YouTube(link_yt)
       stream = video.streams.filter(only_audio=True, mime_type="audio/webm").last()
