@@ -362,7 +362,7 @@ async def show_song(song_info):
             str_song += f"\n[YouTube link]({url_yt})"
             print(str_song)
             if preview_url !="": #means NOT LOCAL song in spotify and means that there are preview
-              await telethon.client.edit(text = str_song, message = msg_to_edit)
+              await telethon.client.edit_message(text = str_song, message = msg_to_edit)
               print("must be edited.")
             else: #fetching preview from yt
               print("fetching preview from yt")
