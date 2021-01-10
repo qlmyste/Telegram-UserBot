@@ -406,17 +406,17 @@ async def sp_download(spdl):
       audio.tags.add(TIT2(text=song))
       audio.tags.add(TPE1(text=artist))
       audio.save()
-      await spdl.edit("**Sending mp3...**")
+      
       if link != "":
         await spdl.client.send_file(spdl.chat.id,
                               "song.mp3",
                               caption=f"[Spotify]({link}) | [YouTube]({link_yt})",
-                              reply_to=reply_message, thumb='picture.jpg')
+                              reply_to=reply_message, thumb='picture.jpg', progress_callback=callback)
       else:
         await spdl.client.send_file(spdl.chat.id,
                               "song.mp3",
                               caption=f"[YouTube]({link_yt})",
-                              reply_to=reply_message, thumb='picture.jpg')
+                              reply_to=reply_message, thumb='picture.jpg', progress_callback=callback)
       await spdl.delete()
       remove('picture.jpg')
       remove("song.mp3")
@@ -500,6 +500,11 @@ async def set_biodgraph(setdbio):
     await bot(UpdateProfileRequest(about=DEFAULT_BIO))
     await setdbio.edit(SPO_BIO_DISABLED)
     
+def callback(current, total):
+    await spdl.edit(f"**Sending mp3...**/nUploaded {current} out of {total}
+          bytes: {:.2%}.format(current / total)")
+
+
 
 
 CMD_HELP.update({"spotify": ['Spotify',
