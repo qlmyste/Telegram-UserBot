@@ -15,7 +15,7 @@ from youtube_search import YoutubeSearch
 from pytube import YouTube
 from pytube.helpers import safe_filename
 from telethon import types
-
+msg_for_percentage = types.Message
 from userbot import (BIO_PREFIX, BOTLOG, BOTLOG_CHATID, CMD_HELP, DEFAULT_BIO,
                      SPOTIFY_KEY, SPOTIFY_DC, bot)
 from userbot.events import register
@@ -386,6 +386,7 @@ async def sp_download(spdl):
   global artist
   global link
   global preview_url
+  global msg_for_percentage
   msg_for_percentage = spdl
   await find_song()
   if isGetted:
@@ -515,6 +516,7 @@ async def set_biodgraph(setdbio):
     await setdbio.edit(SPO_BIO_DISABLED)
     
 async def callback(current, total):
+    global msg_for_percentage
     percent = round(current/total * 100, 2)
     await msg_for_percentage.edit(f"**Sending mp3...**\nUploaded `{current}` out of `{total}` bytes: `{percent}%`")
 
