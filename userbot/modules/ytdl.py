@@ -3,18 +3,21 @@ import os
 from pytube import YouTube
 from pytube.helpers import safe_filename
 from requests import get
-
+from telethon import types
 from userbot import CMD_HELP
 from userbot import bot
 from userbot.events import register
 from userbot.utils import parse_arguments
 from os import environ
 
+msg_for_percentage = types.Message
+
 @register(outgoing=True, pattern=r"^\.ytdl (.*)")
 async def download_video(v_url):
     if environ.get("isSuspended") == "True":
         return
     """ For .ytdl command, download videos from YouTube. """
+    global msg_for_percentage
     query = v_url.pattern_match.group(1)
     opts, url = parse_arguments(query, ['res'])
     quality = opts.get('res', None)
@@ -79,6 +82,7 @@ async def download_video(v_url):
 
     
 async def callback(current, total):
+    global msg_for_percentage
     percent = round(current/total * 100, 2)
     await msg_for_percentage.edit(f"**Sending mp3...**\nUploaded `{current}` out of `{total}` bytes: `{percent}%`")
     
