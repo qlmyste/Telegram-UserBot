@@ -500,8 +500,8 @@ async def set_biodgraph(setdbio):
     await bot(UpdateProfileRequest(about=DEFAULT_BIO))
     await setdbio.edit(SPO_BIO_DISABLED)
     
-def callback(current, total):
-    await spdl.edit(f"**Sending mp3...**/nUploaded {current} out of {total} bytes: {:.2%}.format(current / total)")
+def callback(current, total)
+    await spdl.edit("**Sending mp3...**/nUploaded " + current + " out of " + total + " bytes: " + {:.2%}.format(current / total))
 
 
 
