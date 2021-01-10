@@ -53,15 +53,20 @@ async def youtube_mp3(yt):
     audio.tags.add(APIC(mime='image/jpeg',type=3,desc=u'Cover',data=open('picture.jpg','rb').read()))
     audio.save()
     await yt.edit("**Sending mp3...**")
+    msg_for_percentage = yt
     await yt.client.send_file(yt.chat.id,
                               f'{safe_filename(video.title)}.mp3',
                               caption=f"{video.title}",
-                              reply_to=reply_message, thumb='picture.jpg')
+                              reply_to=reply_message, thumb='picture.jpg', progress_callback=callback)
 
     await yt.delete()
     os.remove(f'{safe_filename(video.title)}.mp3')
     os.remove('picture.jpg')
     
+async def callback(current, total):
+    percent = round(current/total * 100, 2)
+    await msg_for_percentage.edit(f"**Sending mp3...**\nUploaded `{current}` out of `{total}` bytes: `{percent}%`")
+
 CMD_HELP.update({"ytmp3": ["YtMP3",
     " - `.ytmp3 (url)`: Convert a YouTube video to a mp3 and send it.\n"
                         ]})
