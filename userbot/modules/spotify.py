@@ -387,7 +387,6 @@ async def sp_download(spdl):
   global artist
   global link
   global preview_url
-  global msg
   msg_for_percentage = spdl
   await find_song()
   if isGetted:
