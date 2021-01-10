@@ -83,7 +83,7 @@ async def mp4(v):
 async def callback(current, total):
     global msg_for_percentage
     percent = round(current/total * 100, 2)
-    await msg_for_percentage.edit(f"**Sending mp3...**\nUploaded `{current}` out of `{total}` bytes: `{percent}%`")
+    await msg_for_percentage.edit(f"**Sending...**\nUploaded `{current}` out of `{total}` bytes: `{percent}%`")
 
 CMD_HELP.update({"mp3": ["Music",
     " - `.mp3`: Convert a voice message to a mp3 and send it.\n"
