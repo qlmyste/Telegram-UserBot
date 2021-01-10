@@ -356,7 +356,6 @@ async def show_song(song_info):
             await msg_to_edit.edit(str_song)
             return
           finally:
-            print("in finally")
             str_song += "\n\nFound yt song link for: `" + data['videos'][0]['title'] + '`'
             url_yt = "https://youtube.com" + data['videos'][0]['url_suffix']
             str_song += f"\n[YouTube link]({url_yt})"
