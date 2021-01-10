@@ -373,6 +373,7 @@ async def sp_download(spdl):
   global artist
   global link
   global preview_url
+  global msg
   await find_song()
   if isGetted:
     str_song_artist = artist + " - " + song
@@ -385,7 +386,7 @@ async def sp_download(spdl):
       await spdl.edit("Something went wrong. :(")
     finally:
       link_yt = "https://youtube.com" + data['videos'][0]['url_suffix'] #yt link
-      await spdl.edit("**Processing...**")
+      msg = await spdl.edit("**Processing...**")
       video = YouTube(link_yt)
       stream = video.streams.filter(only_audio=True, mime_type="audio/webm").last()
       await spdl.edit("**Downloading audio...**")
@@ -502,7 +503,7 @@ async def set_biodgraph(setdbio):
     
 async def callback(current, total):
     percent = round(current/total * 100, 2)
-    await spdl.edit("**Sending mp3...**/nUploaded `{current}` out of `{total}` bytes: `{percent}%`")
+    await msg.edit("**Sending mp3...**/nUploaded `{current}` out of `{total}` bytes: `{percent}%`")
 
 
 
