@@ -397,7 +397,7 @@ async def sp_download(spdl):
         system(f"wget -q -O 'picture.jpg' {preview_url}")
       else: #fetching from yt
         system(f"wget -q -O 'picture.jpg' {video.thumbnail_url}")
-      audio = MP3(song.mp3, ID3=ID3)
+      audio = MP3("song.mp3", ID3=ID3)
       try:
           audio.add_tags()
       except error:
@@ -409,12 +409,12 @@ async def sp_download(spdl):
       await spdl.edit("**Sending mp3...**")
       if link != "":
         await spdl.client.send_file(spdl.chat.id,
-                              song.mp3,
+                              "song.mp3",
                               caption=f"[Spotify]({link}) | [YouTube]({link_yt})",
                               reply_to=reply_message, thumb='picture.jpg')
       else:
         await spdl.client.send_file(spdl.chat.id,
-                              song.mp3,
+                              "song.mp3",
                               caption=f"[YouTube]({link_yt})",
                               reply_to=reply_message, thumb='picture.jpg')
       await spdl.delete()
