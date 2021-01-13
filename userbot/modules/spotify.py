@@ -426,12 +426,12 @@ async def sp_download(spdl):
         await spdl.client.send_file(spdl.chat.id,
                               "song.mp3",
                               caption=f"[Spotify]({link}) | [YouTube]({link_yt})",
-                              reply_to=reply_message, thumb='picture.jpg', progress_callback=callback)
+                              reply_to=reply_message, progress_callback=callback)
       else:
         await spdl.client.send_file(spdl.chat.id,
                               "song.mp3",
                               caption=f"[YouTube]({link_yt})",
-                              reply_to=reply_message, thumb='picture.jpg', progress_callback=callback)
+                              reply_to=reply_message, progress_callback=callback)
       await spdl.delete()
       remove('picture.jpg')
       remove("song.mp3")
