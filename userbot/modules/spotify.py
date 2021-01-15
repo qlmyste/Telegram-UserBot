@@ -21,7 +21,6 @@ from userbot import (BIO_PREFIX, BOTLOG, BOTLOG_CHATID, CMD_HELP, DEFAULT_BIO,
 from userbot.events import register
 from mutagen.mp3 import MP3
 from mutagen.id3 import ID3, APIC, error, TIT2, TPE2, TOPE, TPE1
-import wget
 
 # =================== CONSTANT ===================
 SPO_BIO_ENABLED = "`Spotify current music to bio has been successfully enabled.`"
