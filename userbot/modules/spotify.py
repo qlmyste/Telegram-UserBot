@@ -21,6 +21,7 @@ from userbot import (BIO_PREFIX, BOTLOG, BOTLOG_CHATID, CMD_HELP, DEFAULT_BIO,
 from userbot.events import register
 from mutagen.mp3 import MP3
 from mutagen.id3 import ID3, APIC, error, TIT2, TPE2, TOPE, TPE1
+import wget
 
 # =================== CONSTANT ===================
 SPO_BIO_ENABLED = "`Spotify current music to bio has been successfully enabled.`"
@@ -362,17 +363,18 @@ async def show_song(song_info):
             if preview_url !="": #means NOT LOCAL song in spotify and means that there are preview
               await msg_to_edit.edit(text = str_song)
             else: #fetching preview from yt
-              print("fetching preview from yt")
               await song_info.delete()
               video = YouTube(url_yt)
-              system(f"wget -q -O 'picture.jpg' {video.thumbnail_url}")
+              #system(f"wget -q -O './userbot/modules/picture.jpg' {video.thumbnail_url}")
+              r = get(video.thumbnail_url, allow_redirects=True)
+              open('picture.jpg', 'wb').write(r.content)
               await song_info.client.send_file(song_info.chat_id, 'picture.jpg', caption=str_song)
             try:
               remove('picture.jpg')
             except:
               pass
             try:
-              remove('preview.jpg')
+              remove('preview.jpeg')
             except:
               pass
             return
@@ -418,6 +420,7 @@ async def sp_download(spdl):
       except error:
           pass
       audio.tags.add(APIC(mime='image/jpeg',type=3,desc=u'Cover',data=open('picture.jpg','rb').read()))
+      #audio.tags.add(APIC(mime='image/jpeg',type=12,desc=u'Cover',data=open('picture.jpg','rb').read()))
       audio.tags.add(TIT2(text=song))
       audio.tags.add(TPE1(text=artist))
       audio.save()
@@ -426,16 +429,19 @@ async def sp_download(spdl):
         await spdl.client.send_file(spdl.chat.id,
                               "song.mp3",
                               caption=f"[Spotify]({link}) | [YouTube]({link_yt})",
-                              reply_to=reply_message, progress_callback=callback)
+                              progress_callback=callback)
       else:
         await spdl.client.send_file(spdl.chat.id,
                               "song.mp3",
                               caption=f"[YouTube]({link_yt})",
-                              reply_to=reply_message, progress_callback=callback)
+                              progress_callback=callback)
       await spdl.delete()
       remove('picture.jpg')
       remove("song.mp3")
-      
+  else:
+    await spdl.edit("**Can't find current song in spotify.**")
+    return
+         
 async def find_song():
         global link
         global isArtist
