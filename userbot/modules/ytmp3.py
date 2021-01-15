@@ -59,7 +59,7 @@ async def youtube_mp3(ytmp3):
     await ytmp3.client.send_file(ytmp3.chat.id,
                               f'{safe_filename(video.title)}.mp3',
                               caption=f"{video.title}",
-                              reply_to=reply_message, thumb='picture.jpg', progress_callback=callback)
+                              reply_to=reply_message, progress_callback=callback)
 
     await ytmp3.delete()
     os.remove(f'{safe_filename(video.title)}.mp3')
