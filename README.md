@@ -40,7 +40,13 @@ git clone https://github.com/PolisanTheEasyNick/Telegram-UserBot.git
 cd Telegram-UserBot
 ```
 - fill config.env with nano, vim etc. As you wish
+```
+nano config.env
+```
 - run ./init/start.py
+```
+./init/start.py
+```
 
 ### How to run it on Docker:
 ```
