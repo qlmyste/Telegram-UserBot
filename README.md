@@ -29,7 +29,7 @@ $ apk add python3
 ```
 Arch Linux:
 ```
-$ sudo pacman -S python
+$ sudo pacman -S python redis-server
 ```
  
 - type: 
