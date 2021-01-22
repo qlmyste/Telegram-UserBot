@@ -43,7 +43,7 @@ google-cloud-speech
 google-cloud-texttospeech
 mutagen
 python-dotenv
-pydownload
+pyDownload
 pylast
 pymongo
 Randomwords
@@ -53,6 +53,7 @@ pdf2image
 cairocffi
 random-password-generator
 youtube_search
+
 
 
 grpcio
