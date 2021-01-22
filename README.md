@@ -5,6 +5,7 @@ Originaly developed by RaphielGang. Forked and modificated by me. Also there are
 
 
 ### If you find any bugs or have any suggestions then don't hesitate to contact me in [telegram](https://t.me/Polisan_The_Easy_Nick).
+### Attentive reading the guide.
 
 ### How to run it locally on linux device:
 - install python 3.7
@@ -38,7 +39,7 @@ python3.7 -m pip install -r requirements.txt
 git clone https://github.com/PolisanTheEasyNick/Telegram-UserBot.git
 cd Telegram-UserBot
 ```
-- fill config.env with nano, vim etc
+- fill config.env with nano, vim etc. As you wish
 - run ./init/start.py
 
 ### How to run it on Docker:
@@ -46,7 +47,7 @@ cd Telegram-UserBot
 git clone https://github.com/PolisanTheEasyNick/Telegram-UserBot.git
 cd Telegram-UserBot
 ```
-- fill config.env with nano, vim etc
+- fill config.env with nano, vim etc. As you wish
 - install Docker
 - type:
 ```
@@ -60,7 +61,7 @@ pkg install git
 git clone https://github.com/PolisanTheEasyNick/Telegram-UserBot.git
 cd Telegram-UserBot
 ```
-- fill config.env with nano, vim etc
+- fill config.env with nano, vim etc. As you wish
 - run ./termux_installer.sh
 - run ./init/start.py
 
